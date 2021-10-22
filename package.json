@@ -9,10 +9,10 @@
   ],
   "license": "MIT",
   "scripts": {
-    "start": "expo start",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
-    "web": "expo start --web",
+    "start": "NODE_ENV=development expo start",
+    "android": "NODE_ENV=development expo start --android",
+    "ios": "NODE_ENV=development expo start --ios",
+    "web": "NODE_ENV=development expo start --web",
     "eject": "expo eject"
   },
   "dependencies": {
@@ -26,6 +26,7 @@
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-42.0.0.tar.gz",
+    "react-native-dotenv": "^3.2.0",
     "react-native-safe-area-context": "3.2.0",
     "react-native-svg": "12.1.1",
     "react-native-web": "~0.13.12",

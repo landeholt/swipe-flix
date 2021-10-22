@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Text,
   Link,
@@ -11,8 +11,13 @@ import {
   extendTheme,
   VStack,
   Code,
+  Input,
+  Button,
+  FormControl,
 } from "native-base";
 import NativeBaseIcon from "./components/NativeBaseIcon";
+import { useSignIn, useSignUp } from "./providers/auth";
+import { dev } from "./utils/guard";
 
 // Define the config
 const config = {
@@ -24,6 +29,22 @@ const config = {
 export const theme = extendTheme({ config });
 
 export default function App() {
+
+  const [email, setEmail] = useState<string | null>(null)
+  const [password, setPassword] = useState<string | null>(null)
+
+  const [result, signIn] = useSignIn()
+
+  function handleSignIn () {
+    if (email && password) {
+      signIn(email, password)
+      
+    }
+  }
+
+  useEffect(() => {
+    console.log(result)
+  }, [result])
   return (
     <NativeBaseProvider>
       <Center
@@ -32,20 +53,53 @@ export default function App() {
         px={4}
         flex={1}
       >
-        <VStack space={5} alignItems="center">
-          <NativeBaseIcon />
-          <Heading size="lg">Welcome to NativeBase</Heading>
-          <HStack space={2} alignItems="center">
-            <Text>Edit</Text>
-            <Code>App.tsx</Code>
-            <Text>and save to reload.</Text>
-          </HStack>
-          <Link href="https://docs.nativebase.io" isExternal>
-            <Text color="primary.500" underline fontSize={"xl"}>
-              Learn NativeBase
+        <VStack space={3} mt="5">
+          <FormControl>
+            <FormControl.Label
+              _text={{
+                color: 'coolGray.800',
+                fontSize: 'xs',
+                fontWeight: 500,
+              }}>
+              Email ID
+            </FormControl.Label>
+            <Input onChangeText={(email) => setEmail(email)}/>
+          </FormControl>
+          <FormControl>
+            <FormControl.Label
+              _text={{
+                color: 'coolGray.800',
+                fontSize: 'xs',
+                fontWeight: 500,
+              }}>
+              Password
+            </FormControl.Label>
+            <Input type="password" onChangeText={(password) => setPassword(password)}/>
+            <Link
+              _text={{ fontSize: 'xs', fontWeight: '500', color: 'indigo.500' }}
+              alignSelf="flex-end"
+              mt="1">
+              Forget Password?
+            </Link>
+          </FormControl>
+          <Button mt="2" colorScheme="indigo" _text={{ color: 'white' }} onPress={handleSignIn}> 
+            Sign in
+          </Button>
+          <HStack mt="6" justifyContent="center">
+            <Text fontSize="sm" color="muted.700" fontWeight={400}>
+              I'm a new user.{' '}
             </Text>
-          </Link>
-          <ToggleDarkMode />
+            <Link
+              _text={{
+                color: 'indigo.500',
+                fontWeight: 'medium',
+                fontSize: 'sm',
+              }}
+
+              href="#">
+              Sign Up
+            </Link>
+          </HStack>
         </VStack>
       </Center>
     </NativeBaseProvider>

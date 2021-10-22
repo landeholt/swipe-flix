@@ -1,11 +1,12 @@
 import sb from './supabase'
 import { Session, User } from '@supabase/supabase-js'
-import { useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { dev } from '../utils/guard'
 
 interface Result {
     user: User | null;
     error: Error | null;
+    session?: Session | null;
 }
 
 export function useSession() {
@@ -36,68 +37,52 @@ export function useSession() {
 
 }
 
-export function useSignIn (email: string, password: string) {
-    const [loading, setLoading] = useState<boolean | null>(null)
-    const [result, setResult] = useState<Result | null>(null)
+type ReturnSignIn = [Result | null, (email: string, password: string) => void]
 
-    useEffect(() => {
-        async function signIn() {
-            try {
-                setLoading(true)
-                const {user, error} = await sb.auth.signIn({
-                    email,
-                    password
-                })
-                setResult({user, error})
-                setLoading(false)
-            } catch (error) {
-                setLoading(null)
-                dev.error(error)
-            }
-        }
+export function useSignIn (): ReturnSignIn {
+    const [state, setState] = useState<Result | null>(null)
 
-        if (email && password) {
-            signIn()
-        }
-        return () => {
-            setLoading(null)
-            setResult(null)
-        }
-    }, [email, password])
+    const callback = useCallback(async function(email: string, password: string) {
+        const {error, user, session} = await sb.auth.signIn({
+            email,
+            password
+        })
+        setState({error, user, session})
+    }, [sb])
 
-    return {
-        loading,
-        user: result?.user ?? null,
-        error: result?.error ?? null
-    }
+    return [state, callback]
+
 }
 
-export function useSignOut () {
-    const {session, user} = useSession()
+type ReturnSignOut = [Error | null, () => void]
 
-    useEffect(() => {
 
-        async function signOut (user: boolean, session: Session) {
-            try {
-        
-                if (!user) {
-                    throw new Error("Invalid action")
-                }
-        
-                if (session) {
-                    const {error} = await sb.auth.signOut()
-                    if (error) {
-                        throw error
-                    }
-                }
-            } catch (error) {
-                dev.error(error)
-            }
-        }
-        if (user && session) {
-            signOut(user, session)
-        }
-    }, [user])
-    
+export function useSignOut (): ReturnSignOut {
 
+    const [state, setState] = useState<Error | null>(null)
+
+    const callback = useCallback(async function () {
+        const {error} = await sb.auth.signOut()
+        setState(error)
+    }, [sb])
+
+    return [state, callback]
+}
+type ReturnSignUp = [Result | null, (email: string, password: string) => void]
+
+export function useSignUp (): ReturnSignUp {
+
+    const [state, setState] = useState<Result | null>(null)
+
+    const callback = useCallback(
+        async function (email: string, password: string) {
+            const {error, session, user} = await sb.auth.signUp({
+                email,
+                password
+            })
+            setState({error, session, user})
+        },
+        [sb],
+    )
+    return [state, callback]
 }

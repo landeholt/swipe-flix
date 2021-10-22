@@ -1,9 +1,10 @@
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import {createClient} from "@supabase/supabase-js"
+import {REST_BACKEND, REST_SECRET} from "@env";
 
 function init() {
-    const backend = process.env.REST_BACKEND
-    const secret = process.env.REST_SECRET
+    const backend = REST_BACKEND
+    const secret = REST_SECRET
 
     if (!backend || !secret) {
         throw new Error("Invalid environment")

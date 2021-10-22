@@ -1,4 +1,4 @@
-type Env = 'PRODUCTION' | 'DEVELOPMENT'
+type Env = 'production' | 'development'
 type Level = 'debug' | 'info' | 'log' | 'warn' | 'error'
 type ReturnProp = (msg: any) => void
 interface IConsole {
@@ -10,15 +10,15 @@ interface IConsole {
 }
 
 function msgIf (env: Env, level: Level): ReturnProp {
-    return (msg: any) => {
+    return (...msg: any) => {
         if (process.env.NODE_ENV === env) {
-            console[level](msg)
+            console[level](...msg)
         }
     }
     
 }
-const devEnv = 'DEVELOPMENT'
-const prodEnv = 'PRODUCTION'
+const devEnv = 'development'
+const prodEnv = 'production'
 export const dev: IConsole = {
     debug: msgIf(devEnv, 'debug'),
     info: msgIf(devEnv, 'info'),
