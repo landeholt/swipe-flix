@@ -31,8 +31,8 @@ yarn start
 
 - [ ] Setup expo
   - [x] install NativeBase
-  - [ ] install expo-location
-  - [ ] install expo-notifications
+  - [x] install expo-location
+  - [x] install expo-notifications
 - [ ] Setup Supabase
   - [ ] construct tables
   - [ ] configure OAuth
