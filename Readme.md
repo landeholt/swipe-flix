@@ -37,6 +37,24 @@ yarn start
   - [ ] construct tables
   - [ ] configure OAuth
 - [ ] Setup up Deta.sh proxy for webhooks / cloud functions (?)
+- [ ] Connect Supabase to Expo
+- [ ] Build wireframe
+  - [ ] Swipe view
+  - [ ] Question view (?) [maybe integrated as campaign]
+  - [ ] Login view
+  - [ ] Register view
+  - [ ] Config Profile view
+    - [ ] Settings
+    - [ ] Privacy (?)
+    - [ ] Edit profile
+  - [ ] User detail view
+  - [ ] Explore view (Movies / Series / Cinema)
+  - [ ] Matches view
+  - [ ] Chat view
+- [ ] Build popovers / modals
+  - [ ] Welcome
+  - [ ] Campaign
+
 
 ## Rough architecture plan
 
