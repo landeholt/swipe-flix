@@ -29,7 +29,7 @@ yarn start
 
 ## Backlog
 
-- [ ] Setup expo
+- [x] Setup expo
   - [x] install NativeBase
   - [x] install expo-location
   - [x] install expo-notifications
@@ -54,7 +54,6 @@ yarn start
 - [ ] Build popovers / modals
   - [ ] Welcome
   - [ ] Campaign
-
 
 ## Rough architecture plan
 
