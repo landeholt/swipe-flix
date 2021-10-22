@@ -29,17 +29,20 @@ yarn start
 
 ## Backlog
 
-- [ ] Setup kanban board
+- [x] Setup kanban board
 - [x] Setup expo
   - [x] install NativeBase
   - [x] install expo-location
   - [x] install expo-notifications
-- [ ] Setup Supabase
+- [x] Setup Supabase
   - [ ] construct tables
   - [ ] configure OAuth
-  - [ ] Fix environment variables for supabase
+    - [x] email
+    - [ ] facebook
+    - [ ] phone
+  - [x] Fix environment variables for supabase
 - [ ] Setup up Deta.sh proxy for webhooks / cloud functions (?)
-- [ ] Connect Supabase to Expo
+- [x] Connect Supabase to Expo
 - [ ] Build wireframe
   - [ ] Swipe view
   - [ ] Question view (?) [maybe integrated as campaign]

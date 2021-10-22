@@ -41,10 +41,6 @@ export default function App() {
       
     }
   }
-
-  useEffect(() => {
-    console.log(result)
-  }, [result])
   return (
     <NativeBaseProvider>
       <Center
