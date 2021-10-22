@@ -16,6 +16,8 @@
     "eject": "expo eject"
   },
   "dependencies": {
+    "@react-native-async-storage/async-storage": "^1.15.9",
+    "@supabase/supabase-js": "^1.24.0",
     "expo": "~42.0.0",
     "expo-location": "~12.1.2",
     "expo-notifications": "~0.12.3",
