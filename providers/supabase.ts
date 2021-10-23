@@ -1,17 +1,20 @@
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import {createClient} from "@supabase/supabase-js"
-import {REST_BACKEND, REST_SECRET} from "@env";
+import {REST_API, REST_SECRET} from "@env";
+import { dev } from "../utils/guard";
 
 function init() {
-    const backend = REST_BACKEND
+    const restApiUrl = REST_API
     const secret = REST_SECRET
 
-    if (!backend || !secret) {
+    if (!restApiUrl || !secret) {
         throw new Error("Invalid environment")
     }
-    return createClient(backend, secret, {
+    const client = createClient(restApiUrl, secret, {
         localStorage: AsyncStorage
     })
+    dev.log("Supabase client initiated")
+    return client
 }
 
 export default init()
