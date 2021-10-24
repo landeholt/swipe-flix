@@ -1,32 +1,15 @@
 import React from "react";
-import {
-  NativeBaseProvider,
-  extendTheme,
-  Text,
-  Center,
-  VStack
-
-} from "native-base";
+import { NativeBaseProvider } from "native-base";
 import { dev } from "./utils/guard";
 import { AuthProvider } from "./components/Auth";
 import Navigation from "./navigation/Navigation";
-
-// Define the config
-const config = {
-  useSystemColorMode: false,
-  initialColorMode: "dark",
-};
-
-// extend the theme
-export const theme = extendTheme({ config });
+import { theme } from "./providers/theme";
 
 export default function App() {
-
-  
   return (
-    <NativeBaseProvider>
+    <NativeBaseProvider theme={theme}>
       <AuthProvider>
-        <Navigation/>
+        <Navigation />
       </AuthProvider>
     </NativeBaseProvider>
   );

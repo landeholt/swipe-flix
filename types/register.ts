@@ -1,5 +1,5 @@
 import { IInputProps } from "native-base";
-import { Control } from "../node_modules/react-hook-form/dist";
+import { Control, ControllerProps } from "../node_modules/react-hook-form/dist";
 
 export interface FormData {
   email: string;
@@ -9,7 +9,10 @@ export interface FormData {
 export interface IInputItem {
   label: string;
   control: Control;
+  rules?: ControllerProps["rules"];
   placeholder?: string;
+  required?: boolean;
+  invalid?: boolean;
   name: string;
   type: IInputProps["type"];
   rightElement?: JSX.Element | JSX.Element[] | undefined;

@@ -16,7 +16,10 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "swipe-flix-ios"
+      "bundleIdentifier": "swipe-flix-ios",
+      "infoPlist": {
+        "NSPhotoLibraryUsageDescription": "Cineswipe wants to gain access to your photo library, so that you can provide profile pictures"
+      }
     },
     "android": {
       "adaptiveIcon": {

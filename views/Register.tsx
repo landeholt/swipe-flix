@@ -1,4 +1,5 @@
 import React, { useCallback, useMemo, useState } from "react";
+import * as ImagePicker from "expo-image-picker";
 import {
   Box,
   Center,
@@ -15,43 +16,10 @@ import { useForm, Controller, FieldValues, FieldValue } from "react-hook-form";
 import { Entypo } from "@expo/vector-icons";
 import { FormData, IInputItem } from "../types/register";
 import LogoIcon from "../components/LogoIcon";
+import CommonLayout from "../components/CommonLayout";
+import ControlledInput from "../components/ControlledInput";
 
 interface Props {}
-
-function InputItem(props: IInputItem) {
-  return (
-    <FormControl>
-      <FormControl.Label
-        _text={{ color: "red.400", fontSize: "sm", fontWeight: "medium" }}
-      >
-        {props.label}
-      </FormControl.Label>
-      <Controller
-        name={props.name}
-        defaultValue=""
-        control={props.control}
-        render={({ field: { onChange, onBlur, value } }) => (
-          <Input
-            type={props.type}
-            isFullWidth
-            size="2xl"
-            variant="underlined"
-            placeholder={props.placeholder}
-            onBlur={onBlur}
-            onChangeText={onChange}
-            value={value}
-            borderColor="warmGray.400"
-            _focus={{
-              borderColor: "red.400",
-            }}
-            InputRightElement={props.rightElement}
-            InputLeftElement={props.leftElement}
-          />
-        )}
-      />
-    </FormControl>
-  );
-}
 
 export default function (props: Props) {
   const {
@@ -63,6 +31,17 @@ export default function (props: Props) {
 
   const [show, setShow] = useState(false);
 
+  async function handleImageLibrary() {
+    const response = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (response.granted) {
+      const library = await ImagePicker.launchImageLibraryAsync({
+        exif: false,
+        quality: 95,
+        aspect: [3, 2],
+      });
+      console.log(library);
+    }
+  }
   function toggle() {
     setShow(!show);
   }
@@ -72,14 +51,15 @@ export default function (props: Props) {
   }
 
   return (
-    <Center safeArea flex={1} p={6} mx="auto" py={8} w="full" bg="warmGray.900">
+    <CommonLayout primary>
       <VStack space={3} mt={5} alignItems="center" w="full">
         <LogoIcon />
         <Text>{JSON.stringify(watch())}</Text>
-        <InputItem
+        <ControlledInput
           label="KTH Email"
           type="email"
           name="email"
+          required
           placeholder="John"
           control={control}
           rightElement={
@@ -88,10 +68,11 @@ export default function (props: Props) {
             </Box>
           }
         />
-        <InputItem
+        <ControlledInput
           label="Password"
           type={show ? "text" : "password"}
           name="password"
+          required
           control={control}
           rightElement={
             <Box p={2}>
@@ -106,13 +87,14 @@ export default function (props: Props) {
                 }
                 variant="solid"
                 size="sm"
-                colorScheme="red"
+                colorScheme="white"
               />
             </Box>
           }
         />
+        <Button onPress={handleImageLibrary}>Pick images</Button>
         <Button
-          colorScheme="red"
+          colorScheme="white"
           w="full"
           mt={8}
           h={16}
@@ -121,6 +103,6 @@ export default function (props: Props) {
           Sign up
         </Button>
       </VStack>
-    </Center>
+    </CommonLayout>
   );
 }
