@@ -18,7 +18,7 @@ import LogoIcon from "../components/LogoIcon";
 import CommonLayout from "../components/CommonLayout";
 import ControlledInput from "../components/ControlledInput";
 import Button from "../components/Button";
-import { useSignUp } from "../providers/auth";
+import { useAuth, useSignUp } from "../providers/auth";
 
 interface Props {}
 
@@ -31,6 +31,8 @@ export default function (props: Props) {
   } = useForm();
 
   const [signUpState, signUp] = useSignUp();
+
+  const auth = useAuth();
   const [show, setShow] = useState(false);
 
   function toggle() {
@@ -39,7 +41,7 @@ export default function (props: Props) {
 
   function submit(data: FieldValues) {
     if (data.email && data.password) {
-      signUp(data.email.toLowerCase() + "@kth.se", data.password);
+      signUp(data.email, data.password);
     }
   }
 

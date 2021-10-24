@@ -10,6 +10,7 @@ import {
 } from "react";
 import { dev } from "../utils/guard";
 import { AuthContext } from "../components/Auth";
+import kthRegistry from "./kthRegistry";
 
 interface Result {
   user: User | null;
@@ -62,10 +63,18 @@ export function useSignUp(): ReturnSignUp {
 
   const callback = useCallback(
     async function (email: string, password: string) {
-      const { error, session, user } = await sb.auth.signUp({
-        email,
-        password,
-      });
+      const name = await kthRegistry(email);
+      const { error, session, user } = await sb.auth.signUp(
+        {
+          email: email.toLowerCase() + "@kth.se",
+          password,
+        },
+        {
+          data: {
+            name,
+          },
+        }
+      );
       setState({ error, session, user });
     },
     [sb]
