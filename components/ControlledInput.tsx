@@ -5,17 +5,21 @@ import { Controller } from "react-hook-form";
 
 export default function ControlledInput(props: IInputItem) {
   return (
-    <FormControl isInvalid={props.invalid} isRequired={props.required}>
-      <FormControl.Label
-        _text={{ color: "white.100", fontSize: "sm", fontWeight: "medium" }}
-      >
-        {props.label}
-      </FormControl.Label>
-      <Controller
-        name={props.name}
-        defaultValue=""
-        control={props.control}
-        render={({ field: { onChange, onBlur, value } }) => (
+    <Controller
+      name={props.name}
+      defaultValue=""
+      control={props.control}
+      rules={props.rules}
+      render={({
+        field: { onChange, onBlur, value },
+        fieldState: { invalid, isTouched, isDirty, error },
+      }) => (
+        <FormControl isInvalid={invalid} isRequired={props.required}>
+          <FormControl.Label
+            _text={{ color: "white.100", fontSize: "sm", fontWeight: "medium" }}
+          >
+            {props.label}
+          </FormControl.Label>
           <Input
             type={props.type}
             isFullWidth
@@ -34,9 +38,9 @@ export default function ControlledInput(props: IInputItem) {
             InputRightElement={props.rightElement}
             InputLeftElement={props.leftElement}
           />
-        )}
-      />
-      <FormControl.ErrorMessage>ERROR</FormControl.ErrorMessage>
-    </FormControl>
+          <FormControl.ErrorMessage>{error?.message}</FormControl.ErrorMessage>
+        </FormControl>
+      )}
+    />
   );
 }

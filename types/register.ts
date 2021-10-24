@@ -12,7 +12,6 @@ export interface IInputItem {
   rules?: ControllerProps["rules"];
   placeholder?: string;
   required?: boolean;
-  invalid?: boolean;
   name: string;
   type: IInputProps["type"];
   rightElement?: JSX.Element | JSX.Element[] | undefined;

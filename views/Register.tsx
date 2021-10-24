@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import * as ImagePicker from "expo-image-picker";
 import {
   Box,
@@ -7,7 +7,6 @@ import {
   Input,
   Text,
   VStack,
-  Button,
   IconButton,
   Icon,
   Flex,
@@ -18,6 +17,8 @@ import { FormData, IInputItem } from "../types/register";
 import LogoIcon from "../components/LogoIcon";
 import CommonLayout from "../components/CommonLayout";
 import ControlledInput from "../components/ControlledInput";
+import Button from "../components/Button";
+import { useSignUp } from "../providers/auth";
 
 interface Props {}
 
@@ -25,30 +26,26 @@ export default function (props: Props) {
   const {
     control,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting, isValidating },
     watch,
   } = useForm();
 
+  const [signUpState, signUp] = useSignUp();
   const [show, setShow] = useState(false);
 
-  async function handleImageLibrary() {
-    const response = await ImagePicker.requestMediaLibraryPermissionsAsync();
-    if (response.granted) {
-      const library = await ImagePicker.launchImageLibraryAsync({
-        exif: false,
-        quality: 95,
-        aspect: [3, 2],
-      });
-      console.log(library);
-    }
-  }
   function toggle() {
     setShow(!show);
   }
 
   function submit(data: FieldValues) {
-    console.log(data);
+    if (data.email && data.password) {
+      signUp(data.email.toLowerCase() + "@kth.se", data.password);
+    }
   }
+
+  useEffect(() => {
+    console.log(signUpState);
+  }, [signUpState]);
 
   return (
     <CommonLayout primary>
@@ -62,6 +59,22 @@ export default function (props: Props) {
           required
           placeholder="John"
           control={control}
+          rules={{
+            minLength: {
+              value: 2,
+              message: "Atleast 2 characters needed",
+            },
+            required: "This field is required",
+            validate: (str: string) => {
+              if (/[^@]{2,}@(ug\.)?kth\.se/.test(str)) {
+                const [user, suffix] = str.split("@");
+                return `Remove @${suffix}`;
+              }
+              if (/\S+@\S+\.\S+/.test(str)) {
+                return "only KTH users are permitted";
+              }
+            },
+          }}
           rightElement={
             <Box p={2} position="absolute" right={0}>
               <Text color="warmGray.200">@kth.se</Text>
@@ -74,6 +87,10 @@ export default function (props: Props) {
           name="password"
           required
           control={control}
+          rules={{
+            required: "This field is required",
+            minLength: 8,
+          }}
           rightElement={
             <Box p={2}>
               <IconButton
@@ -92,12 +109,10 @@ export default function (props: Props) {
             </Box>
           }
         />
-        <Button onPress={handleImageLibrary}>Pick images</Button>
         <Button
           colorScheme="white"
-          w="full"
-          mt={8}
-          h={16}
+          isLoading={isSubmitting || isValidating}
+          isFullWidth
           onPress={handleSubmit(submit)}
         >
           Sign up
