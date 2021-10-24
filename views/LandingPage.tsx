@@ -35,7 +35,12 @@ export default function ({ navigation, ...props }: Props) {
         >
           Create an account
         </Button>
-        <Button variant="outline" colorScheme="white" isFullWidth>
+        <Button
+          variant="outline"
+          colorScheme="white"
+          isFullWidth
+          onPress={() => navigation.navigate("sign-in")}
+        >
           Sign in
         </Button>
       </VStack>

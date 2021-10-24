@@ -30,12 +30,13 @@ export function useSignIn(): ReturnSignIn {
   const callback = useCallback(
     async function (email: string, password: string) {
       const { error, user, session } = await sb.auth.signIn({
-        email,
+        email: email.toLowerCase() + "@kth.se",
         password,
       });
       setState({ error, user, session });
     },
-    [sb]
+    // when I had sb as dependency, react said I had to unsubcribe, but to what effect?
+    []
   );
 
   return [state, callback];
