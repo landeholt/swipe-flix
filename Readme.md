@@ -46,8 +46,8 @@ yarn start
 - [ ] Build wireframe
   - [ ] Swipe view
   - [ ] Question view (?) [maybe integrated as campaign]
-  - [ ] Login view
-  - [ ] Register view
+  - [x] Login view
+  - [x] Register view
   - [ ] Config Profile view
     - [ ] Settings
     - [ ] Privacy (?)
@@ -63,12 +63,12 @@ yarn start
 ## Rough architecture plan
 
 - Backend:
-    - Supabase.io
-      - Provides social OAuth, database, realtime db, storage
-    - Deta.sh
-      - provides cloud functions (?)
+  - Supabase.io
+    - Provides social OAuth, database, realtime db, storage
+  - Deta.sh
+    - provides cloud functions (?)
 - Frontend:
-    - [Expo.dev](https://expo.dev)
-      - Provides niceities to React Native
-    - NativeBase.io
-      - Provides mobile friendly UI components to Expo
+  - [Expo.dev](https://expo.dev)
+    - Provides niceities to React Native
+  - NativeBase.io
+    - Provides mobile friendly UI components to Expo

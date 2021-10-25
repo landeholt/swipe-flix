@@ -1,0 +1,1 @@
+{"id":"a0284fa0-f0b8-423a-8fd1-2ff409bc20a3","space":4653,"runtime":"python3.7","name":"swipe-flix","path":"43p2jf","project":"a0bnftoa","account":"144798365827","region":"eu-central-1","deps":["fastapi==0.70.0","user_agents"],"envs":null,"public":true,"log_level":"debug","cron":""}

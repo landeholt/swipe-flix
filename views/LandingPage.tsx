@@ -1,15 +1,10 @@
 import React, { useCallback, useMemo, useState } from "react";
 import { Box, Center, FormControl, Input, Text, VStack } from "native-base";
-import { useForm, Controller, FieldValues, FieldValue } from "react-hook-form";
-import { Entypo } from "@expo/vector-icons";
-import { FormData, IInputItem } from "../types/register";
 import LogoIcon from "../components/LogoIcon";
 import Button from "../components/Button";
 import CommonLayout from "../components/CommonLayout";
-import { useNavigation } from "@react-navigation/native";
-import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { OnboardingNavigation, OnboardingRoutes } from "../types/onboarding";
-
+import * as Linking from "expo-linking";
 interface Props {
   navigation: OnboardingNavigation<OnboardingRoutes.LandingPage>;
 }
@@ -33,7 +28,7 @@ export default function ({ navigation, ...props }: Props) {
           isFullWidth
           onPress={() => navigation.navigate("register")}
         >
-          Create an account
+          Claim a profile
         </Button>
         <Button
           variant="outline"

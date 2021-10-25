@@ -1,4 +1,5 @@
 import sb from "./supabase";
+import * as Linking from "expo-linking";
 import { Session, SupabaseClient, User } from "@supabase/supabase-js";
 import {
   createContext,
@@ -11,15 +12,23 @@ import {
 import { dev } from "../utils/guard";
 import { AuthContext } from "../components/Auth";
 import kthRegistry from "./kthRegistry";
+import { nanoid } from "nanoid/non-secure";
 
 interface Result {
   user: User | null;
   error: Error | null;
   session?: Session | null;
+  otp?: string;
 }
 
 export function useAuth() {
   return useContext(AuthContext);
+}
+
+export function useSetSession(jwt: string) {
+  (async function fn() {
+    console.log(sb.auth.setSession(jwt));
+  })();
 }
 
 type ReturnSignIn = [Result | null, (email: string, password: string) => void];
@@ -46,7 +55,6 @@ type ReturnSignOut = [Error | null, () => void];
 
 export function useSignOut(): ReturnSignOut {
   const [state, setState] = useState<Error | null>(null);
-
   const callback = useCallback(
     async function () {
       const { error } = await sb.auth.signOut();
@@ -61,22 +69,27 @@ type ReturnSignUp = [Result | null, (email: string, password: string) => void];
 
 export function useSignUp(): ReturnSignUp {
   const [state, setState] = useState<Result | null>(null);
-
   const callback = useCallback(
     async function (email: string, password: string) {
+      email = email.toLowerCase();
+
       const name = await kthRegistry(email);
+      const redirectTo = Linking.createURL("create-profile");
+      const otp = nanoid();
+      console.log(otp);
       const { error, session, user } = await sb.auth.signUp(
         {
-          email: email.toLowerCase() + "@kth.se",
-          password,
+          email: email + "@kth.se",
+          password: otp,
         },
         {
+          redirectTo,
           data: {
             name,
           },
         }
       );
-      setState({ error, session, user });
+      setState({ error, session, user, otp });
     },
     [sb]
   );

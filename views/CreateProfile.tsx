@@ -1,4 +1,5 @@
 import { useNavigation, useRoute } from "@react-navigation/native";
+import { Center, Spinner, Text } from "native-base";
 import React, { useEffect } from "react";
 import { useRecoilValue } from "recoil";
 import CommonLayout from "../components/CommonLayout";
@@ -26,5 +27,18 @@ export default function CreateProfile(props: Props) {
     }
   }, []);
 
-  return <CommonLayout></CommonLayout>;
+  if (auth?.loading && !auth.session) {
+    return (
+      <CommonLayout>
+        <Center>
+          <Spinner />
+        </Center>
+      </CommonLayout>
+    );
+  }
+  return (
+    <CommonLayout>
+      <Text>{auth?.session?.user?.user_metadata.name}</Text>
+    </CommonLayout>
+  );
 }

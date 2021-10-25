@@ -5,6 +5,7 @@ export enum OnboardingRoutes {
   LandingPage = "landing-page",
   Register = "register",
   SignIn = "sign-in",
+  CreateProfile = "claim-profile",
 }
 
 export interface OnboardingParamsList extends ParamListBase {
