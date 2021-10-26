@@ -25,7 +25,8 @@ export default function ({ profile, user }: Props) {
   }, [profile]);
   return (
     <OnboardingStack.Navigator
-      initialRouteName="claim-profile" //"landing-page"
+      initialRouteName="claim-profile"
+      //initialRouteName="landing-page"
       screenOptions={{ headerShown: false }}
     >
       <OnboardingStack.Screen

@@ -29,9 +29,10 @@ import {
   FieldValue,
   EventType,
 } from "react-hook-form";
-import DateTimePicker from "@react-native-community/datetimepicker";
 import { subYears } from "date-fns";
 import ControlledTextArea from "../components/ControlledTextArea";
+import ControlledDateTimePicker from "../components/ControlledDateTimePicker";
+import ControlledInterestInput from "../components/ControlledInterestInput";
 
 interface Props {}
 
@@ -81,10 +82,11 @@ export default function CreateProfile(props: Props) {
           <Box safeArea w="full" p={6} pb={16}>
             <Text fontSize="4xl" fontWeight="thin">
               Finally,{" "}
+              <Text fontSize="4xl" bold>
+                {name}!
+              </Text>
             </Text>
-            <Text fontSize="4xl" bold>
-              {name}!
-            </Text>
+
             <VStack space={1}>
               <Text fontSize="md" fontWeight="light">
                 KTH's network have been missing you!
@@ -115,7 +117,6 @@ export default function CreateProfile(props: Props) {
                 }}
                 color="warmGray.700"
                 defaultValue={name}
-                value={name}
                 variant="outline"
               />
               <ControlledTextArea
@@ -125,42 +126,16 @@ export default function CreateProfile(props: Props) {
                 label="Express yourself"
                 type="text"
                 name="about"
-                maxChar={5}
+                maxChar={500}
               />
 
-              <Controller
-                name="birth"
+              <ControlledDateTimePicker
                 control={control}
-                defaultValue={minDate}
-                render={({ field: { onChange, onBlur, value, name, ref } }) => (
-                  <FormControl isRequired>
-                    <HStack alignItems="center">
-                      <FormControl.Label
-                        _text={{ color: "warmGray.600" }}
-                        flex={1}
-                      >
-                        Date of birth
-                      </FormControl.Label>
-                      <DateTimePicker
-                        mode="date"
-                        value={value}
-                        maximumDate={minDate}
-                        textColor="#57534e"
-                        is24Hour
-                        style={{
-                          width: "33%",
-                        }}
-                        onChange={(event: any, date: Date | undefined) =>
-                          onChange(date)
-                        }
-                      />
-                    </HStack>
-
-                    <FormControl.HelperText></FormControl.HelperText>
-                    <FormControl.ErrorMessage></FormControl.ErrorMessage>
-                  </FormControl>
-                )}
+                required
+                value={minDate}
+                maximumDate={minDate}
               />
+              <ControlledInterestInput control={control} />
             </VStack>
           </Box>
         </KeyboardAvoidingView>
