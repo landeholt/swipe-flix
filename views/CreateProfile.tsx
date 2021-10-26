@@ -19,7 +19,7 @@ import React, { useEffect, useMemo } from "react";
 import { useRecoilValue } from "recoil";
 import CommonLayout from "../components/CommonLayout";
 import ControlledInput from "../components/ControlledInput";
-import { useAuth, useSetSession, useSignIn } from "../providers/auth";
+import { useAuth, useSetMetadata, useSignIn } from "../providers/auth";
 import { registerState } from "../providers/state";
 import { getMetadata } from "../utils/user";
 import {
@@ -33,6 +33,7 @@ import { subYears } from "date-fns";
 import ControlledTextArea from "../components/ControlledTextArea";
 import ControlledDateTimePicker from "../components/ControlledDateTimePicker";
 import ControlledInterestInput from "../components/ControlledInterestInput";
+import Button from "../components/Button";
 
 interface Props {}
 
@@ -47,6 +48,7 @@ export default function CreateProfile(props: Props) {
   } = useForm();
 
   const auth = useAuth();
+  const setMeta = useSetMetadata();
 
   //const { params } = useRoute();
 
@@ -54,9 +56,11 @@ export default function CreateProfile(props: Props) {
 
   const data = getMetadata(auth);
 
-  const name = useMemo(() => data?.name ?? "Anon", [data.name]);
-
   const minDate = useMemo(() => subYears(new Date(), 18), []);
+
+  function submit(data: FieldValues) {
+    setMeta(data);
+  }
 
   useEffect(() => {
     const { email, otp } = registerFlow;
@@ -83,7 +87,7 @@ export default function CreateProfile(props: Props) {
             <Text fontSize="4xl" fontWeight="thin">
               Finally,{" "}
               <Text fontSize="4xl" bold>
-                {name}!
+                {data?.name ?? "Anon"}!
               </Text>
             </Text>
 
@@ -110,13 +114,14 @@ export default function CreateProfile(props: Props) {
                 type="text"
                 name="name"
                 required
-                disabled={name !== "Anon" ? true : false}
+                disabled={data.name ? false : true}
                 _disabled={{
                   bg: "warmGray.100",
                   color: "warmGray.700",
                 }}
+                value={data.name ? data.name : "Anon"}
                 color="warmGray.700"
-                defaultValue={name}
+                defaultValue={data.name as string}
                 variant="outline"
               />
               <ControlledTextArea
@@ -136,6 +141,9 @@ export default function CreateProfile(props: Props) {
                 maximumDate={minDate}
               />
               <ControlledInterestInput control={control} />
+              <Button colorScheme="red" onPress={handleSubmit(submit)}>
+                Start swiping
+              </Button>
             </VStack>
           </Box>
         </KeyboardAvoidingView>

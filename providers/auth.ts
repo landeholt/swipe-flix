@@ -1,6 +1,11 @@
 import sb from "./supabase";
 import * as Linking from "expo-linking";
-import { Session, SupabaseClient, User } from "@supabase/supabase-js";
+import {
+  Session,
+  SupabaseClient,
+  User,
+  UserAttributes,
+} from "@supabase/supabase-js";
 import {
   createContext,
   useCallback,
@@ -13,6 +18,7 @@ import { dev } from "../utils/guard";
 import { AuthContext } from "../components/Auth";
 import kthRegistry from "./kthRegistry";
 import { nanoid } from "nanoid/non-secure";
+import { defaultUserMetadata } from "../types/supabase";
 
 interface Result {
   user: User | null;
@@ -24,11 +30,13 @@ interface Result {
 export function useAuth() {
   return useContext(AuthContext);
 }
-
-export function useSetSession(jwt: string) {
-  (async function fn() {
-    console.log(sb.auth.setSession(jwt));
-  })();
+// Partial<defaultUserMetadata>
+export function useSetMetadata() {
+  return (metadata: Record<string, unknown>) => {
+    try {
+      sb.auth.update({ data: metadata });
+    } catch (error) {}
+  };
 }
 
 type ReturnSignIn = [Result | null, (email: string, password: string) => void];
