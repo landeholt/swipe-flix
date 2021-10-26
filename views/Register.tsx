@@ -69,7 +69,7 @@ export default function (props: Props) {
   }, [signUpState]);
 
   return (
-    <CommonLayout primary>
+    <CommonLayout primary safeArea>
       <VStack space={3} mt={5} alignItems="center" w="full">
         <LogoIcon />
         <Text>{JSON.stringify(watch())}</Text>

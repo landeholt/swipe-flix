@@ -11,7 +11,7 @@ interface Props {
 
 export default function ({ navigation, ...props }: Props) {
   return (
-    <CommonLayout gradient>
+    <CommonLayout gradient safeArea>
       <VStack space={8} top="25%" alignItems="center" w="full" h="full">
         <LogoIcon />
         <Center mb={4}>

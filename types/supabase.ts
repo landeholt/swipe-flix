@@ -1,7 +1,7 @@
 import { Session } from "@supabase/supabase-js";
 
 export interface defaultUserMetadata {
-  name: string;
+  name: string | null;
   profile_id: string;
 }
 /*

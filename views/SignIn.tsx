@@ -142,7 +142,7 @@ export default function ({ navigation, ...props }: Props) {
           </Modal.Footer>
         </Modal.Content>
       </Modal>
-      <CommonLayout gradient>
+      <CommonLayout gradient safeArea>
         <VStack space={8} top="25%" alignItems="center" w="full" h="full">
           <LogoIcon />
           <Center mb={4}>

@@ -17,9 +17,11 @@
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "^1.15.9",
+    "@react-native-community/datetimepicker": "3.5.2",
     "@react-navigation/native": "^6.0.6",
     "@react-navigation/native-stack": "^6.2.5",
     "@supabase/supabase-js": "^1.24.0",
+    "date-fns": "^2.25.0",
     "expo": "~42.0.0",
     "expo-facebook": "~11.3.1",
     "expo-image-picker": "~10.2.2",

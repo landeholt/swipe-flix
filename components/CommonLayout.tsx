@@ -40,33 +40,14 @@ export default function CommonLayout({
           width: "100%",
         }}
       >
-        <Box
-          safeArea
-          flex={1}
-          p={6}
-          mx="auto"
-          pb={8}
-          w="full"
-          h="full"
-          {...rest}
-        >
+        <Box flex={1} p={6} mx="auto" w="full" h="full" {...rest}>
           {children}
         </Box>
       </LinearGradient>
     );
   }
   return (
-    <Box
-      safeArea
-      flex={1}
-      p={6}
-      mx="auto"
-      pb={8}
-      w="full"
-      h="full"
-      bg={bg}
-      {...rest}
-    >
+    <Box flex={1} p={6} mx="auto" pb={8} w="full" h="full" bg={bg} {...rest}>
       {children}
     </Box>
   );
