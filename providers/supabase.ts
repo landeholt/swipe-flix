@@ -7,6 +7,9 @@ function init() {
   const restApiUrl = REST_API;
   const secret = ANON_PUBLIC;
 
+  dev.debug(restApiUrl);
+  dev.debug(secret);
+
   if (!restApiUrl || !secret) {
     throw new Error("Invalid environment");
   }

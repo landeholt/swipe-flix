@@ -82,7 +82,7 @@ export function useSignUp(): ReturnSignUp {
       email = email.toLowerCase();
 
       const name = await kthRegistry(email);
-      const redirectTo = Linking.createURL("create-profile");
+      const deepLink = Linking.createURL("claim-profile");
       const otp = nanoid();
       console.log(otp);
       const { error, session, user } = await sb.auth.signUp(
@@ -91,7 +91,7 @@ export function useSignUp(): ReturnSignUp {
           password: otp,
         },
         {
-          redirectTo,
+          redirectTo: "https://43p2jf.deta.dev/proxy?url=" + deepLink,
           data: {
             name,
           },
