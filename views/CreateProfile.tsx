@@ -15,13 +15,13 @@ import {
   VStack,
 } from "native-base";
 import { Platform } from "react-native";
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useRecoilValue } from "recoil";
 import CommonLayout from "../components/CommonLayout";
 import ControlledInput from "../components/ControlledInput";
 import { useAuth, useSetMetadata, useSignIn } from "../providers/auth";
 import { registerState } from "../providers/state";
-import { getMetadata } from "../utils/user";
+import { getMetadata, getUserId } from "../utils/user";
 import {
   useForm,
   Controller,
@@ -34,6 +34,7 @@ import ControlledTextArea from "../components/ControlledTextArea";
 import ControlledDateTimePicker from "../components/ControlledDateTimePicker";
 import ControlledInterestInput from "../components/ControlledInterestInput";
 import Button from "../components/Button";
+import { MainRoutes } from "../types/main";
 
 interface Props {}
 
@@ -50,7 +51,7 @@ export default function CreateProfile(props: Props) {
   const auth = useAuth();
   const setMeta = useSetMetadata();
 
-  //const { params } = useRoute();
+  const navigator = useNavigation();
 
   const [signInState, signIn] = useSignIn();
 
@@ -58,17 +59,39 @@ export default function CreateProfile(props: Props) {
 
   const minDate = useMemo(() => subYears(new Date(), 18), []);
 
+  const [status, setStatus] = useState<
+    "pending" | "success" | "error" | "idle"
+  >("idle");
+
   function submit(data: FieldValues) {
-    setMeta(data);
+    if (auth?.user) {
+      setStatus("pending");
+      setMeta({ ...data, profileId: getUserId(auth) });
+    }
   }
 
   useEffect(() => {
+    setStatus("idle");
     const { email, otp } = registerFlow;
     if (email && otp && !auth?.session) {
+      setStatus("pending");
       const prefixEmail = email.split("@")[0];
       signIn(prefixEmail, otp);
+      setStatus("idle");
+      return;
     }
+    setStatus("error");
   }, []);
+
+  useEffect(() => {
+    if (auth?.event === "USER_UPDATED") {
+      setTimeout(() => {
+        setStatus("success");
+        /** @ts-ignore */
+        navigator.navigate(MainRoutes.Swipe);
+      }, 350);
+    }
+  }, [auth]);
 
   if (auth?.loading && !auth.session) {
     return (
@@ -83,7 +106,7 @@ export default function CreateProfile(props: Props) {
     <CommonLayout gradient p={0}>
       <ScrollView>
         <KeyboardAvoidingView h="full" behavior={"position"}>
-          <Box safeArea w="full" p={6} pb={16}>
+          <Box safeArea w="full" p={6} pb={8}>
             <Text fontSize="4xl" fontWeight="thin">
               Finally,{" "}
               <Text fontSize="4xl" bold>
@@ -93,9 +116,9 @@ export default function CreateProfile(props: Props) {
 
             <VStack space={1}>
               <Text fontSize="md" fontWeight="light">
-                KTH's network have been missing you!
+                Check whether people from KTH already have liked you!
               </Text>
-              <Text fontSize="md" fontWeight="light">
+              <Text fontSize="md" fontWeight="light" mt={4}>
                 What's left for you now is to complete your awesome profile!
               </Text>
             </VStack>
@@ -114,7 +137,7 @@ export default function CreateProfile(props: Props) {
                 type="text"
                 name="name"
                 required
-                disabled={data.name ? false : true}
+                disabled={data.name ? true : false}
                 _disabled={{
                   bg: "warmGray.100",
                   color: "warmGray.700",
@@ -141,8 +164,13 @@ export default function CreateProfile(props: Props) {
                 maximumDate={minDate}
               />
               <ControlledInterestInput control={control} />
-              <Button colorScheme="red" onPress={handleSubmit(submit)}>
-                Start swiping
+              <Button
+                isLoading={status === "pending"}
+                colorScheme="red"
+                onPress={handleSubmit(submit)}
+              >
+                {status !== "pending" && "Start swiping"}
+                {status === "pending" && "Updating profile"}
               </Button>
             </VStack>
           </Box>

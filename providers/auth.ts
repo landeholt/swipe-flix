@@ -35,7 +35,9 @@ export function useSetMetadata() {
   return (metadata: Record<string, unknown>) => {
     try {
       sb.auth.update({ data: metadata });
-    } catch (error) {}
+    } catch (error) {
+      dev.error(error);
+    }
   };
 }
 
@@ -84,7 +86,6 @@ export function useSignUp(): ReturnSignUp {
       const name = await kthRegistry(email);
       const deepLink = Linking.createURL("claim-profile");
       const otp = nanoid();
-      console.log(otp);
       const { error, session, user } = await sb.auth.signUp(
         {
           email: email + "@kth.se",

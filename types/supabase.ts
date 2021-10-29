@@ -1,4 +1,4 @@
-import { Session } from "@supabase/supabase-js";
+import { AuthChangeEvent, Session } from "@supabase/supabase-js";
 
 export interface defaultUserMetadata {
   name: string | null;
@@ -35,4 +35,5 @@ export interface AuthInterface {
   loading: boolean | null;
   session: Session | null;
   user: boolean | null;
+  event: AuthChangeEvent | null;
 }

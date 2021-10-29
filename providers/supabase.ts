@@ -17,6 +17,8 @@ function init() {
     localStorage: AsyncStorage,
   });
   dev.log("Supabase client initiated");
+
+  async () => console.log(await AsyncStorage.getItem("supabase.auth.token"));
   return client;
 }
 

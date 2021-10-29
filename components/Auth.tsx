@@ -1,5 +1,15 @@
-import { Session, SupabaseClient } from "@supabase/supabase-js";
-import React, { createContext, useEffect, useMemo, useState } from "react";
+import {
+  AuthChangeEvent,
+  Session,
+  SupabaseClient,
+} from "@supabase/supabase-js";
+import React, {
+  createContext,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import sb from "../providers/supabase";
 import { AuthInterface } from "../types/supabase";
 import { dev } from "../utils/guard";
@@ -20,6 +30,7 @@ export function AuthProvider(props: Props) {
   const { children } = props;
   const [user, setUser] = useState<null | boolean>(null);
   const [session, setSession] = useState<Session | null>(null);
+  const [_event, setEvent] = useState<AuthChangeEvent | null>(null);
 
   const loading = useMemo(() => (user === null ? true : false), [user]);
 
@@ -35,6 +46,7 @@ export function AuthProvider(props: Props) {
     ) {
       dev.log(`Supabase auth event: ${event}`);
       setSession(session);
+      setEvent(event);
       setUser(session ? true : false);
     });
 
@@ -44,7 +56,9 @@ export function AuthProvider(props: Props) {
   }, [user]);
 
   return (
-    <Auth.Provider value={{ session, user, loading }}>{children}</Auth.Provider>
+    <Auth.Provider value={{ session, user, loading, event: _event }}>
+      {children}
+    </Auth.Provider>
   );
 }
 

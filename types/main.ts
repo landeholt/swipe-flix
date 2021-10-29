@@ -3,7 +3,9 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 export enum MainRoutes {
   Swipe = "swipe",
-  TBD = "tbd",
+  Profile = "Profile",
+  Explore = "Explore",
+  Chat = "Chat",
 }
 
 export interface MainParamsList extends ParamListBase {
