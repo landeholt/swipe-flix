@@ -1,10 +1,15 @@
-import { atom } from "recoil";
+import { atom, selector } from "recoil";
+import * as chat from "../models/chat";
 
 interface RegisterInterface {
   id: string | null;
   validated: boolean | null;
   email: string | null;
   otp: string | null; // EXTREMELY BAD PRACTICE!!!
+}
+
+interface UserInterface {
+  id: null | string;
 }
 
 /**
@@ -19,3 +24,45 @@ export const registerState = atom<RegisterInterface>({
     otp: null,
   },
 });
+
+export const userStore = atom<UserInterface>({
+  key: "ATOM/USER",
+  default: {
+    id: null,
+  },
+});
+
+export const matchStore = selector({
+  key: "SELECTOR/MATCHES",
+  get: async ({ get }) => {
+    const user = get(userStore);
+    if (user.id) {
+    }
+  },
+});
+
+export const chatStore = selector({
+  key: "SELECTOR/CHATS",
+  get: async ({ get }) => {
+    const user = get(userStore);
+    if (user.id) {
+      const chats = await chat.findAll(user.id);
+      //const incomingChats = chat.subscribe();
+
+      return chats;
+    }
+  },
+});
+
+/*
+export const newNotificationStore = selector({
+  key: "SELECTOR/NOTIFICATIONS",
+  get: async ({get}) => {
+    //const matches = get(matchStore)
+    const chats = get(chatStore)
+    return {
+      chat: 
+    }
+  }
+})
+*/

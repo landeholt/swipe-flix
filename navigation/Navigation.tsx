@@ -46,7 +46,6 @@ export default function () {
 
   const onboardingProps = { profile, user };
 
-  console.log("profile: ", profile);
   return (
     <NavigationContainer>
       <DeeplinkRouter>

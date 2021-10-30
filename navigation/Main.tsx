@@ -1,21 +1,39 @@
-import React from "react";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import React, { useEffect } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { MainRoutes } from "../types/main";
 import { Avatar, Badge, Box, Icon, Text, VStack } from "native-base";
-import { useAuth } from "../providers/auth";
+import { useAuth, useSignOut } from "../providers/auth";
 import Swipe from "../views/Swipe";
 import { AntDesign } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import TabWrapper from "../components/TabWrapper";
 import LogoTabIcon from "../components/LogoTabIcon";
+import { useRecoilCallback, useRecoilValue } from "recoil";
+import { chatStore, userStore } from "../providers/state";
+import { findAll } from "../models/chat";
+import * as chat from "../models/chat";
+import { dev } from "../utils/guard";
 
-//const MainStack = createNativeStackNavigator();
+import sb from "../providers/supabase";
 const MainStack = createBottomTabNavigator();
 
 export default function () {
   const auth = useAuth();
+
+  const subscriber = useRecoilCallback(
+    ({ snapshot, set, reset }) =>
+      async () => {
+        const { id } = await snapshot.getPromise(userStore);
+
+        /*dev.log("Subscribing to chat as", id);
+        sb.from("*")
+          .on("*", (p) => dev.log("incoming:", p))
+          .subscribe();
+          */
+      }
+  );
+
   return (
     <MainStack.Navigator
       screenOptions={({ route }) => ({

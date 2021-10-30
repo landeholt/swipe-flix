@@ -10,6 +10,8 @@ import React, {
   useMemo,
   useState,
 } from "react";
+import { useSetRecoilState } from "recoil";
+import { userStore } from "../providers/state";
 import sb from "../providers/supabase";
 import { AuthInterface } from "../types/supabase";
 import { dev } from "../utils/guard";
@@ -32,6 +34,7 @@ export function AuthProvider(props: Props) {
   const [session, setSession] = useState<Session | null>(null);
   const [_event, setEvent] = useState<AuthChangeEvent | null>(null);
 
+  const setUserStore = useSetRecoilState(userStore);
   const loading = useMemo(() => (user === null ? true : false), [user]);
 
   useEffect(() => {
@@ -39,7 +42,9 @@ export function AuthProvider(props: Props) {
 
     setSession(session);
     setUser(session ? true : false);
-
+    setUserStore({
+      id: session?.user?.id ?? null,
+    });
     const { data: authListener } = sb.auth.onAuthStateChange(async function (
       event,
       session

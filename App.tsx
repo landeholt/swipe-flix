@@ -1,5 +1,5 @@
-import React from "react";
-import { NativeBaseProvider } from "native-base";
+import React, { Suspense } from "react";
+import { NativeBaseProvider, Text } from "native-base";
 import { dev } from "./utils/guard";
 import { AuthProvider } from "./components/Auth";
 import Navigation from "./navigation/Navigation";
@@ -10,9 +10,11 @@ export default function App() {
   return (
     <RecoilRoot>
       <NativeBaseProvider theme={theme}>
-        <AuthProvider>
-          <Navigation />
-        </AuthProvider>
+        <Suspense fallback={<Text>loading..</Text>}>
+          <AuthProvider>
+            <Navigation />
+          </AuthProvider>
+        </Suspense>
       </NativeBaseProvider>
     </RecoilRoot>
   );
