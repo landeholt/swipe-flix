@@ -12,6 +12,11 @@ interface UserInterface {
   id: null | string;
 }
 
+export const userIdStore = atom({
+  key: "ATOM/USERID",
+  default: 0,
+});
+
 /**
  * Atom for register flow
  */

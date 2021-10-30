@@ -10,8 +10,9 @@ import React, {
   useMemo,
   useState,
 } from "react";
-import { useSetRecoilState } from "recoil";
-import { userStore } from "../providers/state";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { getSession, USERS } from "../models/user";
+import { userIdStore, userStore } from "../providers/state";
 import sb from "../providers/supabase";
 import { AuthInterface } from "../types/supabase";
 import { dev } from "../utils/guard";
@@ -27,7 +28,7 @@ interface IAuthContext {
 
 const Auth = createContext<AuthInterface | null>(null);
 Auth.displayName = "AuthProvider";
-
+/*
 export function AuthProvider(props: Props) {
   const { children } = props;
   const [user, setUser] = useState<null | boolean>(null);
@@ -62,6 +63,34 @@ export function AuthProvider(props: Props) {
 
   return (
     <Auth.Provider value={{ session, user, loading, event: _event }}>
+      {children}
+    </Auth.Provider>
+  );
+}
+*/
+
+export function AuthProvider(props: Props) {
+  const userId = useRecoilValue(userIdStore);
+  const setUserStore = useSetRecoilState(userStore);
+
+  const { children } = props;
+  const [user, setUser] = useState<null | boolean>(null);
+  const [session, setSession] = useState<Session | null>(null);
+  const [_event, setEvent] = useState<AuthChangeEvent | null>(null);
+
+  const loading = useMemo(() => (user === null ? true : false), [user]);
+
+  useEffect(() => {
+    const session = getSession(userId);
+    setUser(userId !== null ? true : false);
+    setUserStore({
+      id: userId.toString() ?? null,
+    });
+    setEvent("SIGNED_IN");
+    setSession(session);
+  }, [userId]);
+  return (
+    <Auth.Provider value={{ user, session, loading, event: _event }}>
       {children}
     </Auth.Provider>
   );
