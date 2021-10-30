@@ -6,11 +6,13 @@ import CardStack, {
 } from "react-native-card-stack-swiper";
 import CommonLayout from "../components/CommonLayout";
 import { ImageBackground, StyleSheet, Dimensions } from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
 
 const { width, height } = Dimensions.get("window");
 
 interface Card {
   name: string;
+  genres: string[];
   imageURL: string;
 }
 
@@ -30,16 +32,19 @@ export default function Swipe() {
     setCards([
       {
         name: "Kevin",
+        genres: ["Cooking shows", "Fantasy"],
         imageURL:
           "https://static.wikia.nocookie.net/theoffice/images/b/b2/2009Kevincropped.PNG/revision/latest/scale-to-width-down/1000?cb=20170701083657",
       },
       {
         name: "Oscar",
+        genres: ["Horror", "Psychological thrillers"],
         imageURL:
           "https://static.wikia.nocookie.net/theoffice/images/2/25/Oscar_Martinez.jpg/revision/latest/scale-to-width-down/1000?cb=20170701085818",
       },
       {
         name: "Michael",
+        genres: ["Romantic comedies", "Children's programming"],
         imageURL:
           "https://static.wikia.nocookie.net/theoffice/images/b/be/Character_-_MichaelScott.PNG/revision/latest/scale-to-width-down/271?cb=20200413224550",
       },
@@ -60,7 +65,17 @@ export default function Swipe() {
             <ImageBackground
               source={{ uri: c.imageURL }}
               style={styles.cardImage}
-            />
+            >
+              <LinearGradient
+                style={styles.details}
+                colors={["rgba(0,0,0,0)", "rgba(0,0,0,0.8)"]}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 0, y: 0.6 }}
+              >
+                <Text style={styles.header}>{c.name}</Text>
+                <Text>{c.genres.join(" | ")}</Text>
+              </LinearGradient>
+            </ImageBackground>
           </CardStackCard>
         ))}
       </CardStack>
@@ -96,8 +111,18 @@ const styles = StyleSheet.create({
   cardImage: {
     display: "flex",
     flexGrow: 1,
-    flexDirection: "row",
-    alignItems: "flex-end",
-    justifyContent: "center",
+    flexDirection: "column",
+    alignItems: "stretch",
+    justifyContent: "flex-end",
+  },
+  details: {
+    paddingVertical: 30,
+    paddingHorizontal: 15,
+    display: "flex",
+    flexDirection: "column",
+  },
+  header: {
+    fontSize: 22,
+    fontWeight: "bold",
   },
 });
