@@ -16,7 +16,6 @@ export default function Swipe() {
   return (
     <Flex h="full" w="full">
       <Spacer />
-      <Text color="black">{username}</Text>
     </Flex>
   );
 }

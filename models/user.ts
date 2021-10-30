@@ -14,6 +14,9 @@ export const USERS = [
         value: "netlifx",
       },
     ],
+    image: {
+      src: require("../assets/viktor_morsell.jpg"),
+    },
     about: "en 26 åring programmerare",
   },
   {
@@ -29,6 +32,9 @@ export const USERS = [
         value: "hbo",
       },
     ],
+    image: {
+      src: require("../assets/viktor_morsell.jpg"),
+    },
     about: "Du borde flytta upp med mig till Skellefteå",
   },
 ];
@@ -66,4 +72,8 @@ export function getUser(id: number): User {
     role: "authenticated",
     updated_at: "never",
   };
+}
+
+export function getOtherUsers(id: number) {
+  return USERS.filter((p) => p.id !== id);
 }

@@ -16,6 +16,7 @@ import * as chat from "../models/chat";
 import { dev } from "../utils/guard";
 
 import sb from "../providers/supabase";
+import Chat from "../views/Chat";
 const MainStack = createBottomTabNavigator();
 
 export default function () {
@@ -99,7 +100,7 @@ export default function () {
     >
       <MainStack.Screen name={MainRoutes.Swipe} component={Swipe} />
       <MainStack.Screen name={MainRoutes.Explore} component={Swipe} />
-      <MainStack.Screen name={MainRoutes.Chat} component={Swipe} />
+      <MainStack.Screen name={MainRoutes.Chat} component={Chat} />
       <MainStack.Screen name={MainRoutes.Profile} component={Swipe} />
     </MainStack.Navigator>
   );

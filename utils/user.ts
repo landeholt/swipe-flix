@@ -12,3 +12,8 @@ export function getProfileId(auth: AuthInterface | null): string | null {
 export function getMetadata(auth: AuthInterface | null): defaultUserMetadata {
   return _.get(auth, "session.user.user_metadata", {});
 }
+
+export function getFirstName(name: string) {
+  const [first, ...rest] = name.split(" ");
+  return first;
+}
