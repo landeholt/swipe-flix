@@ -14,6 +14,7 @@ import {
 import React, { useMemo } from "react";
 import { SwipeListView } from "react-native-swipe-list-view";
 import { HideCard, ShowCard } from "../components/ChatListCard";
+import CommonLayout from "../components/CommonLayout";
 import MatchCard from "../components/MatchCard";
 import { getOtherUsers } from "../models/user";
 import { useAuth } from "../providers/auth";
@@ -37,7 +38,7 @@ export default function Chat() {
   }));
   return (
     <ScrollView>
-      <Flex h="full" w="full" bg="white.50" safeAreaBottom>
+      <Flex h="full" w="full" bg="white.50">
         <Box px={2} safeArea h="30%">
           <Text mb={4} color="red.400" fontWeight="bold" fontSize="lg">
             Your matches
@@ -48,13 +49,16 @@ export default function Chat() {
                 <MatchCard
                   key={key}
                   isNew={_.random(0, 1) ? true : false}
-                  match={{ name: match.name, image: { src: match.image.src } }}
+                  match={{
+                    name: match.name,
+                    image: { src: match.image.src },
+                  }}
                 />
               ))}
             </ScrollView>
           </Box>
         </Box>
-        <Box>
+        <Box h="70%">
           <Text
             px={4}
             mt={4}
@@ -67,7 +71,7 @@ export default function Chat() {
           </Text>
           <SwipeListView
             scrollEnabled
-            overScrollMode="auto"
+            overScrollMode="never"
             data={data}
             renderItem={(data, rowMap) => (
               <HStack pl={4} bg="white.50" alignItems="center" space={3} py={4}>
