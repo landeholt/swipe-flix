@@ -47,7 +47,7 @@ export default function CommonLayout({
     );
   }
   return (
-    <Box flex={1} p={6} mx="auto" pb={8} w="full" h="full" bg={bg} {...rest}>
+    <Box flex={1} mx="auto" pb={8} w="full" h="full" bg={bg} {...rest}>
       {children}
     </Box>
   );

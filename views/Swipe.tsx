@@ -51,7 +51,7 @@ export default function Swipe() {
     ]);
   }, []);
   return (
-    <CommonLayout secondary safeArea>
+    <CommonLayout secondary safeArea p={3}>
       <CardStack
         style={styles.content}
         renderNoMoreCards={() => (
@@ -95,18 +95,22 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   card: {
-    width: width * 0.85,
+    flex: 1,
+    minWidth: "100%",
     height: height * 0.8,
     display: "flex",
     flexDirection: "row",
     alignItems: "stretch",
-    borderRadius: 5,
-    shadowColor: "rgba(0,0,0,0.5)",
+    borderRadius: 7,
+    shadowColor: "#000",
     shadowOffset: {
       width: 0,
-      height: 1,
+      height: 5,
     },
-    shadowOpacity: 0.5,
+    shadowOpacity: 0.34,
+    shadowRadius: 6.27,
+
+    elevation: 10,
   },
   cardImage: {
     display: "flex",
@@ -114,6 +118,8 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     alignItems: "stretch",
     justifyContent: "flex-end",
+    overflow: "hidden",
+    borderRadius: 7,
   },
   details: {
     paddingVertical: 30,
