@@ -17,11 +17,13 @@ import {
 } from "native-base";
 import React, { useMemo } from "react";
 import { SwipeListView } from "react-native-swipe-list-view";
+import { useRecoilValue } from "recoil";
 import CommonLayout from "../components/CommonLayout";
 import MatchCard from "../components/MatchCard";
 import { getChatMetadata } from "../models/chat";
 import { getOtherUsers } from "../models/user";
 import { useAuth } from "../providers/auth";
+import { chatMetaStore, chatStore, matchStore } from "../providers/state";
 import { MainParamsList, MainRoutes } from "../types/main";
 import Chat from "./Chat";
 
@@ -30,25 +32,8 @@ export default function ChatList() {
 
   const navigator = useNavigation();
 
-  const user = useMemo(() => auth && auth.session?.user, [auth]);
-
-  const matches = useMemo(
-    () => _.times(8, () => getOtherUsers(parseInt(user?.id ?? "0"))).flat(),
-    [user]
-  );
-
-  /*
-  const data = matches.map((match, key) => ({
-    key,
-    id: match.id,
-    name: match.name,
-    image: match.image,
-    last_message_at: new Date(),
-    recentText: "fake",
-  }));
-  */
-
-  const data = getChatMetadata(parseInt(user?.id ?? "0"));
+  const matches = useRecoilValue(matchStore);
+  const chats = useRecoilValue(chatMetaStore);
 
   function navigate(id: number, recipient: string) {
     /* @ts-ignore */
@@ -66,7 +51,7 @@ export default function ChatList() {
               {matches.map((match, key) => (
                 <MatchCard
                   key={key.toString()}
-                  isNew={_.random(0, 1) ? true : false}
+                  isFresh={match.isFresh}
                   match={{
                     name: match.name,
                     image: { src: match.image.src },
@@ -90,7 +75,7 @@ export default function ChatList() {
           <SwipeListView
             overScrollMode="auto"
             scrollEnabled={false}
-            data={data}
+            data={chats}
             renderItem={(data, rowMap) => (
               <Pressable
                 key={data.item.id}

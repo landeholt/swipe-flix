@@ -1,5 +1,7 @@
-import { atom, selector } from "recoil";
+import _ from "lodash";
+import { atom, atomFamily, selector, selectorFamily } from "recoil";
 import * as chat from "../models/chat";
+import { getUser } from "../models/user";
 
 interface RegisterInterface {
   id: string | null;
@@ -8,8 +10,27 @@ interface RegisterInterface {
   otp: string | null; // EXTREMELY BAD PRACTICE!!!
 }
 
+interface IConversation {
+  content: string;
+  sent_by: number;
+  sent_at: Date;
+}
+interface IChat {
+  id: number;
+  owners: number[];
+  conversation: IConversation[];
+}
+
+interface Match {
+  id: string;
+  matchId: number;
+  isFresh: boolean;
+  matched_at: Date;
+}
 interface UserInterface {
   id: null | string;
+  chats: IChat[];
+  matches: Match[];
 }
 
 export const userIdStore = atom({
@@ -34,32 +55,57 @@ export const userStore = atom<UserInterface>({
   key: "ATOM/USER",
   default: {
     id: null,
+    matches: [],
+    chats: [],
   },
 });
 
 export const matchStore = selector({
   key: "SELECTOR/MATCHES",
-  get: async ({ get }) => {
+  get: ({ get }) => {
     const user = get(userStore);
-    if (user.id) {
-    }
+    return user.matches.map((p) => {
+      const otherUser = getUser(p.matchId);
+      return {
+        isFresh: p.isFresh,
+        matched_at: p.matched_at,
+        name: otherUser.user_metadata.name,
+        image: { src: otherUser.user_metadata.image.src },
+      };
+    });
   },
 });
 
-/*
 export const chatStore = selector({
   key: "SELECTOR/CHATS",
-  get: async ({ get }) => {
+  get: ({ get }) => {
     const user = get(userStore);
-    if (user.id) {
-      const chats = await chat.findAll(user.id);
-      //const incomingChats = chat.subscribe();
-
-      return chats;
-    }
+    return user.chats.map((p) => {
+      const [otherUser] = p.owners.filter((o) => o.toString() !== user.id);
+      return {
+        ...p,
+        recipient: getUser(otherUser),
+      };
+    });
   },
 });
-*/
+
+export const chatMetaStore = selector({
+  key: "SELECTOR/CHATMETA",
+  get: ({ get }) => {
+    const chats = get(chatStore);
+    return chats.map((p) => {
+      const lastConversation = _.last(p.conversation);
+
+      return {
+        id: p.id,
+        message: lastConversation?.content,
+        sent_at: lastConversation?.sent_at,
+        recipient: p.recipient,
+      };
+    });
+  },
+});
 
 export const navigationStore = atom({
   key: "ATOM/NAVIGATION",
@@ -67,16 +113,3 @@ export const navigationStore = atom({
     showBottomTab: true,
   },
 });
-
-/*
-export const newNotificationStore = selector({
-  key: "SELECTOR/NOTIFICATIONS",
-  get: async ({get}) => {
-    //const matches = get(matchStore)
-    const chats = get(chatStore)
-    return {
-      chat: 
-    }
-  }
-})
-*/

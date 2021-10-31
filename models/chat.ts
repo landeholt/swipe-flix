@@ -63,6 +63,10 @@ export function getAllChatIDs(id: number) {
     .value();
 }
 
+export function getAllChats(owner: number) {
+  return _.filter(CHATS, (p) => p.owners.includes(owner));
+}
+
 export function getChatMetadata(owner: number) {
   const ids = getAllChatIDs(owner);
   return _.chain(ids)

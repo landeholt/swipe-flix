@@ -11,14 +11,14 @@ interface Props {
       src: string;
     };
   };
-  isNew?: boolean;
+  isFresh?: boolean;
 }
 
-export default function MatchCard({ match, isNew }: Props) {
+export default function MatchCard({ match, isFresh }: Props) {
   return (
     <Flex w="80px" h="full" alignItems="center" mr={2}>
       <VStack h="80%" w="full">
-        {isNew && (
+        {isFresh && (
           <Box
             position="absolute"
             zIndex={1}

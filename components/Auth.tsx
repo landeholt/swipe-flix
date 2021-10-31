@@ -11,6 +11,8 @@ import React, {
   useState,
 } from "react";
 import { useRecoilValue, useSetRecoilState } from "recoil";
+import { getAllChats } from "../models/chat";
+import { getAllMatches } from "../models/match";
 import { getSession, USERS } from "../models/user";
 import { userIdStore, userStore } from "../providers/state";
 import sb from "../providers/supabase";
@@ -79,12 +81,22 @@ export function AuthProvider(props: Props) {
   const [_event, setEvent] = useState<AuthChangeEvent | null>(null);
 
   const loading = useMemo(() => (user === null ? true : false), [user]);
-
   useEffect(() => {
     const session = getSession(userId);
+    const id = userId;
     setUser(userId !== null ? true : false);
     setUserStore({
-      id: userId.toString() ?? null,
+      id: id.toString(),
+      chats: getAllChats(id),
+      matches: getAllMatches(id).map((p) => {
+        const [otherId] = p.owner.filter((o) => o !== id);
+        return {
+          id: p.id,
+          matchId: otherId,
+          isFresh: p.isFresh[id],
+          matched_at: p.matched_at,
+        };
+      }),
     });
     setEvent("SIGNED_IN");
     setSession(session);
