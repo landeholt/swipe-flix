@@ -17,13 +17,19 @@ import {
 } from "native-base";
 import React, { useMemo } from "react";
 import { SwipeListView } from "react-native-swipe-list-view";
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import CommonLayout from "../components/CommonLayout";
 import MatchCard from "../components/MatchCard";
 import { getChatMetadata } from "../models/chat";
 import { getOtherUsers } from "../models/user";
 import { useAuth } from "../providers/auth";
-import { chatMetaStore, chatStore, matchStore } from "../providers/state";
+import {
+  chatMetaStore,
+  chatStore,
+  ExtendedMatch,
+  IMatch,
+  matchStore,
+} from "../providers/state";
 import { MainParamsList, MainRoutes } from "../types/main";
 import Chat from "./Chat";
 
@@ -32,8 +38,16 @@ export default function ChatList() {
 
   const navigator = useNavigation();
 
-  const matches = useRecoilValue(matchStore);
+  const [matches, setMatches] = useRecoilState(matchStore);
   const chats = useRecoilValue(chatMetaStore);
+
+  function openMatch(match: ExtendedMatch) {
+    if (match.isFresh) {
+      const otherMatches = matches.filter((p) => p.id !== match.id);
+
+      setMatches([...otherMatches, { ...match, isFresh: false }]);
+    }
+  }
 
   function navigate(id: number, recipient: string) {
     /* @ts-ignore */
@@ -49,14 +63,18 @@ export default function ChatList() {
           <Box>
             <ScrollView w="full" horizontal alwaysBounceHorizontal>
               {matches.map((match, key) => (
-                <MatchCard
+                <Pressable
                   key={key.toString()}
-                  isFresh={match.isFresh}
-                  match={{
-                    name: match.name,
-                    image: { src: match.image.src },
-                  }}
-                />
+                  onPress={() => openMatch(match)}
+                >
+                  <MatchCard
+                    isFresh={match.isFresh}
+                    match={{
+                      name: match.name,
+                      image: { src: match.image.src },
+                    }}
+                  />
+                </Pressable>
               ))}
             </ScrollView>
           </Box>

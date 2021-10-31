@@ -21,7 +21,7 @@ interface IChat {
   conversation: IConversation[];
 }
 
-interface Match {
+export interface IMatch {
   id: string;
   matchId: number;
   isFresh: boolean;
@@ -30,7 +30,7 @@ interface Match {
 interface UserInterface {
   id: null | string;
   chats: IChat[];
-  matches: Match[];
+  matches: IMatch[];
 }
 
 export const userIdStore = atom({
@@ -60,19 +60,35 @@ export const userStore = atom<UserInterface>({
   },
 });
 
-export const matchStore = selector({
+function matchMapper(p: IMatch) {
+  const otherUser = getUser(p.matchId);
+  return {
+    id: p.id,
+    isFresh: p.isFresh,
+    matched_at: p.matched_at,
+    matchId: p.matchId,
+    name: otherUser.user_metadata.name,
+    image: { src: otherUser.user_metadata.image.src },
+  };
+}
+
+export interface ExtendedMatch extends IMatch {
+  name: string;
+  image: {
+    src: any;
+  };
+}
+
+export const matchStore = selector<ExtendedMatch[]>({
   key: "SELECTOR/MATCHES",
   get: ({ get }) => {
     const user = get(userStore);
-    return user.matches.map((p) => {
-      const otherUser = getUser(p.matchId);
-      return {
-        isFresh: p.isFresh,
-        matched_at: p.matched_at,
-        name: otherUser.user_metadata.name,
-        image: { src: otherUser.user_metadata.image.src },
-      };
-    });
+    return user.matches.map(matchMapper);
+  },
+  set: ({ set }, newMatches) => {
+    const _newMatches = newMatches as ExtendedMatch[];
+    const matches = _newMatches.map((p) => _.omit(p, ["image", "name"]));
+    set(userStore, (state) => ({ ...state, matches }));
   },
 });
 

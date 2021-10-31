@@ -14,6 +14,7 @@ import { navigationStore, userStore } from "../providers/state";
 
 import ChatList from "../views/ChatList";
 import Chat from "./Chat";
+import Profile from "../views/Profile";
 const MainStack = createBottomTabNavigator();
 
 export default function () {
@@ -89,7 +90,7 @@ export default function () {
       <MainStack.Screen name={MainRoutes.Swipe} component={Swipe} />
       <MainStack.Screen name={MainRoutes.Explore} component={Swipe} />
       <MainStack.Screen name={MainRoutes.ChatNavigation} component={Chat} />
-      <MainStack.Screen name={MainRoutes.Profile} component={Swipe} />
+      <MainStack.Screen name={MainRoutes.Profile} component={Profile} />
     </MainStack.Navigator>
   );
 }
