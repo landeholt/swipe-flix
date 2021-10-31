@@ -50,7 +50,7 @@ export default function ChatList() {
 
   const data = getChatMetadata(parseInt(user?.id ?? "0"));
 
-  function navigate(id: number, recipient: number) {
+  function navigate(id: number, recipient: string) {
     /* @ts-ignore */
     navigator.navigate(MainRoutes.Chat, { id, recipientId: recipient });
   }

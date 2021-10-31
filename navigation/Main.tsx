@@ -10,7 +10,7 @@ import { Ionicons } from "@expo/vector-icons";
 import TabWrapper from "../components/TabWrapper";
 import LogoTabIcon from "../components/LogoTabIcon";
 import { useRecoilCallback, useRecoilValue } from "recoil";
-import { chatStore, navigationStore, userStore } from "../providers/state";
+import { navigationStore, userStore } from "../providers/state";
 
 import ChatList from "../views/ChatList";
 import Chat from "./Chat";

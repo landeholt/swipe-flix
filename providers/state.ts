@@ -46,6 +46,7 @@ export const matchStore = selector({
   },
 });
 
+/*
 export const chatStore = selector({
   key: "SELECTOR/CHATS",
   get: async ({ get }) => {
@@ -58,6 +59,7 @@ export const chatStore = selector({
     }
   },
 });
+*/
 
 export const navigationStore = atom({
   key: "ATOM/NAVIGATION",
