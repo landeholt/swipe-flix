@@ -1,113 +1,83 @@
-import { format } from "date-fns";
-import _ from "lodash";
 import {
-  Box,
-  Flex,
-  HStack,
-  VStack,
-  Text,
-  ScrollView,
   Avatar,
-  Pressable,
+  Box,
+  HStack,
+  Icon,
+  IconButton,
+  ScrollView,
   Spacer,
+  VStack,
 } from "native-base";
-import React, { useMemo } from "react";
-import { SwipeListView } from "react-native-swipe-list-view";
-import { HideCard, ShowCard } from "../components/ChatListCard";
-import CommonLayout from "../components/CommonLayout";
-import MatchCard from "../components/MatchCard";
-import { getOtherUsers } from "../models/user";
-import { useAuth } from "../providers/auth";
+import React, { useEffect } from "react";
+import { Ionicons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
+import { getParams } from "../utils/params";
+import { getUser } from "../models/user";
+import { getChat } from "../models/chat";
+import ChatMessage from "../components/ChatMessage";
+import { useSetRecoilState } from "recoil";
+import { navigationStore } from "../providers/state";
 
-export default function Chat() {
-  const auth = useAuth();
+interface Props {}
 
-  const user = useMemo(() => auth && auth.session?.user, [auth]);
+export default function Chat(props: Props) {
+  const navigator = useNavigation();
+  const params = getParams(props);
+  const data = getChat(params.id);
+  const recipient = getUser(params.recipientId);
 
-  const matches = useMemo(
-    () => _.times(8, () => getOtherUsers(parseInt(user?.id ?? "0"))).flat(),
-    [user]
-  );
+  const setStore = useSetRecoilState(navigationStore);
 
-  const data = matches.map((match, key) => ({
-    key,
-    name: match.name,
-    image: match.image,
-    last_message_at: new Date(),
-    recentText: "fake",
-  }));
+  useEffect(() => {
+    setStore((s) => ({ ...s, showBottomTab: false }));
+    return () => {
+      setStore((s) => ({ ...s, showBottomTab: true }));
+    };
+  }, []);
   return (
-    <ScrollView>
-      <Flex h="full" w="full" bg="white.50">
-        <Box px={2} safeArea h="30%">
-          <Text mb={4} color="red.400" fontWeight="bold" fontSize="lg">
-            Your matches
-          </Text>
-          <Box>
-            <ScrollView w="full" horizontal alwaysBounceHorizontal>
-              {matches.map((match, key) => (
-                <MatchCard
-                  key={key}
-                  isNew={_.random(0, 1) ? true : false}
-                  match={{
-                    name: match.name,
-                    image: { src: match.image.src },
-                  }}
-                />
-              ))}
-            </ScrollView>
-          </Box>
-        </Box>
-        <Box h="70%">
-          <Text
-            px={4}
-            mt={4}
-            mb={4}
-            color="red.400"
-            fontWeight="bold"
-            fontSize="lg"
-          >
-            Messages
-          </Text>
-          <SwipeListView
-            scrollEnabled
-            overScrollMode="never"
-            data={data}
-            renderItem={(data, rowMap) => (
-              <HStack pl={4} bg="white.50" alignItems="center" space={3} py={4}>
-                <Avatar
-                  source={data.item.image.src}
-                  size="lg"
-                  bg="warmGray.200"
-                  borderColor="warmGray.200"
-                ></Avatar>
-                <VStack
-                  py={2}
-                  ml={2}
-                  w="full"
-                  h="full"
-                  borderBottomWidth={1}
-                  borderBottomColor="warmGray.200"
-                >
-                  <Text color="warmGray.600" fontSize="lg" fontWeight="medium">
-                    {data.item.name}
-                  </Text>
-                  <Spacer />
-                  <Text color="warmGray.500" fontSize="md" fontWeight="light">
-                    {data.item.recentText}
-                  </Text>
-                </VStack>
-              </HStack>
-            )}
-            renderHiddenItem={(data, rowMap) => (
-              <Box>
-                <Text color="black">Left</Text>
-                <Text color="black">Right</Text>
-              </Box>
-            )}
-          />
-        </Box>
-      </Flex>
-    </ScrollView>
+    <VStack bg="white.50">
+      <HStack safeAreaTop shadow="2" w="full" px={1} pb={4}>
+        <IconButton
+          _pressed={{
+            bg: "transparent",
+          }}
+          onPress={() => navigator.goBack()}
+          icon={
+            <Icon
+              as={Ionicons}
+              name="chevron-back-circle-outline"
+              color="warmGray.600"
+            />
+          }
+        />
+        <Spacer />
+        <Avatar
+          size="md"
+          borderColor="white.50"
+          source={recipient.user_metadata.image.src}
+        />
+        <Spacer />
+        <IconButton
+          _pressed={{
+            bg: "transparent",
+          }}
+          onPress={() => navigator.goBack()}
+          icon={<Icon as={Ionicons} name="ios-shield" color="red.400" />}
+        />
+      </HStack>
+      <ScrollView h="full">
+        <VStack space={3} px={2}>
+          {data?.conversation.map((message, key) => (
+            <ChatMessage
+              key={key}
+              recieved={message.sent_by === parseInt(recipient.id)}
+              userData={recipient}
+              sent_at={message.sent_at}
+              content={message.content}
+            />
+          ))}
+        </VStack>
+      </ScrollView>
+    </VStack>
   );
 }

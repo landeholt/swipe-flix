@@ -59,6 +59,13 @@ export const chatStore = selector({
   },
 });
 
+export const navigationStore = atom({
+  key: "ATOM/NAVIGATION",
+  default: {
+    showBottomTab: true,
+  },
+});
+
 /*
 export const newNotificationStore = selector({
   key: "SELECTOR/NOTIFICATIONS",

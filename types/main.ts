@@ -5,7 +5,9 @@ export enum MainRoutes {
   Swipe = "swipe",
   Profile = "Profile",
   Explore = "Explore",
+  ChatList = "ChatList",
   Chat = "Chat",
+  ChatNavigation = "ChatNavigation",
 }
 
 export interface MainParamsList extends ParamListBase {

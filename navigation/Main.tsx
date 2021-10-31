@@ -10,35 +10,23 @@ import { Ionicons } from "@expo/vector-icons";
 import TabWrapper from "../components/TabWrapper";
 import LogoTabIcon from "../components/LogoTabIcon";
 import { useRecoilCallback, useRecoilValue } from "recoil";
-import { chatStore, userStore } from "../providers/state";
-import { findAll } from "../models/chat";
-import * as chat from "../models/chat";
-import { dev } from "../utils/guard";
+import { chatStore, navigationStore, userStore } from "../providers/state";
 
-import sb from "../providers/supabase";
-import Chat from "../views/Chat";
+import ChatList from "../views/ChatList";
+import Chat from "./Chat";
 const MainStack = createBottomTabNavigator();
 
 export default function () {
   const auth = useAuth();
 
-  const subscriber = useRecoilCallback(
-    ({ snapshot, set, reset }) =>
-      async () => {
-        const { id } = await snapshot.getPromise(userStore);
-
-        /*dev.log("Subscribing to chat as", id);
-        sb.from("*")
-          .on("*", (p) => dev.log("incoming:", p))
-          .subscribe();
-          */
-      }
-  );
+  const store = useRecoilValue(navigationStore);
 
   return (
     <MainStack.Navigator
       screenOptions={({ route }) => ({
         headerShown: false,
+        tabBarStyle: { display: store.showBottomTab ? "flex" : "none" },
+
         tabBarIcon: ({ focused, color, size }) => {
           let IconBase: React.FunctionComponent = () => <></>;
           let canReceieveNotifications = false;
@@ -67,7 +55,7 @@ export default function () {
                 ></Avatar>
               );
               break;
-            case MainRoutes.Chat:
+            case MainRoutes.ChatNavigation:
               IconBase = () => (
                 <Icon
                   as={Ionicons}
@@ -100,7 +88,7 @@ export default function () {
     >
       <MainStack.Screen name={MainRoutes.Swipe} component={Swipe} />
       <MainStack.Screen name={MainRoutes.Explore} component={Swipe} />
-      <MainStack.Screen name={MainRoutes.Chat} component={Chat} />
+      <MainStack.Screen name={MainRoutes.ChatNavigation} component={Chat} />
       <MainStack.Screen name={MainRoutes.Profile} component={Swipe} />
     </MainStack.Navigator>
   );
