@@ -1,4 +1,6 @@
+import { User } from "@supabase/supabase-js";
 import _ from "lodash";
+import { nanoid } from "nanoid/non-secure";
 import { atom, atomFamily, selector, selectorFamily } from "recoil";
 import * as chat from "../models/chat";
 import { getUser } from "../models/user";
@@ -104,6 +106,50 @@ export const chatStore = selector({
       };
     });
   },
+});
+
+interface ExtendedChat extends IChat {
+  recipient: User;
+}
+
+export const chatSelector = selectorFamily<ExtendedChat | undefined, number>({
+  key: "SELECTORFAMILY/CHAT",
+  get:
+    (id: number) =>
+    ({ get }) => {
+      const chats = get(chatStore);
+      return chats.find((p) => p.id === id);
+    },
+  set:
+    (id: number) =>
+    ({ set }, chat) => {
+      set(userStore, (state) => {
+        const chats = state.chats.reduce((acc, it) => {
+          if (it.id === id) {
+            const _chat = _.omit(chat, ["recipient"]) as IChat;
+            return [
+              ...acc,
+              /*{
+                id: it.id,
+                owners: it.owners,
+                conversation: [
+                  ...it.conversation,
+                  {
+                    id: nanoid(),
+                    content: content as string,
+                    sent_by: otherUser,
+                    sent_at: new Date(),
+                  },
+                ],
+              },*/
+              _chat,
+            ];
+          }
+          return [...acc];
+        }, [] as IChat[]);
+        return { ...state, chats: chats };
+      });
+    },
 });
 
 export const chatMetaStore = selector({

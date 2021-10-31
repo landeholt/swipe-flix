@@ -12,27 +12,52 @@ import {
   TextArea,
   KeyboardAvoidingView,
 } from "native-base";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { getParams } from "../utils/params";
 import { getUser } from "../models/user";
 import { getChat } from "../models/chat";
 import ChatMessage from "../components/ChatMessage";
-import { useSetRecoilState } from "recoil";
-import { navigationStore } from "../providers/state";
+import { useRecoilState, useSetRecoilState } from "recoil";
+import { chatSelector, navigationStore } from "../providers/state";
+import { nanoid } from "nanoid/non-secure";
 
 interface Props {}
 
 export default function Chat(props: Props) {
   const navigator = useNavigation();
   const params = getParams(props);
-  const data = getChat(params.id);
+  //const data = getChat(params.id);
+  const [chat, setChat] = useRecoilState(chatSelector(params.id));
   const recipient = getUser(params.recipientId);
+  const sender = chat?.owners.find((p) => p !== params.recipientId);
 
   const setStore = useSetRecoilState(navigationStore);
 
   const [isFocused, setIsFocused] = useState(false);
+  const [message, setMessage] = useState<string>();
+
+  const ref = useRef(null);
+
+  function sendMessage() {
+    if (message && chat && sender !== undefined && message.length > 0) {
+      setChat({
+        ...chat,
+        conversation: [
+          ...chat.conversation,
+          {
+            content: message,
+            sent_at: new Date(),
+            sent_by: sender,
+          },
+        ],
+      });
+      /* @ts-ignore */
+      ref.current.clear();
+      setMessage("");
+    }
+  }
 
   useEffect(() => {
     setStore((s) => ({ ...s, showBottomTab: false }));
@@ -83,7 +108,7 @@ export default function Chat(props: Props) {
         </HStack>
         <ScrollView flexGrow={1}>
           <VStack space={3} px={2}>
-            {data?.conversation.map((message, key) => (
+            {chat?.conversation.map((message, key) => (
               <ChatMessage
                 key={key}
                 recieved={message.sent_by === parseInt(recipient.id)}
@@ -107,6 +132,7 @@ export default function Chat(props: Props) {
             _focus={{
               borderColor: "warmGray.300",
             }}
+            onChangeText={setMessage}
             color="black"
             variant="filled"
             w="full"
@@ -115,6 +141,7 @@ export default function Chat(props: Props) {
             fontSize="lg"
             placeholderTextColor="black"
             selectionColor="red.300"
+            ref={ref}
             onFocus={() => setIsFocused(true)}
             onBlur={() => setIsFocused(false)}
             bg="warmGray.100"
@@ -122,6 +149,7 @@ export default function Chat(props: Props) {
             borderWidth={1}
             InputRightElement={
               <Button
+                onPress={sendMessage}
                 variant="ghost"
                 _text={{ fontSize: "lg", color: "warmGray.600" }}
               >
