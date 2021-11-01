@@ -7,6 +7,8 @@ import CardStack, {
 import CommonLayout from "../components/CommonLayout";
 import { ImageBackground, StyleSheet, Dimensions } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
+import { useRecoilState } from "recoil";
+import { queueStore } from "../providers/state";
 
 const { width, height } = Dimensions.get("window");
 
@@ -25,6 +27,9 @@ export default function Swipe() {
     [auth]
   );
 
+  const [profiles, setProfile] = useRecoilState(queueStore);
+
+  /*
   const [cards, setCards] = useState<Card[]>([]);
 
   // Load some bogus cards when this view is loaded.
@@ -50,6 +55,7 @@ export default function Swipe() {
       },
     ]);
   }, []);
+  */
   return (
     <CommonLayout secondary safeArea p={3}>
       <CardStack
@@ -60,10 +66,10 @@ export default function Swipe() {
           </Text>
         )}
       >
-        {cards.map((c, i) => (
+        {profiles.map((c, i) => (
           <CardStackCard key={i} style={styles.card}>
             <ImageBackground
-              source={{ uri: c.imageURL }}
+              source={{ uri: c.image.src }}
               style={styles.cardImage}
             >
               <LinearGradient
@@ -73,7 +79,7 @@ export default function Swipe() {
                 end={{ x: 0, y: 0.6 }}
               >
                 <Text style={styles.header}>{c.name}</Text>
-                <Text>{c.genres.join(" | ")}</Text>
+                <Text>{c.uniqueGenres.slice(0, 3).join(" | ")}</Text>
               </LinearGradient>
             </ImageBackground>
           </CardStackCard>
@@ -102,6 +108,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "stretch",
     borderRadius: 7,
+    backgroundColor: "#f2f2f2",
     shadowColor: "#000",
     shadowOffset: {
       width: 0,

@@ -3,6 +3,7 @@ import _ from "lodash";
 import { nanoid } from "nanoid/non-secure";
 import { atom, atomFamily, selector, selectorFamily } from "recoil";
 import * as chat from "../models/chat";
+import { generateQueue } from "../models/profile";
 import { getUser } from "../models/user";
 
 interface RegisterInterface {
@@ -74,6 +75,11 @@ function matchMapper(p: IMatch) {
   };
 }
 
+export const queueStore = atom({
+  key: "ATOM/QUEUE",
+  default: generateQueue(),
+});
+
 export interface ExtendedMatch extends IMatch {
   name: string;
   image: {
@@ -127,23 +133,7 @@ export const chatSelector = selectorFamily<ExtendedChat | undefined, number>({
         const chats = state.chats.reduce((acc, it) => {
           if (it.id === id) {
             const _chat = _.omit(chat, ["recipient"]) as IChat;
-            return [
-              ...acc,
-              /*{
-                id: it.id,
-                owners: it.owners,
-                conversation: [
-                  ...it.conversation,
-                  {
-                    id: nanoid(),
-                    content: content as string,
-                    sent_by: otherUser,
-                    sent_at: new Date(),
-                  },
-                ],
-              },*/
-              _chat,
-            ];
+            return [...acc, _chat];
           }
           return [...acc];
         }, [] as IChat[]);
