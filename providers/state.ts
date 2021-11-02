@@ -107,25 +107,6 @@ export interface Profile {
   state: "UNDETERMINED" | "LIKED" | "DISLIKED";
 }
 
-export const profileStore = selectorFamily<Profile, number>({
-  key: "SELECTORFAMILY/PROFILE",
-  get:
-    (index: number) =>
-    ({ get }) => {
-      const queue = get(queueStore);
-      return queue[index];
-    },
-  set:
-    (index: number) =>
-    ({ set, get }, newValue) => {
-      const oldProfile = newValue as Profile;
-      const oldQueue = get(queueStore);
-      const profile = { ...oldProfile, state: oldProfile.state };
-      const newQueue = upsert(oldQueue, index, profile);
-      set(queueStore, newQueue);
-    },
-});
-
 export interface ExtendedMatch extends Profile {
   owner: number[];
   isFresh: boolean;
@@ -133,12 +114,29 @@ export interface ExtendedMatch extends Profile {
   conversation: IChat | null;
 }
 
+function convertToMatch(profiles: Profile[], userId: number): ExtendedMatch[] {
+  return _.map(profiles, (p) => ({
+    ...p,
+    owner: [p.id, userId],
+    isFresh: true,
+    matched_at: new Date(),
+    conversation: null,
+  }));
+}
+
 export const matchStore = selector<ExtendedMatch[]>({
   key: "SELECTOR/MATCHES",
   get: ({ get }) => {
     const user = get(userStore);
     const savedMatches = user.matches;
-    return [...savedMatches];
+    const potentialMatches = get(queueStore) as Profile[];
+    const matches = potentialMatches.filter(
+      (p) => p.state === "LIKED" && p.willLike
+    );
+    return [
+      ...savedMatches,
+      ...convertToMatch(matches, parseInt(user.id || "0")),
+    ];
   },
   set: ({ set }, newMatches) => {
     const matches = newMatches as ExtendedMatch[];
@@ -175,7 +173,6 @@ export const chatSelector = selectorFamily<ExtendedMatch | undefined, number>({
     ({ get }) => {
       const chats = get(chatStore);
       const selectedChat = chats.find((p) => p.id === id && p.conversation);
-      console.log("image:", selectedChat?.image.src);
       return selectedChat;
     },
   set:
@@ -227,5 +224,16 @@ export const navigationStore = atom({
   key: "ATOM/NAVIGATION",
   default: {
     showBottomTab: true,
+  },
+});
+
+export const notificationStore = selector({
+  key: "SELECTOR/NOTIFICATION",
+  get: ({ get }) => {
+    const matches = get(matchStore);
+    const newMatches = matches.some((p) => p.isFresh);
+    return {
+      newMatches,
+    };
   },
 });

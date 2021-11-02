@@ -10,7 +10,11 @@ import { Ionicons } from "@expo/vector-icons";
 import TabWrapper from "../components/TabWrapper";
 import LogoTabIcon from "../components/LogoTabIcon";
 import { useRecoilCallback, useRecoilValue } from "recoil";
-import { navigationStore, userStore } from "../providers/state";
+import {
+  navigationStore,
+  notificationStore,
+  userStore,
+} from "../providers/state";
 
 import ChatList from "../views/ChatList";
 import Chat from "./Chat";
@@ -22,6 +26,8 @@ export default function () {
 
   const store = useRecoilValue(navigationStore);
 
+  const { newMatches } = useRecoilValue(notificationStore);
+
   return (
     <MainStack.Navigator
       screenOptions={({ route }) => ({
@@ -30,7 +36,7 @@ export default function () {
 
         tabBarIcon: ({ focused, color, size }) => {
           let IconBase: React.FunctionComponent = () => <></>;
-          let canReceieveNotifications = false;
+          let notifications = false;
           switch (route.name) {
             case MainRoutes.Swipe:
               IconBase = () => (
@@ -64,7 +70,7 @@ export default function () {
                   color={focused ? "red.400" : "warmGray.500"}
                 />
               );
-              canReceieveNotifications = true;
+              notifications = newMatches;
               break;
             case MainRoutes.Explore:
               IconBase = () => (
@@ -74,12 +80,11 @@ export default function () {
                   color={focused ? "red.400" : "warmGray.500"}
                 />
               );
-              canReceieveNotifications = true;
               break;
           }
 
           return (
-            <TabWrapper canReceieveNotifications={canReceieveNotifications}>
+            <TabWrapper canReceieveNotifications={notifications}>
               <IconBase />
             </TabWrapper>
           );

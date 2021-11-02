@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { format, formatDistanceToNow } from "date-fns";
+import { differenceInSeconds, format, formatDistanceToNow } from "date-fns";
 import { sv } from "date-fns/locale";
 import _ from "lodash";
 import {
@@ -37,6 +37,11 @@ export default function ChatList() {
   const [matches, setMatches] = useRecoilState(matchStore);
   const chats = useRecoilValue(chatMetaStore);
 
+  const matchesWithConversations = useMemo(
+    () => matches.filter((p) => p.conversation === null),
+    [matches]
+  );
+
   function openMatch(match: ExtendedMatch) {
     if (match.isFresh) {
       const otherMatches = matches.filter((p) => p.id !== match.id);
@@ -50,6 +55,10 @@ export default function ChatList() {
     navigator.navigate(MainRoutes.Chat, { id, recipientId: recipient });
   }
 
+  function dateDiff({ matched_at }: ExtendedMatch) {
+    return differenceInSeconds(new Date(), matched_at);
+  }
+
   return (
     <ScrollView bg="white.50">
       <Flex h="full" w="full">
@@ -59,9 +68,8 @@ export default function ChatList() {
           </Text>
           <Box>
             <ScrollView w="full" horizontal alwaysBounceHorizontal>
-              {matches
-                .filter((p) => p.conversation === null)
-                .map((match, key) => (
+              {_.sortBy(matchesWithConversations, dateDiff).map(
+                (match, key) => (
                   <Pressable
                     key={key.toString()}
                     onPress={() => openMatch(match)}
@@ -74,7 +82,8 @@ export default function ChatList() {
                       }}
                     />
                   </Pressable>
-                ))}
+                )
+              )}
             </ScrollView>
           </Box>
         </Box>

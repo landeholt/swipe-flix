@@ -8,7 +8,8 @@ import CommonLayout from "../components/CommonLayout";
 import { ImageBackground, StyleSheet, Dimensions } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { useRecoilCallback, useRecoilState, useRecoilValue } from "recoil";
-import { profileStore, queueStore } from "../providers/state";
+import { Profile, queueStore } from "../providers/state";
+import _ from "lodash";
 
 const { width, height } = Dimensions.get("window");
 
@@ -32,18 +33,15 @@ export default function Swipe() {
   const handleSwipe = useRecoilCallback(
     ({ snapshot, set }) =>
       async (index: number, direction: "LEFT" | "RIGHT") => {
-        switch (direction) {
-          case "RIGHT":
-            set(profileStore(index), (p) => ({ ...p, state: "LIKED" as any }));
-            break;
-          case "LEFT":
-            set(profileStore(index), (p) => ({
-              ...p,
-              state: "DISLIKED" as any,
-            }));
-
-            break;
+        function upsert(oldQueue: Profile[]): Profile[] {
+          const _oldQueue = _.cloneDeep(oldQueue);
+          const profile = _oldQueue[index];
+          const state = direction === "LEFT" ? "DISLIKED" : "LIKED";
+          _oldQueue.splice(index, 1, { ...profile, state });
+          return _oldQueue;
         }
+
+        set(queueStore, upsert);
       }
   );
   return (

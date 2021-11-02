@@ -1,9 +1,10 @@
 import _ from "lodash";
 
 export function upsert<T>(arr: T[], index: number, next: T) {
-  const match = _.findIndex(arr, index);
+  const _arr = _.cloneDeep(arr);
+  const match = _.findIndex(_arr, index);
   if (match) {
-    return arr.splice(index, 1, next);
+    return _arr.splice(index, 1, next);
   }
-  return [...arr, next];
+  return [..._arr, next];
 }

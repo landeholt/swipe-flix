@@ -21,7 +21,7 @@ function generateMatchesFromProfiles(n: number) {
     return {
       ...p,
       owner,
-      isFresh: true,
+      isFresh: false,
       conversation:
         _.random(0, 10) > 7 ? generateConversation(p.id, other) : null,
       matched_at: subDays(now, _.random(2, 8)),
@@ -30,7 +30,7 @@ function generateMatchesFromProfiles(n: number) {
 }
 
 export function getAllMatches(owner: number) {
-  const matches = generateMatchesFromProfiles(8);
+  const matches = generateMatchesFromProfiles(3);
   const correctMatches = _.filter(matches, (p) => p.owner.includes(owner));
   return correctMatches;
 }
