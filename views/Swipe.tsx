@@ -1,4 +1,4 @@
-import { Text } from "native-base";
+import { Text, useDisclose } from "native-base";
 import React, { useEffect, useMemo, useState } from "react";
 import { useAuth } from "../providers/auth";
 import CardStack, {
@@ -8,19 +8,15 @@ import CommonLayout from "../components/CommonLayout";
 import { ImageBackground, StyleSheet, Dimensions } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { useRecoilCallback, useRecoilState, useRecoilValue } from "recoil";
-import { Profile, queueStore } from "../providers/state";
+import { matchModalStore, Profile, queueStore } from "../providers/state";
 import _ from "lodash";
+import MatchModal from "../components/MatchModal";
 
 const { width, height } = Dimensions.get("window");
 
-interface Card {
-  name: string;
-  genres: string[];
-  imageURL: string;
-}
-
 export default function Swipe() {
   const auth = useAuth();
+
   const userid = useMemo(() => auth && auth.session?.user?.id, [auth]);
 
   const username = useMemo(
@@ -41,43 +37,53 @@ export default function Swipe() {
           return _oldQueue;
         }
 
+        const profile = profiles[index];
         set(queueStore, upsert);
+
+        if (profile.willLike && direction === "RIGHT") {
+          set(matchModalStore, {
+            profile,
+          });
+        }
       }
   );
   return (
-    <CommonLayout secondary safeArea p={3}>
-      <CardStack
-        disableBottomSwipe
-        disableTopSwipe
-        onSwipedLeft={(i) => handleSwipe(i, "LEFT")}
-        onSwipedRight={(i) => handleSwipe(i, "RIGHT")}
-        style={styles.content}
-        renderNoMoreCards={() => (
-          <Text style={{ fontWeight: "700", fontSize: 18, color: "gray" }}>
-            No more cards :(
-          </Text>
-        )}
-      >
-        {profiles.map((c, i) => (
-          <CardStackCard key={i} style={styles.card}>
-            <ImageBackground
-              source={{ uri: c.image.src }}
-              style={styles.cardImage}
-            >
-              <LinearGradient
-                style={styles.details}
-                colors={["rgba(0,0,0,0)", "rgba(0,0,0,0.8)"]}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 0, y: 0.6 }}
+    <>
+      <MatchModal />
+      <CommonLayout secondary safeArea p={3}>
+        <CardStack
+          disableBottomSwipe
+          disableTopSwipe
+          onSwipedLeft={(i) => handleSwipe(i, "LEFT")}
+          onSwipedRight={(i) => handleSwipe(i, "RIGHT")}
+          style={styles.content}
+          renderNoMoreCards={() => (
+            <Text style={{ fontWeight: "700", fontSize: 18, color: "gray" }}>
+              No more cards :(
+            </Text>
+          )}
+        >
+          {profiles.map((c, i) => (
+            <CardStackCard key={i} style={styles.card}>
+              <ImageBackground
+                source={{ uri: c.image.src }}
+                style={styles.cardImage}
               >
-                <Text style={styles.header}>{c.name}</Text>
-                <Text>{c.uniqueGenres.slice(0, 3).join(" | ")}</Text>
-              </LinearGradient>
-            </ImageBackground>
-          </CardStackCard>
-        ))}
-      </CardStack>
-    </CommonLayout>
+                <LinearGradient
+                  style={styles.details}
+                  colors={["rgba(0,0,0,0)", "rgba(0,0,0,0.8)"]}
+                  start={{ x: 0, y: 0 }}
+                  end={{ x: 0, y: 0.6 }}
+                >
+                  <Text style={styles.header}>{c.name}</Text>
+                  <Text>{c.uniqueGenres.slice(0, 3).join(" | ")}</Text>
+                </LinearGradient>
+              </ImageBackground>
+            </CardStackCard>
+          ))}
+        </CardStack>
+      </CommonLayout>
+    </>
   );
 }
 

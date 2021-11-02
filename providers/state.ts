@@ -172,7 +172,7 @@ export const chatSelector = selectorFamily<ExtendedMatch | undefined, number>({
     (id: number) =>
     ({ get }) => {
       const chats = get(chatStore);
-      const selectedChat = chats.find((p) => p.id === id && p.conversation);
+      const selectedChat = chats.find((p) => p.id === id);
       return selectedChat;
     },
   set:
@@ -235,5 +235,16 @@ export const notificationStore = selector({
     return {
       newMatches,
     };
+  },
+});
+
+interface MatchModal {
+  profile: Profile | null;
+}
+
+export const matchModalStore = atom<MatchModal>({
+  key: "ATOM/MATCHMODAL",
+  default: {
+    profile: null,
   },
 });

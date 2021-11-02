@@ -1,6 +1,7 @@
 import _ from "lodash";
 import { names } from "../providers/mockup/names.json";
 import { movies } from "../providers/mockup/movies.json";
+import { atRandom } from "../utils/array";
 
 type Movie = {
   id: number;
@@ -71,4 +72,16 @@ export function generateQueue() {
 
 export function getProfile(id: number) {
   return PROFILES.find((p) => p.id === id) || PROFILES[0];
+}
+
+export function getMovieFromGenres(id: number | undefined) {
+  if (id) {
+    const profile = getProfile(id);
+    const genre = atRandom(profile.uniqueGenres);
+    const moviesWithGenre = profile.likedMovies.filter((p) =>
+      p.genres.includes(genre)
+    );
+    return atRandom(moviesWithGenre);
+  }
+  return null;
 }

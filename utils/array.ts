@@ -8,3 +8,9 @@ export function upsert<T>(arr: T[], index: number, next: T) {
   }
   return [..._arr, next];
 }
+
+export function atRandom<T>(arr: T[]): T {
+  const len = arr.length - 1;
+  const idx = _.random(0, len);
+  return arr[idx];
+}
