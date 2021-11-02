@@ -2,12 +2,13 @@ import { User } from "@supabase/supabase-js";
 import format from "date-fns/format";
 import { Avatar, Box, Flex, HStack, Spacer, Text } from "native-base";
 import React from "react";
+import { Profile } from "../providers/state";
 
 interface Props {
   content: string;
   recieved: boolean;
   sent_at: Date;
-  userData: User;
+  userData: Profile;
 }
 
 export default function ChatMessage(props: Props) {
@@ -16,7 +17,7 @@ export default function ChatMessage(props: Props) {
       {props.recieved && (
         <Avatar
           borderColor="white.50"
-          source={props.userData.user_metadata.image.source}
+          source={{ uri: props.userData.image.src }}
           size="sm"
         />
       )}

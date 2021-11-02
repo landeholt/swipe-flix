@@ -17,21 +17,20 @@ import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { getParams } from "../utils/params";
 import { getUser } from "../models/user";
-import { getChat } from "../models/chat";
 import ChatMessage from "../components/ChatMessage";
-import { useRecoilState, useSetRecoilState } from "recoil";
-import { chatSelector, navigationStore } from "../providers/state";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { chatSelector, navigationStore, userIdStore } from "../providers/state";
 import { nanoid } from "nanoid/non-secure";
+import { getRecipient } from "../utils/user";
 
 interface Props {}
 
 export default function Chat(props: Props) {
   const navigator = useNavigation();
   const params = getParams(props);
-  //const data = getChat(params.id);
   const [chat, setChat] = useRecoilState(chatSelector(params.id));
-  const recipient = getUser(params.recipientId);
-  const sender = chat?.owners.find((p) => p !== params.recipientId);
+  const recipient = getRecipient(params.id);
+  const me = useRecoilValue(userIdStore);
 
   const setStore = useSetRecoilState(navigationStore);
 
@@ -41,18 +40,31 @@ export default function Chat(props: Props) {
   const ref = useRef(null);
 
   function sendMessage() {
-    if (message && chat && sender !== undefined && message.length > 0) {
-      setChat({
-        ...chat,
-        conversation: [
-          ...chat.conversation,
-          {
-            content: message,
-            sent_at: new Date(),
-            sent_by: sender,
+    if (message && chat && message.length > 0) {
+      const newMessage = {
+        message,
+        sent_at: new Date(),
+        sent_by: me,
+      };
+      if (chat.conversation) {
+        setChat({
+          ...chat,
+          conversation: {
+            ...chat.conversation,
+            content: [...chat.conversation?.content, newMessage],
           },
-        ],
-      });
+        });
+      } else {
+        setChat({
+          ...chat,
+          conversation: {
+            id: nanoid(),
+            owner: chat.owner,
+            content: [newMessage],
+          },
+        });
+      }
+
       /* @ts-ignore */
       ref.current.clear();
       setMessage("");
@@ -65,6 +77,8 @@ export default function Chat(props: Props) {
       setStore((s) => ({ ...s, showBottomTab: true }));
     };
   }, []);
+
+  const scrollViewRef = useRef();
 
   return (
     <KeyboardAvoidingView behavior="padding">
@@ -92,10 +106,11 @@ export default function Chat(props: Props) {
             }
           />
           <Spacer />
+
           <Avatar
             size="md"
             borderColor="white.50"
-            source={recipient.user_metadata.image.src}
+            source={{ uri: chat?.image.src }}
           />
           <Spacer />
           <IconButton
@@ -106,17 +121,25 @@ export default function Chat(props: Props) {
             icon={<Icon as={Ionicons} name="ios-shield" color="red.400" />}
           />
         </HStack>
-        <ScrollView flexGrow={1}>
-          <VStack space={3} px={2}>
-            {chat?.conversation.map((message, key) => (
-              <ChatMessage
-                key={key}
-                recieved={message.sent_by === parseInt(recipient.id)}
-                userData={recipient}
-                sent_at={message.sent_at}
-                content={message.content}
-              />
-            ))}
+        <ScrollView
+          ref={scrollViewRef}
+          flexGrow={1}
+          onContentSizeChange={() => {
+            /* @ts-ignore */
+            scrollViewRef.current.scrollToEnd({ animated: true });
+          }}
+        >
+          <VStack space={3} px={2} py={4}>
+            {chat?.conversation &&
+              chat.conversation.content.map((content, key) => (
+                <ChatMessage
+                  key={key}
+                  recieved={content.sent_by !== me}
+                  userData={chat}
+                  sent_at={content.sent_at}
+                  content={content.message}
+                />
+              ))}
           </VStack>
         </ScrollView>
         <HStack

@@ -14,16 +14,19 @@ type Movie = {
   posterUrl: string;
 };
 
-function createProfile() {
+export function createProfile(id: number) {
   const index = _.random(0, names.length - 1);
   const name = names[index];
-  const imageSrc = `https://i.pravatar.cc/500?u=${name}+${index}`;
+  const imageSrc = `https://i.pravatar.cc/500?u=${name}`;
   const likedMovies = _.uniqBy(_.times(_.random(0, 20), createMovie), "id");
   const uniqueGenres = _.uniq(_.map(likedMovies, "genres").flat());
   const statistics = generateStatisticsFromMovies(likedMovies);
   const state: "LIKED" | "DISLIKED" | "UNDETERMINED" = "UNDETERMINED";
+  const willLike = _.random(0, 1) ? true : false;
   return {
+    id: id + 2,
     name,
+    willLike,
     image: {
       src: imageSrc,
     },
@@ -64,4 +67,8 @@ const PROFILES = _.times(100, createProfile);
 
 export function generateQueue() {
   return PROFILES;
+}
+
+export function getProfile(id: number) {
+  return PROFILES.find((p) => p.id === id) || PROFILES[0];
 }

@@ -11,7 +11,6 @@ import React, {
   useState,
 } from "react";
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import { getAllChats } from "../models/chat";
 import { getAllMatches } from "../models/match";
 import { getSession, USERS } from "../models/user";
 import { userIdStore, userStore } from "../providers/state";
@@ -87,16 +86,7 @@ export function AuthProvider(props: Props) {
     setUser(userId !== null ? true : false);
     setUserStore({
       id: id.toString(),
-      chats: getAllChats(id),
-      matches: getAllMatches(id).map((p) => {
-        const [otherId] = p.owner.filter((o) => o !== id);
-        return {
-          id: p.id,
-          matchId: otherId,
-          isFresh: p.isFresh[id],
-          matched_at: p.matched_at,
-        };
-      }),
+      matches: getAllMatches(id),
     });
     setEvent("SIGNED_IN");
     setSession(session);

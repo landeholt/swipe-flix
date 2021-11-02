@@ -1,10 +1,12 @@
 import { User } from "@supabase/supabase-js";
+import set from "date-fns/set";
 import _ from "lodash";
 import { nanoid } from "nanoid/non-secure";
 import { atom, atomFamily, selector, selectorFamily } from "recoil";
 import * as chat from "../models/chat";
 import { generateQueue } from "../models/profile";
 import { getUser } from "../models/user";
+import { upsert } from "../utils/array";
 
 interface RegisterInterface {
   id: string | null;
@@ -13,15 +15,15 @@ interface RegisterInterface {
   otp: string | null; // EXTREMELY BAD PRACTICE!!!
 }
 
-interface IConversation {
-  content: string;
+export interface IConversation {
+  message: string;
   sent_by: number;
   sent_at: Date;
 }
-interface IChat {
-  id: number;
-  owners: number[];
-  conversation: IConversation[];
+export interface IChat {
+  id: string;
+  owner: number[];
+  content: IConversation[];
 }
 
 export interface IMatch {
@@ -32,8 +34,7 @@ export interface IMatch {
 }
 interface UserInterface {
   id: null | string;
-  chats: IChat[];
-  matches: IMatch[];
+  matches: ExtendedMatch[];
 }
 
 export const userIdStore = atom({
@@ -59,7 +60,6 @@ export const userStore = atom<UserInterface>({
   default: {
     id: null,
     matches: [],
-    chats: [],
   },
 });
 
@@ -75,27 +75,73 @@ function matchMapper(p: IMatch) {
   };
 }
 
-export const queueStore = atom({
+export const queueStore = atom<Profile[]>({
   key: "ATOM/QUEUE",
   default: generateQueue(),
 });
 
-export interface ExtendedMatch extends IMatch {
+export interface Profile {
+  id: number;
+  willLike: boolean;
   name: string;
   image: {
-    src: any;
+    src: string;
   };
+  likedMovies: {
+    id: number;
+    title: string;
+    year: string;
+    runtime: string;
+    genres: string[];
+    director: string;
+    actors: string;
+    plot: string;
+    posterUrl: string;
+  }[];
+  uniqueGenres: string[];
+  statistics: {
+    genres: Record<string, number>;
+    directors: Record<string, number>;
+    actors: Record<string, number>;
+  };
+  state: "UNDETERMINED" | "LIKED" | "DISLIKED";
+}
+
+export const profileStore = selectorFamily<Profile, number>({
+  key: "SELECTORFAMILY/PROFILE",
+  get:
+    (index: number) =>
+    ({ get }) => {
+      const queue = get(queueStore);
+      return queue[index];
+    },
+  set:
+    (index: number) =>
+    ({ set, get }, newValue) => {
+      const oldProfile = newValue as Profile;
+      const oldQueue = get(queueStore);
+      const profile = { ...oldProfile, state: oldProfile.state };
+      const newQueue = upsert(oldQueue, index, profile);
+      set(queueStore, newQueue);
+    },
+});
+
+export interface ExtendedMatch extends Profile {
+  owner: number[];
+  isFresh: boolean;
+  matched_at: Date;
+  conversation: IChat | null;
 }
 
 export const matchStore = selector<ExtendedMatch[]>({
   key: "SELECTOR/MATCHES",
   get: ({ get }) => {
     const user = get(userStore);
-    return user.matches.map(matchMapper);
+    const savedMatches = user.matches;
+    return [...savedMatches];
   },
   set: ({ set }, newMatches) => {
-    const _newMatches = newMatches as ExtendedMatch[];
-    const matches = _newMatches.map((p) => _.omit(p, ["image", "name"]));
+    const matches = newMatches as ExtendedMatch[];
     set(userStore, (state) => ({ ...state, matches }));
   },
 });
@@ -103,7 +149,10 @@ export const matchStore = selector<ExtendedMatch[]>({
 export const chatStore = selector({
   key: "SELECTOR/CHATS",
   get: ({ get }) => {
-    const user = get(userStore);
+    const matches = get(matchStore);
+    const matchesWithConversations = matches.filter((p) => p.conversation);
+    return matchesWithConversations;
+    /*
     return user.chats.map((p) => {
       const [otherUser] = p.owners.filter((o) => o.toString() !== user.id);
       return {
@@ -111,6 +160,7 @@ export const chatStore = selector({
         recipient: getUser(otherUser),
       };
     });
+    */
   },
 });
 
@@ -118,26 +168,29 @@ interface ExtendedChat extends IChat {
   recipient: User;
 }
 
-export const chatSelector = selectorFamily<ExtendedChat | undefined, number>({
+export const chatSelector = selectorFamily<ExtendedMatch | undefined, number>({
   key: "SELECTORFAMILY/CHAT",
   get:
     (id: number) =>
     ({ get }) => {
       const chats = get(chatStore);
-      return chats.find((p) => p.id === id);
+      const selectedChat = chats.find((p) => p.id === id && p.conversation);
+      console.log("image:", selectedChat?.image.src);
+      return selectedChat;
     },
   set:
     (id: number) =>
     ({ set }, chat) => {
       set(userStore, (state) => {
-        const chats = state.chats.reduce((acc, it) => {
-          if (it.id === id) {
-            const _chat = _.omit(chat, ["recipient"]) as IChat;
-            return [...acc, _chat];
-          }
-          return [...acc];
-        }, [] as IChat[]);
-        return { ...state, chats: chats };
+        return {
+          ...state,
+          matches: state.matches.reduce((acc, it) => {
+            if (it.id === id) {
+              return [...acc, chat as ExtendedMatch];
+            }
+            return [...acc];
+          }, [] as ExtendedMatch[]),
+        };
       });
     },
 });
@@ -146,16 +199,27 @@ export const chatMetaStore = selector({
   key: "SELECTOR/CHATMETA",
   get: ({ get }) => {
     const chats = get(chatStore);
-    return chats.map((p) => {
-      const lastConversation = _.last(p.conversation);
-
-      return {
-        id: p.id,
-        message: lastConversation?.content,
-        sent_at: lastConversation?.sent_at,
-        recipient: p.recipient,
-      };
-    });
+    const userId = get(userIdStore);
+    return chats.reduce((acc, p) => {
+      if (p.conversation) {
+        const lastMessage = _.last(p.conversation.content);
+        const recipient = p.owner.find((o) => o !== userId);
+        return [
+          ...acc,
+          {
+            id: p.id,
+            name: p.name,
+            image: {
+              src: p.image.src,
+            },
+            message: lastMessage?.message,
+            sent_at: lastMessage?.sent_at,
+            recipient,
+          },
+        ];
+      }
+      return [...acc];
+    }, [] as any[]);
   },
 });
 

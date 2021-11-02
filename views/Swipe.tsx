@@ -7,8 +7,8 @@ import CardStack, {
 import CommonLayout from "../components/CommonLayout";
 import { ImageBackground, StyleSheet, Dimensions } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
-import { useRecoilState } from "recoil";
-import { queueStore } from "../providers/state";
+import { useRecoilCallback, useRecoilState, useRecoilValue } from "recoil";
+import { profileStore, queueStore } from "../providers/state";
 
 const { width, height } = Dimensions.get("window");
 
@@ -27,38 +27,32 @@ export default function Swipe() {
     [auth]
   );
 
-  const [profiles, setProfile] = useRecoilState(queueStore);
+  const profiles = useRecoilValue(queueStore);
 
-  /*
-  const [cards, setCards] = useState<Card[]>([]);
+  const handleSwipe = useRecoilCallback(
+    ({ snapshot, set }) =>
+      async (index: number, direction: "LEFT" | "RIGHT") => {
+        switch (direction) {
+          case "RIGHT":
+            set(profileStore(index), (p) => ({ ...p, state: "LIKED" as any }));
+            break;
+          case "LEFT":
+            set(profileStore(index), (p) => ({
+              ...p,
+              state: "DISLIKED" as any,
+            }));
 
-  // Load some bogus cards when this view is loaded.
-  useEffect(() => {
-    setCards([
-      {
-        name: "Kevin",
-        genres: ["Cooking shows", "Fantasy"],
-        imageURL:
-          "https://static.wikia.nocookie.net/theoffice/images/b/b2/2009Kevincropped.PNG/revision/latest/scale-to-width-down/1000?cb=20170701083657",
-      },
-      {
-        name: "Oscar",
-        genres: ["Horror", "Psychological thrillers"],
-        imageURL:
-          "https://static.wikia.nocookie.net/theoffice/images/2/25/Oscar_Martinez.jpg/revision/latest/scale-to-width-down/1000?cb=20170701085818",
-      },
-      {
-        name: "Michael",
-        genres: ["Romantic comedies", "Children's programming"],
-        imageURL:
-          "https://static.wikia.nocookie.net/theoffice/images/b/be/Character_-_MichaelScott.PNG/revision/latest/scale-to-width-down/271?cb=20200413224550",
-      },
-    ]);
-  }, []);
-  */
+            break;
+        }
+      }
+  );
   return (
     <CommonLayout secondary safeArea p={3}>
       <CardStack
+        disableBottomSwipe
+        disableTopSwipe
+        onSwipedLeft={(i) => handleSwipe(i, "LEFT")}
+        onSwipedRight={(i) => handleSwipe(i, "RIGHT")}
         style={styles.content}
         renderNoMoreCards={() => (
           <Text style={{ fontWeight: "700", fontSize: 18, color: "gray" }}>

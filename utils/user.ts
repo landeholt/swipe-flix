@@ -1,4 +1,5 @@
 import _ from "lodash";
+import { getProfile } from "../models/profile";
 import { AuthInterface, defaultUserMetadata } from "../types/supabase";
 
 export function getUserId(auth: AuthInterface | null): string | null {
@@ -16,4 +17,8 @@ export function getMetadata(auth: AuthInterface | null): defaultUserMetadata {
 export function getFirstName(name: string) {
   const [first, ...rest] = name.split(" ");
   return first;
+}
+
+export function getRecipient(id: number) {
+  return getProfile(id);
 }

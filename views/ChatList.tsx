@@ -18,10 +18,7 @@ import {
 import React, { useMemo } from "react";
 import { SwipeListView } from "react-native-swipe-list-view";
 import { useRecoilState, useRecoilValue } from "recoil";
-import CommonLayout from "../components/CommonLayout";
 import MatchCard from "../components/MatchCard";
-import { getChatMetadata } from "../models/chat";
-import { getOtherUsers } from "../models/user";
 import { useAuth } from "../providers/auth";
 import {
   chatMetaStore,
@@ -31,7 +28,6 @@ import {
   matchStore,
 } from "../providers/state";
 import { MainParamsList, MainRoutes } from "../types/main";
-import Chat from "./Chat";
 
 export default function ChatList() {
   const auth = useAuth();
@@ -49,10 +45,11 @@ export default function ChatList() {
     }
   }
 
-  function navigate(id: number, recipient: string) {
+  function navigate(id: number, recipient: number) {
     /* @ts-ignore */
     navigator.navigate(MainRoutes.Chat, { id, recipientId: recipient });
   }
+
   return (
     <ScrollView bg="white.50">
       <Flex h="full" w="full">
@@ -62,20 +59,22 @@ export default function ChatList() {
           </Text>
           <Box>
             <ScrollView w="full" horizontal alwaysBounceHorizontal>
-              {matches.map((match, key) => (
-                <Pressable
-                  key={key.toString()}
-                  onPress={() => openMatch(match)}
-                >
-                  <MatchCard
-                    isFresh={match.isFresh}
-                    match={{
-                      name: match.name,
-                      image: { src: match.image.src },
-                    }}
-                  />
-                </Pressable>
-              ))}
+              {matches
+                .filter((p) => p.conversation === null)
+                .map((match, key) => (
+                  <Pressable
+                    key={key.toString()}
+                    onPress={() => openMatch(match)}
+                  >
+                    <MatchCard
+                      isFresh={match.isFresh}
+                      match={{
+                        name: match.name,
+                        image: { src: match.image.src },
+                      }}
+                    />
+                  </Pressable>
+                ))}
             </ScrollView>
           </Box>
         </Box>
@@ -97,7 +96,7 @@ export default function ChatList() {
             renderItem={(data, rowMap) => (
               <Pressable
                 key={data.item.id}
-                onPress={() => navigate(data.item.id, data.item.recipient.id)}
+                onPress={() => navigate(data.item.id, data.item.recipient)}
               >
                 <HStack
                   pl={4}
@@ -107,7 +106,7 @@ export default function ChatList() {
                   py={4}
                 >
                   <Avatar
-                    source={data.item.recipient.user_metadata.image.src}
+                    source={{ uri: data.item.image.src }}
                     size="lg"
                     bg="warmGray.200"
                     borderColor="warmGray.200"
@@ -126,7 +125,7 @@ export default function ChatList() {
                         fontSize="lg"
                         fontWeight="medium"
                       >
-                        {data.item.recipient.user_metadata.name}{" "}
+                        {data.item.name}{" "}
                       </Text>
                       <Text
                         ml={2}

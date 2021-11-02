@@ -6,8 +6,6 @@ interface Props {
   match: {
     name: string;
     image: {
-      width?: number;
-      height?: number;
       src: string;
     };
   };
@@ -33,7 +31,7 @@ export default function MatchCard({ match, isFresh }: Props) {
           />
         )}
         <Image
-          source={match.image.src as any}
+          source={{ uri: match.image.src as any }}
           alt={`Image of ${match.name}`}
           resizeMode="cover"
           rounded="md"
