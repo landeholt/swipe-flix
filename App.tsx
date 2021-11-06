@@ -6,6 +6,11 @@ import Navigation from "./navigation/Navigation";
 import { theme } from "./providers/theme";
 import { RecoilRoot } from "recoil";
 
+import { LogBox } from "react-native";
+
+LogBox.ignoreLogs(["Warning: ..."]);
+console.disableYellowBox = true;
+
 export default function App() {
   return (
     <RecoilRoot>

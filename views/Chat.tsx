@@ -11,7 +11,10 @@ import {
   Button,
   TextArea,
   KeyboardAvoidingView,
+  Circle,
 } from "native-base";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+
 import React, { useEffect, useRef, useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
@@ -22,7 +25,10 @@ import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { chatSelector, navigationStore, userIdStore } from "../providers/state";
 import { nanoid } from "nanoid/non-secure";
 import { getRecipient } from "../utils/user";
-
+import MessageFeedback from "../components/MessageFeedback";
+import _ from "lodash";
+import IceBreaker from "../components/IceBreaker";
+import MovieSelection from "../components/MovieSelection";
 interface Props {}
 
 export default function Chat(props: Props) {
@@ -32,6 +38,10 @@ export default function Chat(props: Props) {
   const recipient = getRecipient(params.id);
   const me = useRecoilValue(userIdStore);
 
+  const [isWriting, setIsWriting] = useState(false);
+
+  const [showMovieSelection, setShowMovieSelection] = useState(false);
+
   const setStore = useSetRecoilState(navigationStore);
 
   const [isFocused, setIsFocused] = useState(false);
@@ -39,32 +49,35 @@ export default function Chat(props: Props) {
 
   const ref = useRef(null);
 
-  function sendMessage() {
-    if (message && chat && message.length > 0) {
-      const newMessage = {
-        message,
-        sent_at: new Date(),
-        sent_by: me,
-      };
-      if (chat.conversation) {
-        setChat({
-          ...chat,
-          conversation: {
-            ...chat.conversation,
-            content: [...chat.conversation?.content, newMessage],
-          },
-        });
-      } else {
-        setChat({
-          ...chat,
-          conversation: {
-            id: nanoid(),
-            owner: chat.owner,
-            content: [newMessage],
-          },
-        });
-      }
+  function sendMessage(byPass: boolean = false) {
+    const newMessage = {
+      message: byPass ? "Har du set dirty dancing?" : message,
+      sent_at: new Date(),
+      sent_by: byPass ? recipient.id : me,
+    };
+    if (chat?.conversation) {
+      setChat({
+        ...chat,
+        conversation: {
+          ...chat.conversation,
+          /* @ts-ignore */
+          content: [...chat.conversation?.content, newMessage],
+        },
+      });
+    } else {
+      setChat({
+        ...chat,
+        conversation: {
+          id: nanoid(),
+          /* @ts-ignore */
+          owner: chat.owner,
+          /* @ts-ignore */
+          content: [newMessage],
+        },
+      });
+    }
 
+    if (!byPass) {
       /* @ts-ignore */
       ref.current.clear();
       setMessage("");
@@ -79,6 +92,22 @@ export default function Chat(props: Props) {
   }, []);
 
   const scrollViewRef = useRef();
+
+  useEffect(() => {
+    setTimeout(() => {
+      const lastMessage = _.last(chat?.conversation?.content);
+      if (lastMessage?.sent_by === recipient.id) {
+        console.log("aborting write mechanism");
+        return;
+      }
+
+      setIsWriting(true),
+        setTimeout(() => {
+          setIsWriting(false);
+          sendMessage(true);
+        }, 8500);
+    }, 7500);
+  }, []);
 
   return (
     <KeyboardAvoidingView behavior="padding">
@@ -130,6 +159,7 @@ export default function Chat(props: Props) {
           }}
         >
           <VStack space={3} px={2} py={4}>
+            {chat?.conversation && <IceBreaker />}
             {chat?.conversation &&
               chat.conversation.content.map((content, key) => (
                 <ChatMessage
@@ -140,47 +170,73 @@ export default function Chat(props: Props) {
                   content={content.message}
                 />
               ))}
+            {isWriting && <MessageFeedback />}
           </VStack>
         </ScrollView>
-        <HStack
-          pb={!isFocused ? 10 : 2}
-          bg="white.50"
-          py={4}
-          shadow="2"
-          w="full"
-          px={2}
-        >
-          <TextArea
-            flexGrow={1}
-            _focus={{
-              borderColor: "warmGray.300",
-            }}
-            onChangeText={setMessage}
-            color="black"
-            variant="filled"
-            w="full"
-            h="full"
-            px={2}
-            fontSize="lg"
-            placeholderTextColor="black"
-            selectionColor="red.300"
-            ref={ref}
-            onFocus={() => setIsFocused(true)}
-            onBlur={() => setIsFocused(false)}
-            bg="warmGray.100"
-            borderColor="warmGray.200"
-            borderWidth={1}
-            InputRightElement={
-              <Button
-                onPress={sendMessage}
-                variant="ghost"
-                _text={{ fontSize: "lg", color: "warmGray.600" }}
-              >
-                Send
-              </Button>
-            }
-          />
-        </HStack>
+        <VStack pb={!isFocused ? 10 : 2} bg="white.50" py={4} shadow="2" px={2}>
+          {showMovieSelection && (
+            <MovieSelection
+              genres={recipient.uniqueGenres}
+              onClose={() => setShowMovieSelection(false)}
+            />
+          )}
+          {!showMovieSelection && (
+            <HStack w="full">
+              <TextArea
+                flexGrow={1}
+                _focus={{
+                  borderColor: "warmGray.300",
+                }}
+                onChangeText={setMessage}
+                color="black"
+                variant="filled"
+                w="full"
+                h="full"
+                px={2}
+                fontSize="lg"
+                placeholderTextColor="black"
+                selectionColor="red.300"
+                ref={ref}
+                onFocus={() => setIsFocused(true)}
+                onBlur={() => setIsFocused(false)}
+                bg="warmGray.100"
+                borderColor="warmGray.200"
+                borderWidth={1}
+                InputRightElement={
+                  <Button
+                    onPress={() => sendMessage()}
+                    variant="ghost"
+                    _text={{ fontSize: "lg", color: "warmGray.600" }}
+                  >
+                    Send
+                  </Button>
+                }
+              />
+            </HStack>
+          )}
+          <HStack py={2}>
+            <IconButton
+              onPress={() => setShowMovieSelection(!showMovieSelection)}
+              _icon={{
+                as: MaterialCommunityIcons,
+                name: "movie-search-outline",
+                size: "sm",
+                color: "warmGray.600",
+              }}
+              p={2}
+              _focus={{
+                bg: "warmGray.300",
+              }}
+              _pressed={{
+                bg: "warmGray.300",
+              }}
+              bg={showMovieSelection ? "red.400" : "warmGray.100"}
+              size="sm"
+              variant="solid"
+              rounded="full"
+            />
+          </HStack>
+        </VStack>
       </VStack>
     </KeyboardAvoidingView>
   );

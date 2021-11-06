@@ -3,7 +3,7 @@ import { names } from "../providers/mockup/names.json";
 import { movies } from "../providers/mockup/movies.json";
 import { atRandom } from "../utils/array";
 
-type Movie = {
+export type Movie = {
   id: number;
   title: string;
   year: string;
