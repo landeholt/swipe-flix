@@ -18,6 +18,7 @@ import GradientBadge from "./GradientBadge";
 import SmallMovieCard from "./SmallMovieCard";
 
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import Ribbon from "./Ribbon";
 
 interface Props {
   card: {
@@ -39,6 +40,7 @@ export default function ProfileCard({ card }: Props) {
         source={{ uri: card.image.src }}
         style={styles.cardImage}
       >
+        <Ribbon type="PROFILE">Profile</Ribbon>
         <LinearGradient
           style={styles.details}
           colors={["rgba(0,0,0,0)", "rgba(0,0,0,0.8)"]}

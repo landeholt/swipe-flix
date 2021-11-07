@@ -23,6 +23,7 @@ import SmallMovieCard from "./SmallMovieCard";
 import { MaterialCommunityIcons, Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { MainRoutes } from "../types/main";
+import Ribbon from "./Ribbon";
 
 interface Props {
   card: Partial<Movie> & {
@@ -58,6 +59,7 @@ export default function AdCard({ card }: Props) {
         source={{ uri: card.posterUrl }}
         style={styles.cardImage}
       >
+        <Ribbon type="AD">Filmstaden</Ribbon>
         <Flex
           h="full"
           justifyContent="center"

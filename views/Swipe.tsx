@@ -35,8 +35,8 @@ export default function Swipe() {
 
   const cards = useMemo(() => {
     return _.shuffle([
-      //...profiles.map((p) => ({ ...p, type: "PROFILE" as "PROFILE" })),
-      //...getRandomMovies().map((p) => ({ ...p, type: "MOVIE" as "MOVIE" })),
+      ...profiles.map((p) => ({ ...p, type: "PROFILE" as "PROFILE" })),
+      ...getRandomMovies().map((p) => ({ ...p, type: "MOVIE" as "MOVIE" })),
       ...getAllTrailers().map((p) => ({
         id: 0,
         year: "",
@@ -70,7 +70,10 @@ export default function Swipe() {
           return _oldQueue;
         }
 
-        const profile = profiles[index];
+        const card = cards[index];
+        if (card.type !== "PROFILE") return;
+
+        const profile = card;
         set(queueStore, upsert);
 
         if (profile.willLike && direction === "RIGHT") {
