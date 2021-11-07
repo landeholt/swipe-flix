@@ -1,15 +1,15 @@
 import React from "react";
 import { Movie } from "../models/profile";
+import MovieCard from "./MovieCard";
 import ProfileCard from "./ProfileCard";
 
 interface ProfileCard {
-  genres: string[];
-  movies: Movie[];
-  source: {
-    type: "image";
-    uri: string;
+  uniqueGenres: string[];
+  likedMovies: Movie[];
+  image: {
+    src: string;
   };
-  title: string;
+  name: string;
   type: "PROFILE";
 }
 
@@ -23,12 +23,8 @@ interface AdCard {
   description: string;
 }
 
-interface MovieCard {
+interface MovieCard extends Movie {
   type: "MOVIE";
-  source: {
-    type: "image" | "movie";
-    uri: string;
-  };
 }
 
 interface Props {
@@ -40,10 +36,19 @@ export default function CardSwitch({ card }: Props) {
       return (
         <ProfileCard
           card={{
-            image: { src: card.source.uri },
-            title: card.title,
+            image: { src: card.image.src },
+            title: card.name,
+            genres: card.uniqueGenres,
+            movies: card.likedMovies,
+          }}
+        />
+      );
+    case "MOVIE":
+      return (
+        <MovieCard
+          card={{
+            image: { src: card.posterUrl },
             genres: card.genres,
-            movies: card.movies,
           }}
         />
       );

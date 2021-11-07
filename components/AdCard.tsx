@@ -32,7 +32,7 @@ interface Props {
 
 const { width, height } = Dimensions.get("window");
 
-export default function ProfileCard({ card }: Props) {
+export default function AdCard({ card }: Props) {
   return (
     <CardStackCard style={styles.card}>
       <ImageBackground
@@ -46,18 +46,7 @@ export default function ProfileCard({ card }: Props) {
           end={{ x: 0, y: 0.6 }}
         >
           <VStack space={2} pb="60px">
-            <Text bold fontSize="4xl">
-              {card.title}
-            </Text>
-            <HStack space={2}>
-              {card.genres.slice(0, 3).map((genre, key) => (
-                <GradientBadge>{genre}</GradientBadge>
-              ))}
-            </HStack>
             <HStack space={1} alignItems="center">
-              {card.movies.slice(0, 4).map((movie, key) => (
-                <SmallMovieCard key={key} source={{ uri: movie.posterUrl }} />
-              ))}
               <Spacer />
               <IconButton
                 _icon={{

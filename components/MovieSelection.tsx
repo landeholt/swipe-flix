@@ -18,7 +18,7 @@ import {
 import * as Linking from "expo-linking";
 
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { getAllMovies } from "../models/movie";
+import { getAllMoviesBy } from "../models/movie";
 import { Movie } from "../models/profile";
 import { Ionicons } from "@expo/vector-icons";
 import { getAllProviders } from "../models/providers";
@@ -78,7 +78,7 @@ export default function MovieSelection(props: Props) {
   const movies = useMemo(() => {
     return _.chain(props.genres)
       .reduce((acc, it) => {
-        return [...acc, ...getAllMovies(it)];
+        return [...acc, ...getAllMoviesBy(it)];
       }, [] as Movie[])
       .uniqBy("id")
       .value();

@@ -14,6 +14,7 @@ import MatchModal from "../components/MatchModal";
 import CardSwitch from "../components/CardSwitch";
 
 import { Ionicons, AntDesign } from "@expo/vector-icons";
+import { getRandomMovies } from "../models/movie";
 
 const { width, height } = Dimensions.get("window");
 
@@ -32,7 +33,10 @@ export default function Swipe() {
   const [direction, setDirection] = useState<"LEFT" | "RIGHT" | "IDLE">("IDLE");
 
   const cards = useMemo(() => {
-    return [...profiles.map((p) => ({ ...p, type: "PROFILE" }))];
+    return _.shuffle([
+      ...profiles.map((p) => ({ ...p, type: "PROFILE" as "PROFILE" })),
+      ...getRandomMovies().map((p) => ({ ...p, type: "MOVIE" as "MOVIE" })),
+    ]);
   }, [profiles]);
 
   const handleSwipe = useRecoilCallback(
@@ -150,16 +154,7 @@ export default function Swipe() {
           )}
         >
           {cards.map((card, key) => (
-            <CardSwitch
-              key={key}
-              card={{
-                genres: card.uniqueGenres,
-                movies: card.likedMovies,
-                title: card.name,
-                source: { uri: card.image.src, type: "image" },
-                type: card.type as any,
-              }}
-            />
+            <CardSwitch key={key} card={card} />
           ))}
         </CardStack>
       </CommonLayout>
