@@ -9,49 +9,85 @@ import {
   Badge,
   Box,
   Center,
+  Flex,
   HStack,
   IconButton,
   Spacer,
   Text,
   VStack,
 } from "native-base";
+import * as WebBrowser from "expo-web-browser";
 import GradientBadge from "./GradientBadge";
 import SmallMovieCard from "./SmallMovieCard";
 
 import { MaterialCommunityIcons, Ionicons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
+import { MainRoutes } from "../types/main";
 
 interface Props {
-  card: Partial<Movie> & { description: string };
+  card: Partial<Movie> & {
+    description: string;
+    videoUrl: string;
+    promoUrl: string;
+  };
 }
 
 const { width, height } = Dimensions.get("window");
 
 export default function AdCard({ card }: Props) {
+  const navigator = useNavigation();
+
+  function openVideo() {
+    /* @ts-ignore */
+    navigator.navigate(MainRoutes.VideoPlayer, {
+      videoUrl: card.videoUrl,
+    });
+  }
+
+  function openPromo() {
+    console.log(card.promoUrl);
+    if (card.promoUrl) {
+      WebBrowser.openBrowserAsync(card.promoUrl);
+    }
+  }
   return (
     <CardStackCard style={styles.card}>
       <ImageBackground
         source={{ uri: card.posterUrl }}
         style={styles.cardImage}
       >
-        <Center>
+        <Flex
+          h="full"
+          justifyContent="center"
+          alignItems="center"
+          position="absolute"
+          left={0}
+          right={0}
+        >
+          <Spacer />
           <IconButton
-            size="lg"
-            shadow="3"
+            onPress={openVideo}
+            shadow="2"
             _icon={{
               as: Ionicons,
               name: "ios-play-circle-sharp",
-              color: "white.50",
               size: "2xl",
             }}
             _focus={{
-              bg: "white.50",
+              _icon: {
+                color: "warmGray.200",
+              },
             }}
             _pressed={{
-              bg: "white.50",
+              _icon: {
+                color: "warmGray.200",
+              },
             }}
+            variant="unstyled"
             rounded="full"
           />
-        </Center>
+          <Spacer />
+        </Flex>
         <LinearGradient
           style={styles.details}
           colors={["rgba(0,0,0,0)", "rgba(0,0,0,0.8)"]}
@@ -62,12 +98,14 @@ export default function AdCard({ card }: Props) {
             <Text bold fontSize="4xl">
               {card.title}
             </Text>
-            <Text noOfLines={3} isTruncated>
-              {card.description}
-            </Text>
+
             <HStack space={1} alignItems="center">
+              <Text noOfLines={3} isTruncated w={width * 0.7}>
+                {card.description}
+              </Text>
               <Spacer />
               <IconButton
+                onPress={openPromo}
                 _icon={{
                   as: MaterialCommunityIcons,
                   name: "information",

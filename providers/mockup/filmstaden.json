@@ -1,0 +1,643 @@
+{
+  "totalNbrOfItems": 1861,
+  "items": [
+    {
+      "versions": [
+        {
+          "ncgId": "NCG136109V1",
+          "movieNcgId": "NCG136109",
+          "remoteSystemAlias": "Sys99-SE",
+          "remoteEntityId": "17023",
+          "title": "12 strong",
+          "slug": "12-strong",
+          "attributes": [],
+          "subtitlesLanguageInfo": {
+            "displayName": "Svenska",
+            "alias": "sv",
+            "name": "sv-SE",
+            "threeLetterISOLanguageName": "sve",
+            "description": "Filmen är textad på svenska"
+          },
+          "audioLanguageInfo": {
+            "displayName": "Engelska",
+            "alias": "en",
+            "name": "en",
+            "threeLetterISOLanguageName": "eng",
+            "description": ""
+          },
+          "audioLanguages": [
+            {
+              "displayName": "Engelska",
+              "alias": "en",
+              "name": "en",
+              "threeLetterISOLanguageName": "eng",
+              "description": "Engelskt tal, \nEnglish dialogue"
+            }
+          ],
+          "rating": {
+            "displayName": "15 år",
+            "alias": "15",
+            "age": 15,
+            "ageAccompanied": 12
+          },
+          "partnerShow": false,
+          "partnerCode": null
+        }
+      ],
+      "ncgId": "NCG136109",
+      "title": "12 Strong",
+      "slug": "12-strong",
+      "releaseDate": "2018-03-09T00:00:00",
+      "releaseDateInfo": null,
+      "preReleaseDate": null,
+      "preReleaseDateInfo": null,
+      "reReleaseDate": null,
+      "reReleaseDateInfo": null,
+      "rating": {
+        "displayName": "15 år",
+        "alias": "15",
+        "age": 15,
+        "ageAccompanied": 12
+      },
+      "posterUrl": "https://catalog.cinema-api.com/cf/images/ncg-images/e31cb87a152e425482ffbd184f782129.jpg?width=1440&version=5E9BB534B1C29AC48F5A28D45AAE18B0",
+      "length": 130,
+      "specialMovie": false,
+      "images": [
+        {
+          "id": "5732978a81eb4c7da1c5f09f526165d9",
+          "imageType": "Hero",
+          "contentType": "image/jpeg",
+          "url": "https://catalog.cinema-api.com/cf/images/ncg-images/5732978a81eb4c7da1c5f09f526165d9.jpg?width=1920&version=EAA877ECF140527B7EFA8901FE09E967",
+          "alternatives": [
+            {
+              "contentType": "image/webp",
+              "url": "https://catalog.cinema-api.com/cf/images/ncg-images/5732978a81eb4c7da1c5f09f526165d9.jpg?width=1920&version=EAA877ECF140527B7EFA8901FE09E967&format=webp"
+            }
+          ]
+        },
+        {
+          "id": "e31cb87a152e425482ffbd184f782129",
+          "imageType": "Poster",
+          "contentType": "image/jpeg",
+          "url": "https://catalog.cinema-api.com/cf/images/ncg-images/e31cb87a152e425482ffbd184f782129.jpg?width=1440&version=5E9BB534B1C29AC48F5A28D45AAE18B0",
+          "alternatives": [
+            {
+              "contentType": "image/webp",
+              "url": "https://catalog.cinema-api.com/cf/images/ncg-images/e31cb87a152e425482ffbd184f782129.jpg?width=1440&version=5E9BB534B1C29AC48F5A28D45AAE18B0&format=webp"
+            }
+          ]
+        }
+      ],
+      "videoStreams": [
+        {
+          "category": "TRAILER",
+          "url": "https://trailers.filmstaden.se/asset-8309bbf2-baee-4e81-9294-52c85f56b671/12Strong_trailer_1280x720.mp4",
+          "description": "Trailer",
+          "image": null
+        }
+      ],
+      "genres": [
+        {
+          "name": "Action"
+        },
+        {
+          "name": "Drama"
+        }
+      ]
+    },
+    {
+      "versions": [
+        {
+          "ncgId": "NCG772433V1",
+          "movieNcgId": "NCG772433",
+          "remoteSystemAlias": "Sys99-SE",
+          "remoteEntityId": "16352",
+          "title": "David Lynch - The Art of life",
+          "slug": "david-lynch-the-art-of-life",
+          "attributes": [],
+          "subtitlesLanguageInfo": {
+            "displayName": "Svenska",
+            "alias": "sv",
+            "name": "sv-SE",
+            "threeLetterISOLanguageName": "sve",
+            "description": "Filmen är textad på svenska"
+          },
+          "audioLanguageInfo": {
+            "displayName": "Engelska",
+            "alias": "en",
+            "name": "en",
+            "threeLetterISOLanguageName": "eng",
+            "description": ""
+          },
+          "audioLanguages": [
+            {
+              "displayName": "Engelska",
+              "alias": "en",
+              "name": "en",
+              "threeLetterISOLanguageName": "eng",
+              "description": "Engelskt tal, \nEnglish dialogue"
+            }
+          ],
+          "rating": {
+            "displayName": "15 år",
+            "alias": "15",
+            "age": 15,
+            "ageAccompanied": 12
+          },
+          "partnerShow": false,
+          "partnerCode": null
+        }
+      ],
+      "ncgId": "NCG772433",
+      "title": " David Lynch - The Art Life",
+      "slug": "david-lynch-the-art-life",
+      "releaseDate": "2017-04-14T00:00:00",
+      "releaseDateInfo": null,
+      "preReleaseDate": null,
+      "preReleaseDateInfo": null,
+      "reReleaseDate": null,
+      "reReleaseDateInfo": null,
+      "rating": {
+        "displayName": "15 år",
+        "alias": "15",
+        "age": 15,
+        "ageAccompanied": 12
+      },
+      "posterUrl": "https://catalog.cinema-api.com/cf/images/ncg-images/da80fc019334485ea26357516ac28607.jpg?width=1440&version=A20E44FE8054A8CDFB3E75CEC4C11015",
+      "length": 90,
+      "specialMovie": false,
+      "images": [
+        {
+          "id": "0b58fd169524458abc03913c61d718a5",
+          "imageType": "Hero",
+          "contentType": "image/jpeg",
+          "url": "https://catalog.cinema-api.com/cf/images/ncg-images/0b58fd169524458abc03913c61d718a5.jpg?width=1920&version=82359D5B622FA91A9AB88DE91CAFFAF8",
+          "alternatives": [
+            {
+              "contentType": "image/webp",
+              "url": "https://catalog.cinema-api.com/cf/images/ncg-images/0b58fd169524458abc03913c61d718a5.jpg?width=1920&version=82359D5B622FA91A9AB88DE91CAFFAF8&format=webp"
+            }
+          ]
+        },
+        {
+          "id": "da80fc019334485ea26357516ac28607",
+          "imageType": "Poster",
+          "contentType": "image/jpeg",
+          "url": "https://catalog.cinema-api.com/cf/images/ncg-images/da80fc019334485ea26357516ac28607.jpg?width=1440&version=A20E44FE8054A8CDFB3E75CEC4C11015",
+          "alternatives": [
+            {
+              "contentType": "image/webp",
+              "url": "https://catalog.cinema-api.com/cf/images/ncg-images/da80fc019334485ea26357516ac28607.jpg?width=1440&version=A20E44FE8054A8CDFB3E75CEC4C11015&format=webp"
+            }
+          ]
+        }
+      ],
+      "videoStreams": [
+        {
+          "category": "TRAILER",
+          "url": "https://trailers.filmstaden.se/asset-e12229f4-5ecf-4c50-9fbb-83f8dd38fa5c/davidlynchtheartaife_trailer_1280x720.mp4",
+          "description": "Trailer",
+          "image": null
+        }
+      ],
+      "genres": [
+        {
+          "name": "Dokumentär"
+        }
+      ]
+    },
+    {
+      "versions": [
+        {
+          "ncgId": "NCG696453V1",
+          "movieNcgId": "NCG696453",
+          "remoteSystemAlias": "Sys99-SE",
+          "remoteEntityId": "17425",
+          "title": "Sommarnattens leende - Bergman 100 år",
+          "slug": "sommarnattens-leende-bergman-100-ar",
+          "attributes": [],
+          "subtitlesLanguageInfo": {
+            "displayName": "Svenska",
+            "alias": "sv",
+            "name": "sv-SE",
+            "threeLetterISOLanguageName": "sve",
+            "description": "Filmen är textad på svenska"
+          },
+          "audioLanguageInfo": {
+            "displayName": "Svenska",
+            "alias": "sv",
+            "name": "sv-SE",
+            "threeLetterISOLanguageName": "sve",
+            "description": ""
+          },
+          "audioLanguages": [
+            {
+              "displayName": "Svenska",
+              "alias": "sv",
+              "name": "sv-SE",
+              "threeLetterISOLanguageName": "sve",
+              "description": "Svenskt tal"
+            }
+          ],
+          "rating": {
+            "displayName": "15 år",
+            "alias": "15",
+            "age": 15,
+            "ageAccompanied": 12
+          },
+          "partnerShow": false,
+          "partnerCode": null
+        }
+      ],
+      "ncgId": "NCG696453",
+      "title": " Sommarnattens leende",
+      "slug": "sommarnattens-leende",
+      "releaseDate": "2018-06-12T00:00:00",
+      "releaseDateInfo": null,
+      "preReleaseDate": null,
+      "preReleaseDateInfo": null,
+      "reReleaseDate": null,
+      "reReleaseDateInfo": null,
+      "rating": {
+        "displayName": "15 år",
+        "alias": "15",
+        "age": 15,
+        "ageAccompanied": 12
+      },
+      "posterUrl": "https://catalog.cinema-api.com/cf/images/ncg-images/f984a9e78a7c44bf9cd69a8cdc60325c.jpg?width=1440&version=3996EA57FA8DCC3266309FFBC004EAB4",
+      "length": 90,
+      "specialMovie": false,
+      "images": [
+        {
+          "id": "da53b5d5b6ef4b339eb939e3672efc1f",
+          "imageType": "Hero",
+          "contentType": "image/jpeg",
+          "url": "https://catalog.cinema-api.com/cf/images/ncg-images/da53b5d5b6ef4b339eb939e3672efc1f.jpg?width=1920&version=2629A4A53B00EB7714AA1ABAE5BF073F",
+          "alternatives": [
+            {
+              "contentType": "image/webp",
+              "url": "https://catalog.cinema-api.com/cf/images/ncg-images/da53b5d5b6ef4b339eb939e3672efc1f.jpg?width=1920&version=2629A4A53B00EB7714AA1ABAE5BF073F&format=webp"
+            }
+          ]
+        },
+        {
+          "id": "f984a9e78a7c44bf9cd69a8cdc60325c",
+          "imageType": "Poster",
+          "contentType": "image/jpeg",
+          "url": "https://catalog.cinema-api.com/cf/images/ncg-images/f984a9e78a7c44bf9cd69a8cdc60325c.jpg?width=1440&version=3996EA57FA8DCC3266309FFBC004EAB4",
+          "alternatives": [
+            {
+              "contentType": "image/webp",
+              "url": "https://catalog.cinema-api.com/cf/images/ncg-images/f984a9e78a7c44bf9cd69a8cdc60325c.jpg?width=1440&version=3996EA57FA8DCC3266309FFBC004EAB4&format=webp"
+            }
+          ]
+        }
+      ],
+      "videoStreams": [],
+      "genres": [
+        {
+          "name": "Komedi"
+        },
+        {
+          "name": "Romantik"
+        }
+      ]
+    },
+    {
+      "versions": [
+        {
+          "ncgId": "NCG629712V1",
+          "movieNcgId": "NCG629712",
+          "remoteSystemAlias": "Sys99-SE",
+          "remoteEntityId": "18322",
+          "title": "Kurier",
+          "slug": "kurier",
+          "attributes": [],
+          "subtitlesLanguageInfo": {
+            "displayName": "Engelska",
+            "alias": "en",
+            "name": "en",
+            "threeLetterISOLanguageName": "eng",
+            "description": "Filmen är textad på engelska, \nthe film is subtitled in english"
+          },
+          "audioLanguageInfo": {
+            "displayName": "Polska",
+            "alias": "pl",
+            "name": "pl-PL",
+            "threeLetterISOLanguageName": "pol",
+            "description": ""
+          },
+          "audioLanguages": [
+            {
+              "displayName": "Polska",
+              "alias": "pl",
+              "name": "pl-PL",
+              "threeLetterISOLanguageName": "pol",
+              "description": "Polskt tal, \nMowa polska"
+            }
+          ],
+          "rating": {
+            "displayName": "15 år",
+            "alias": "15",
+            "age": 15,
+            "ageAccompanied": 12
+          },
+          "partnerShow": false,
+          "partnerCode": null
+        }
+      ],
+      "ncgId": "NCG629712",
+      "title": " Kurier",
+      "slug": "kurier",
+      "releaseDate": "2019-06-21T00:00:00",
+      "releaseDateInfo": null,
+      "preReleaseDate": null,
+      "preReleaseDateInfo": null,
+      "reReleaseDate": null,
+      "reReleaseDateInfo": null,
+      "rating": {
+        "displayName": "15 år",
+        "alias": "15",
+        "age": 15,
+        "ageAccompanied": 12
+      },
+      "posterUrl": "https://catalog.cinema-api.com/cf/images/ncg-images/e159b5c3c28f4e6d9833cb32a4804dc8.jpg?width=1440&version=080C6AE0329732A0BE99F76011D50D25",
+      "length": 114,
+      "specialMovie": false,
+      "images": [
+        {
+          "id": "03584ab16e5e44a895bf56aef7d66d5f",
+          "imageType": "StillFrame",
+          "contentType": "image/jpeg",
+          "url": "https://catalog.cinema-api.com/cf/images/ncg-images/03584ab16e5e44a895bf56aef7d66d5f.jpg?width=1920&version=F9F444A6436FD7C3A4664B2298272B71",
+          "alternatives": [
+            {
+              "contentType": "image/webp",
+              "url": "https://catalog.cinema-api.com/cf/images/ncg-images/03584ab16e5e44a895bf56aef7d66d5f.jpg?width=1920&version=F9F444A6436FD7C3A4664B2298272B71&format=webp"
+            }
+          ]
+        },
+        {
+          "id": "16f692f74dc84474ac60e66cc6068290",
+          "imageType": "StillFrame",
+          "contentType": "image/jpeg",
+          "url": "https://catalog.cinema-api.com/cf/images/ncg-images/16f692f74dc84474ac60e66cc6068290.jpg?width=1920&version=F16E3413B32EEF460B6281907F9B352A",
+          "alternatives": [
+            {
+              "contentType": "image/webp",
+              "url": "https://catalog.cinema-api.com/cf/images/ncg-images/16f692f74dc84474ac60e66cc6068290.jpg?width=1920&version=F16E3413B32EEF460B6281907F9B352A&format=webp"
+            }
+          ]
+        },
+        {
+          "id": "1c93fea4f4f94b278d680a9248139df9",
+          "imageType": "StillFrame",
+          "contentType": "image/jpeg",
+          "url": "https://catalog.cinema-api.com/cf/images/ncg-images/1c93fea4f4f94b278d680a9248139df9.jpg?width=1920&version=35DA8C0078928341C6DADA64F64AAB5D",
+          "alternatives": [
+            {
+              "contentType": "image/webp",
+              "url": "https://catalog.cinema-api.com/cf/images/ncg-images/1c93fea4f4f94b278d680a9248139df9.jpg?width=1920&version=35DA8C0078928341C6DADA64F64AAB5D&format=webp"
+            }
+          ]
+        },
+        {
+          "id": "3847ca25a76948fd926eec2f4838c0bd",
+          "imageType": "StillFrame",
+          "contentType": "image/jpeg",
+          "url": "https://catalog.cinema-api.com/cf/images/ncg-images/3847ca25a76948fd926eec2f4838c0bd.jpg?width=1920&version=2E9B08F69AA30481311F059001F814BF",
+          "alternatives": [
+            {
+              "contentType": "image/webp",
+              "url": "https://catalog.cinema-api.com/cf/images/ncg-images/3847ca25a76948fd926eec2f4838c0bd.jpg?width=1920&version=2E9B08F69AA30481311F059001F814BF&format=webp"
+            }
+          ]
+        },
+        {
+          "id": "4c599a78c51249a7b9ca15910727391b",
+          "imageType": "StillFrame",
+          "contentType": "image/jpeg",
+          "url": "https://catalog.cinema-api.com/cf/images/ncg-images/4c599a78c51249a7b9ca15910727391b.jpg?width=1920&version=F334C0F4295829EEE77E654B7B15470E",
+          "alternatives": [
+            {
+              "contentType": "image/webp",
+              "url": "https://catalog.cinema-api.com/cf/images/ncg-images/4c599a78c51249a7b9ca15910727391b.jpg?width=1920&version=F334C0F4295829EEE77E654B7B15470E&format=webp"
+            }
+          ]
+        },
+        {
+          "id": "677bce0b18064ed4bf5863f08dc8859b",
+          "imageType": "StillFrame",
+          "contentType": "image/jpeg",
+          "url": "https://catalog.cinema-api.com/cf/images/ncg-images/677bce0b18064ed4bf5863f08dc8859b.jpg?width=1920&version=1DF134495DD7558FD308ABC6CF4309C1",
+          "alternatives": [
+            {
+              "contentType": "image/webp",
+              "url": "https://catalog.cinema-api.com/cf/images/ncg-images/677bce0b18064ed4bf5863f08dc8859b.jpg?width=1920&version=1DF134495DD7558FD308ABC6CF4309C1&format=webp"
+            }
+          ]
+        },
+        {
+          "id": "8a0d9d0df7464a3ba41e1e12b4226bc0",
+          "imageType": "Hero",
+          "contentType": "image/jpeg",
+          "url": "https://catalog.cinema-api.com/cf/images/ncg-images/8a0d9d0df7464a3ba41e1e12b4226bc0.jpg?width=1920&version=2B69ACFA3103E29138020ECA8415DE1F",
+          "alternatives": [
+            {
+              "contentType": "image/webp",
+              "url": "https://catalog.cinema-api.com/cf/images/ncg-images/8a0d9d0df7464a3ba41e1e12b4226bc0.jpg?width=1920&version=2B69ACFA3103E29138020ECA8415DE1F&format=webp"
+            }
+          ]
+        },
+        {
+          "id": "8e29a3b865e1494ab292297afc46a891",
+          "imageType": "StillFrame",
+          "contentType": "image/jpeg",
+          "url": "https://catalog.cinema-api.com/cf/images/ncg-images/8e29a3b865e1494ab292297afc46a891.jpg?width=1920&version=CC4723D288859BF27AC13DF81D155B2F",
+          "alternatives": [
+            {
+              "contentType": "image/webp",
+              "url": "https://catalog.cinema-api.com/cf/images/ncg-images/8e29a3b865e1494ab292297afc46a891.jpg?width=1920&version=CC4723D288859BF27AC13DF81D155B2F&format=webp"
+            }
+          ]
+        },
+        {
+          "id": "9da633e32de14411a39ba3709711eb4a",
+          "imageType": "StillFrame",
+          "contentType": "image/jpeg",
+          "url": "https://catalog.cinema-api.com/cf/images/ncg-images/9da633e32de14411a39ba3709711eb4a.jpg?width=1920&version=EC77F2BEDC4970D39A48B8B6CF580DD9",
+          "alternatives": [
+            {
+              "contentType": "image/webp",
+              "url": "https://catalog.cinema-api.com/cf/images/ncg-images/9da633e32de14411a39ba3709711eb4a.jpg?width=1920&version=EC77F2BEDC4970D39A48B8B6CF580DD9&format=webp"
+            }
+          ]
+        },
+        {
+          "id": "bea2dd3e562b460b977cdb8f0c15f61f",
+          "imageType": "Uncategorized",
+          "contentType": "image/jpeg",
+          "url": "https://catalog.cinema-api.com/cf/images/ncg-images/bea2dd3e562b460b977cdb8f0c15f61f.jpg?width=1920&version=31E4BDC97E4DED38532D9B23C8AC9959",
+          "alternatives": [
+            {
+              "contentType": "image/webp",
+              "url": "https://catalog.cinema-api.com/cf/images/ncg-images/bea2dd3e562b460b977cdb8f0c15f61f.jpg?width=1920&version=31E4BDC97E4DED38532D9B23C8AC9959&format=webp"
+            }
+          ]
+        },
+        {
+          "id": "e159b5c3c28f4e6d9833cb32a4804dc8",
+          "imageType": "Poster",
+          "contentType": "image/jpeg",
+          "url": "https://catalog.cinema-api.com/cf/images/ncg-images/e159b5c3c28f4e6d9833cb32a4804dc8.jpg?width=1440&version=080C6AE0329732A0BE99F76011D50D25",
+          "alternatives": [
+            {
+              "contentType": "image/webp",
+              "url": "https://catalog.cinema-api.com/cf/images/ncg-images/e159b5c3c28f4e6d9833cb32a4804dc8.jpg?width=1440&version=080C6AE0329732A0BE99F76011D50D25&format=webp"
+            }
+          ]
+        }
+      ],
+      "videoStreams": [
+        {
+          "category": "TRAILER",
+          "url": "https://trailers.filmstaden.se/asset-cda78522-9fa0-453d-9766-e9c953e985f9/Kurier_trailer_1280x720.mp4",
+          "description": "Trailer",
+          "image": null
+        }
+      ],
+      "genres": [
+        {
+          "name": "Action"
+        },
+        {
+          "name": "Drama"
+        }
+      ]
+    },
+    {
+      "versions": [
+        {
+          "ncgId": "NCG187586V1",
+          "movieNcgId": "NCG187586",
+          "remoteSystemAlias": "Sys99-SE",
+          "remoteEntityId": "18956",
+          "title": "Min pappa Marianne - tisdag!",
+          "slug": "min-pappa-marianne-tisdag",
+          "attributes": [
+            {
+              "alias": "Syntolkning",
+              "displayName": "Syntolkning",
+              "description": "Användare av tjänsten syntolkning tar del av ljudspåret med sina mobilhörlurar/headset och övrig publik påverkas därmed inte."
+            },
+            {
+              "alias": "Utmärkt film",
+              "displayName": "Utmärkt film",
+              "description": "Kritikerrosade och prisbelönta filmer från hela världen. Riktigt bra film som stannar kvar längre."
+            }
+          ],
+          "subtitlesLanguageInfo": {
+            "displayName": "Svenska",
+            "alias": "sv",
+            "name": "sv-SE",
+            "threeLetterISOLanguageName": "sve",
+            "description": "Filmen är textad på svenska"
+          },
+          "audioLanguageInfo": {
+            "displayName": "Svenska",
+            "alias": "sv",
+            "name": "sv-SE",
+            "threeLetterISOLanguageName": "sve",
+            "description": ""
+          },
+          "audioLanguages": [
+            {
+              "displayName": "Svenska",
+              "alias": "sv",
+              "name": "sv-SE",
+              "threeLetterISOLanguageName": "sve",
+              "description": "Svenskt tal"
+            }
+          ],
+          "rating": {
+            "displayName": "Barntillåten",
+            "alias": "0",
+            "age": 0,
+            "ageAccompanied": 0
+          },
+          "partnerShow": false,
+          "partnerCode": null
+        }
+      ],
+      "ncgId": "NCG187586",
+      "title": "100 kr - Min pappa Marianne",
+      "slug": "100-kr-min-pappa-marianne",
+      "releaseDate": "2020-02-21T00:00:00",
+      "releaseDateInfo": null,
+      "preReleaseDate": null,
+      "preReleaseDateInfo": null,
+      "reReleaseDate": null,
+      "reReleaseDateInfo": null,
+      "rating": {
+        "displayName": "Barntillåten",
+        "alias": "0",
+        "age": 0,
+        "ageAccompanied": 0
+      },
+      "posterUrl": "https://catalog.cinema-api.com/cf/images/ncg-images/019970c8fb81418a82b859a5ee230913.jpg?width=1440&version=CE7C9C5AFCC36091B4FA85457C9697AD",
+      "length": 108,
+      "specialMovie": false,
+      "images": [
+        {
+          "id": "019970c8fb81418a82b859a5ee230913",
+          "imageType": "Poster",
+          "contentType": "image/jpeg",
+          "url": "https://catalog.cinema-api.com/cf/images/ncg-images/019970c8fb81418a82b859a5ee230913.jpg?width=1440&version=CE7C9C5AFCC36091B4FA85457C9697AD",
+          "alternatives": [
+            {
+              "contentType": "image/webp",
+              "url": "https://catalog.cinema-api.com/cf/images/ncg-images/019970c8fb81418a82b859a5ee230913.jpg?width=1440&version=CE7C9C5AFCC36091B4FA85457C9697AD&format=webp"
+            }
+          ]
+        },
+        {
+          "id": "0972e8fc0639436a8eca01896d07cb9c",
+          "imageType": "HeroPortrait",
+          "contentType": "image/jpeg",
+          "url": "https://catalog.cinema-api.com/cf/images/ncg-images/0972e8fc0639436a8eca01896d07cb9c.jpg?width=375&version=A14443381AA6B228D7F2216E9E6B7457",
+          "alternatives": [
+            {
+              "contentType": "image/webp",
+              "url": "https://catalog.cinema-api.com/cf/images/ncg-images/0972e8fc0639436a8eca01896d07cb9c.jpg?width=375&version=A14443381AA6B228D7F2216E9E6B7457&format=webp"
+            }
+          ]
+        },
+        {
+          "id": "aab97510d16e47a58b676ae841523edb",
+          "imageType": "Hero",
+          "contentType": "image/jpeg",
+          "url": "https://catalog.cinema-api.com/cf/images/ncg-images/aab97510d16e47a58b676ae841523edb.jpg?width=1920&version=7ED33A3A0705242898E5225FBE5AA2D9",
+          "alternatives": [
+            {
+              "contentType": "image/webp",
+              "url": "https://catalog.cinema-api.com/cf/images/ncg-images/aab97510d16e47a58b676ae841523edb.jpg?width=1920&version=7ED33A3A0705242898E5225FBE5AA2D9&format=webp"
+            }
+          ]
+        }
+      ],
+      "videoStreams": [
+        {
+          "category": "TRAILER",
+          "url": "https://trailers.filmstaden.se/asset-e13ac92f-47ce-4b47-af59-fc718988579e/MinPappaMarianne_trailer_1280x720.mp4",
+          "description": "Trailer",
+          "image": null
+        }
+      ],
+      "genres": [
+        {
+          "name": "Drama"
+        }
+      ]
+    }
+  ]
+}

@@ -15,6 +15,7 @@ import CardSwitch from "../components/CardSwitch";
 
 import { Ionicons, AntDesign } from "@expo/vector-icons";
 import { getRandomMovies } from "../models/movie";
+import { getAllTrailers } from "../models/trailer";
 
 const { width, height } = Dimensions.get("window");
 
@@ -34,12 +35,26 @@ export default function Swipe() {
 
   const cards = useMemo(() => {
     return _.shuffle([
-      ...profiles.map((p) => ({ ...p, type: "PROFILE" as "PROFILE" })),
-      ...getRandomMovies().map((p) => ({ ...p, type: "MOVIE" as "MOVIE" })),
-      ...getRandomMovies(10).map((p) => ({
-        ...p,
+      //...profiles.map((p) => ({ ...p, type: "PROFILE" as "PROFILE" })),
+      //...getRandomMovies().map((p) => ({ ...p, type: "MOVIE" as "MOVIE" })),
+      ...getAllTrailers().map((p) => ({
+        id: 0,
+        year: "",
+        runtime: "",
+        genres: [""],
+        director: "",
+        actors: "",
+        plot: "",
+        title: p.title,
+        posterUrl: p.posterUrl,
+        videoUrl:
+          p.videoStreams.find((p) => p.category === "TRAILER")?.url ?? "",
+        promoUrl: `https://www.filmstaden.se/film/${p.ncgId}/${p.slug}`,
         type: "AD" as "AD",
-        description: p.plot,
+        description: `${_.random(
+          1,
+          180
+        )} free seats at your nearest Filmstaden Cinema`,
       })),
     ]);
   }, [profiles]);

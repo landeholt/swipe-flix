@@ -16,6 +16,8 @@ interface ProfileCard {
 
 interface AdCard extends Movie {
   type: "AD";
+  videoUrl: string;
+  promoUrl: string;
   description: string;
 }
 
@@ -52,9 +54,11 @@ export default function CardSwitch({ card }: Props) {
       return (
         <AdCard
           card={{
+            videoUrl: card.videoUrl,
             title: card.title,
             posterUrl: card.posterUrl,
             description: card.description,
+            promoUrl: card.promoUrl,
           }}
         />
       );

@@ -19,6 +19,7 @@ import {
 import ChatList from "../views/ChatList";
 import Chat from "./Chat";
 import Profile from "../views/Profile";
+import SwipeNavigation from "./Swipe";
 const MainStack = createBottomTabNavigator();
 
 export default function () {
@@ -32,13 +33,16 @@ export default function () {
     <MainStack.Navigator
       screenOptions={({ route }) => ({
         headerShown: false,
-        tabBarStyle: { display: store.showBottomTab ? "flex" : "none" },
+        tabBarStyle: {
+          display: store.showBottomTab ? "flex" : "none",
+          justifyContent: "space-evenly",
+        },
 
         tabBarIcon: ({ focused, color, size }) => {
           let IconBase: React.FunctionComponent = () => <></>;
           let notifications = false;
           switch (route.name) {
-            case MainRoutes.Swipe:
+            case MainRoutes.SwipeNavigation:
               IconBase = () => (
                 /*<Icon
                   as={AntDesign}
@@ -92,8 +96,10 @@ export default function () {
         tabBarShowLabel: false,
       })}
     >
-      <MainStack.Screen name={MainRoutes.Swipe} component={Swipe} />
-      <MainStack.Screen name={MainRoutes.Explore} component={Swipe} />
+      <MainStack.Screen
+        name={MainRoutes.SwipeNavigation}
+        component={SwipeNavigation}
+      />
       <MainStack.Screen name={MainRoutes.ChatNavigation} component={Chat} />
       <MainStack.Screen name={MainRoutes.Profile} component={Profile} />
     </MainStack.Navigator>
