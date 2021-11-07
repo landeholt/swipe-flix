@@ -11,6 +11,7 @@ import { useRecoilCallback, useRecoilState, useRecoilValue } from "recoil";
 import { matchModalStore, Profile, queueStore } from "../providers/state";
 import _ from "lodash";
 import MatchModal from "../components/MatchModal";
+import CardSwitch from "../components/CardSwitch";
 
 const { width, height } = Dimensions.get("window");
 
@@ -25,6 +26,10 @@ export default function Swipe() {
   );
 
   const profiles = useRecoilValue(queueStore);
+
+  const cards = useMemo(() => {
+    return [...profiles.map((p) => ({ ...p, type: "PROFILE" }))];
+  }, [profiles]);
 
   const handleSwipe = useRecoilCallback(
     ({ snapshot, set }) =>
@@ -63,23 +68,17 @@ export default function Swipe() {
             </Text>
           )}
         >
-          {profiles.map((c, i) => (
-            <CardStackCard key={i} style={styles.card}>
-              <ImageBackground
-                source={{ uri: c.image.src }}
-                style={styles.cardImage}
-              >
-                <LinearGradient
-                  style={styles.details}
-                  colors={["rgba(0,0,0,0)", "rgba(0,0,0,0.8)"]}
-                  start={{ x: 0, y: 0 }}
-                  end={{ x: 0, y: 0.6 }}
-                >
-                  <Text style={styles.header}>{c.name}</Text>
-                  <Text>{c.uniqueGenres.slice(0, 3).join(" | ")}</Text>
-                </LinearGradient>
-              </ImageBackground>
-            </CardStackCard>
+          {cards.map((card, key) => (
+            <CardSwitch
+              key={key}
+              card={{
+                genres: card.uniqueGenres,
+                movies: card.likedMovies,
+                title: card.name,
+                source: { uri: card.image.src, type: "image" },
+                type: card.type as any,
+              }}
+            />
           ))}
         </CardStack>
       </CommonLayout>

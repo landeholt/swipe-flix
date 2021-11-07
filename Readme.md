@@ -44,7 +44,7 @@ yarn start
 - [ ] Setup up Deta.sh proxy for webhooks / cloud functions (?)
 - [x] Connect Supabase to Expo
 - [ ] Build wireframe
-  - [ ] Swipe view
+  - [x] Swipe view
   - [ ] Question view (?) [maybe integrated as campaign]
   - [x] Login view
   - [x] Register view
@@ -54,8 +54,8 @@ yarn start
     - [ ] Edit profile
   - [ ] User detail view
   - [ ] Explore view (Movies / Series / Cinema)
-  - [ ] Matches view
-  - [ ] Chat view
+  - [x] Matches view
+  - [x] Chat view
 - [ ] Build popovers / modals
   - [ ] Welcome
   - [ ] Campaign
