@@ -5,7 +5,7 @@ import CardStack, {
 } from "react-native-card-stack-swiper";
 import { LinearGradient } from "expo-linear-gradient";
 import { Movie } from "../models/profile";
-import { Text } from "native-base";
+import { Box, Text } from "native-base";
 interface Props {
   card: {
     image: {
@@ -32,8 +32,10 @@ export default function ProfileCard({ card }: Props) {
           start={{ x: 0, y: 0 }}
           end={{ x: 0, y: 0.6 }}
         >
-          <Text style={styles.header}>{card.title}</Text>
-          <Text>{card.genres.slice(0, 3).join(" | ")}</Text>
+          <Box pb="60px">
+            <Text style={styles.header}>{card.title}</Text>
+            <Text>{card.genres.slice(0, 3).join(" | ")}</Text>
+          </Box>
         </LinearGradient>
       </ImageBackground>
     </CardStackCard>
