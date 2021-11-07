@@ -1,5 +1,5 @@
-import { Text, useDisclose } from "native-base";
-import React, { useEffect, useMemo, useState } from "react";
+import { HStack, IconButton, Text, useDisclose } from "native-base";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useAuth } from "../providers/auth";
 import CardStack, {
   Card as CardStackCard,
@@ -12,6 +12,8 @@ import { matchModalStore, Profile, queueStore } from "../providers/state";
 import _ from "lodash";
 import MatchModal from "../components/MatchModal";
 import CardSwitch from "../components/CardSwitch";
+
+import { Ionicons, AntDesign } from "@expo/vector-icons";
 
 const { width, height } = Dimensions.get("window");
 
@@ -26,6 +28,8 @@ export default function Swipe() {
   );
 
   const profiles = useRecoilValue(queueStore);
+
+  const [direction, setDirection] = useState<"LEFT" | "RIGHT" | "IDLE">("IDLE");
 
   const cards = useMemo(() => {
     return [...profiles.map((p) => ({ ...p, type: "PROFILE" }))];
@@ -52,13 +56,90 @@ export default function Swipe() {
         }
       }
   );
+  function handleDirection(x: number, y: number) {
+    if (x < 0) {
+      setDirection("LEFT");
+    } else if (x > 0) {
+      setDirection("RIGHT");
+    } else {
+      setDirection("IDLE");
+    }
+  }
+
+  const ref = useRef(null);
+
+  function swipeLeft() {
+    if (ref.current) {
+      /* @ts-ignore */
+      ref.current.swipeLeft();
+    }
+  }
+
+  function swipeRight() {
+    if (ref.current) {
+      /* @ts-ignore */
+
+      ref.current.swipeRight();
+    }
+  }
   return (
     <>
       <MatchModal />
-      <CommonLayout secondary safeArea p={3}>
+      <CommonLayout secondary safeArea p={3} position="relative">
+        <HStack
+          position="absolute"
+          w={width * 0.8}
+          mx={8}
+          zIndex={10}
+          bottom="7%"
+          justifyContent="space-evenly"
+        >
+          <IconButton
+            onPress={swipeLeft}
+            _icon={{
+              as: Ionicons,
+              name: "close",
+              color: "pink.300",
+            }}
+            bg={direction === "LEFT" ? "pink.200" : "transparent"}
+            borderColor="pink.300"
+            p={2}
+            _focus={{
+              bg: "pink.200",
+            }}
+            _pressed={{
+              bg: "pink.200",
+            }}
+            variant="outline"
+            rounded="full"
+          />
+
+          <IconButton
+            onPress={swipeRight}
+            _icon={{
+              as: AntDesign,
+              name: "heart",
+              color: "red.500",
+            }}
+            borderColor="red.500"
+            bg={direction === "RIGHT" ? "red.400" : "transparent"}
+            p={2}
+            _focus={{
+              bg: "red.400",
+            }}
+            _pressed={{
+              bg: "red.400",
+            }}
+            variant="outline"
+            rounded="full"
+          />
+        </HStack>
         <CardStack
+          ref={ref}
           disableBottomSwipe
           disableTopSwipe
+          onSwipe={handleDirection}
+          onSwipeEnd={() => setDirection("IDLE")}
           onSwipedLeft={(i) => handleSwipe(i, "LEFT")}
           onSwipedRight={(i) => handleSwipe(i, "RIGHT")}
           style={styles.content}
