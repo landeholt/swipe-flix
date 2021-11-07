@@ -8,6 +8,7 @@ import { Movie } from "../models/profile";
 import {
   Badge,
   Box,
+  Center,
   HStack,
   IconButton,
   Spacer,
@@ -17,17 +18,10 @@ import {
 import GradientBadge from "./GradientBadge";
 import SmallMovieCard from "./SmallMovieCard";
 
-import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { MaterialCommunityIcons, Ionicons } from "@expo/vector-icons";
 
 interface Props {
-  card: {
-    image: {
-      src: string;
-    };
-    title: string;
-    genres: string[];
-    movies: Movie[];
-  };
+  card: Partial<Movie> & { description: string };
 }
 
 const { width, height } = Dimensions.get("window");
@@ -36,9 +30,28 @@ export default function AdCard({ card }: Props) {
   return (
     <CardStackCard style={styles.card}>
       <ImageBackground
-        source={{ uri: card.image.src }}
+        source={{ uri: card.posterUrl }}
         style={styles.cardImage}
       >
+        <Center>
+          <IconButton
+            size="lg"
+            shadow="3"
+            _icon={{
+              as: Ionicons,
+              name: "ios-play-circle-sharp",
+              color: "white.50",
+              size: "2xl",
+            }}
+            _focus={{
+              bg: "white.50",
+            }}
+            _pressed={{
+              bg: "white.50",
+            }}
+            rounded="full"
+          />
+        </Center>
         <LinearGradient
           style={styles.details}
           colors={["rgba(0,0,0,0)", "rgba(0,0,0,0.8)"]}
@@ -46,6 +59,12 @@ export default function AdCard({ card }: Props) {
           end={{ x: 0, y: 0.6 }}
         >
           <VStack space={2} pb="60px">
+            <Text bold fontSize="4xl">
+              {card.title}
+            </Text>
+            <Text noOfLines={3} isTruncated>
+              {card.description}
+            </Text>
             <HStack space={1} alignItems="center">
               <Spacer />
               <IconButton

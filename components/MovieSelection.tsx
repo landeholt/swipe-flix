@@ -43,9 +43,15 @@ function MovieCard({ movie, onOpen }: IMovieCardProps) {
           rounded="lg"
           source={{ uri: movie.posterImage.url }}
           alt={`Movie poster of ${movie.name}`}
-          fallbackSource={{
-            uri: "http://image.tmdb.org/t/p/w500//63kGofUkt1Mx0SIL4XI4Z5AoSgt.jpg",
-          }}
+          fallbackElement={
+            <Box
+              w="60px"
+              h="85px"
+              bg="warmGray.100"
+              rounded="lg"
+              shadow="2"
+            ></Box>
+          }
         />
         <Text
           isTruncated

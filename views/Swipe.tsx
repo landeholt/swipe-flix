@@ -36,6 +36,11 @@ export default function Swipe() {
     return _.shuffle([
       ...profiles.map((p) => ({ ...p, type: "PROFILE" as "PROFILE" })),
       ...getRandomMovies().map((p) => ({ ...p, type: "MOVIE" as "MOVIE" })),
+      ...getRandomMovies(10).map((p) => ({
+        ...p,
+        type: "AD" as "AD",
+        description: p.plot,
+      })),
     ]);
   }, [profiles]);
 

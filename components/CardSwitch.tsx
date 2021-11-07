@@ -1,5 +1,6 @@
 import React from "react";
 import { Movie } from "../models/profile";
+import AdCard from "./AdCard";
 import MovieCard from "./MovieCard";
 import ProfileCard from "./ProfileCard";
 
@@ -13,13 +14,8 @@ interface ProfileCard {
   type: "PROFILE";
 }
 
-interface AdCard {
+interface AdCard extends Movie {
   type: "AD";
-  source: {
-    type: "image" | "movie";
-    uri: string;
-  };
-  title: string;
   description: string;
 }
 
@@ -52,7 +48,15 @@ export default function CardSwitch({ card }: Props) {
           }}
         />
       );
-    default:
-      return <></>;
+    case "AD":
+      return (
+        <AdCard
+          card={{
+            title: card.title,
+            posterUrl: card.posterUrl,
+            description: card.description,
+          }}
+        />
+      );
   }
 }

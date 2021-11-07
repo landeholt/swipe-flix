@@ -66,7 +66,6 @@ export default function MatchModal({ ...props }: Props) {
       };
       /* @ts-ignore */
       set(chatSelector(modal.profile.id), (oldChat) => {
-        console.log(oldChat);
         return {
           ...oldChat,
           conversation: {
