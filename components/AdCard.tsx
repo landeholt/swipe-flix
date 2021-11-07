@@ -45,8 +45,10 @@ export default function AdCard({ card }: Props) {
   }
 
   function openPromo() {
-    console.log(card.promoUrl);
-    if (card.promoUrl) {
+    if (
+      card.promoUrl &&
+      /https:\/\/www\.filmstaden\.se\/film\/.{9}\/.+/.test(card.promoUrl)
+    ) {
       WebBrowser.openBrowserAsync(card.promoUrl);
     }
   }
