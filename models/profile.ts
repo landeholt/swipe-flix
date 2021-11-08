@@ -19,14 +19,18 @@ export function createProfile(id: number) {
   const index = _.random(0, names.length - 1);
   const name = names[index];
   const imageSrc = `https://i.pravatar.cc/500?u=${name}`;
-  const likedMovies = _.uniqBy(_.times(_.random(0, 20), createMovie), "id");
+  const likedMovies = _.uniqBy(_.times(35, createMovie), "id");
   const uniqueGenres = _.uniq(_.map(likedMovies, "genres").flat());
   const statistics = generateStatisticsFromMovies(likedMovies);
   const state: "LIKED" | "DISLIKED" | "UNDETERMINED" = "UNDETERMINED";
   const willLike = _.random(0, 1) ? true : false;
+  const age = _.random(18, 36);
+  const location = _.random(1, 40);
   return {
     id: id + 2,
     name,
+    age,
+    location,
     willLike,
     image: {
       src: imageSrc,
@@ -38,6 +42,12 @@ export function createProfile(id: number) {
   };
 }
 
+function adder(a: number | undefined, b: number | undefined) {
+  const _a = _.isUndefined(a) ? 0 : a;
+  const _b = _.isUndefined(b) ? 0 : b;
+  return _a + _b;
+}
+
 function generateStatisticsFromMovies(movies: Movie[]) {
   return _.reduce(
     movies,
@@ -45,13 +55,13 @@ function generateStatisticsFromMovies(movies: Movie[]) {
       const { genres, director, actors } = movie;
       const next = {
         genres: _.countBy(genres),
-        directors: _.countBy(director),
-        actors: _.countBy(actors),
+        directors: _.countBy(director.split(", ")),
+        actors: _.countBy(actors.split(", ")),
       };
       return {
-        genres: _.mergeWith(movieStats.genres, next.genres),
-        directors: _.mergeWith(movieStats.directors, next.directors),
-        actors: _.mergeWith(movieStats.actors, next.actors),
+        genres: _.mergeWith(movieStats.genres, next.genres, adder),
+        directors: _.mergeWith(movieStats.directors, next.directors, adder),
+        actors: _.mergeWith(movieStats.actors, next.actors, adder),
       };
     },
     { genres: {}, directors: {}, actors: {} }

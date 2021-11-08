@@ -4,6 +4,7 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 export enum MainRoutes {
   SwipeNavigation = "swipeNavigation",
   Swipe = "swipe",
+  MatchProfile = "MatchProfile",
   Profile = "Profile",
   Explore = "Explore",
   ChatList = "ChatList",

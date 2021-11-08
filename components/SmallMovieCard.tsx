@@ -1,11 +1,11 @@
-import { Box, Circle, Image } from "native-base";
+import { Box, Center, Circle, IImageProps, Image, Text } from "native-base";
 import React from "react";
 
-interface Props {
+interface Props extends IImageProps {
   source: { uri: string };
 }
 
-export default function SmallMovieCard({ source }: Props) {
+export default function SmallMovieCard({ source, ...props }: Props) {
   return (
     <Image
       h="90px"
@@ -13,10 +13,23 @@ export default function SmallMovieCard({ source }: Props) {
       rounded="lg"
       shadow="2"
       alt="Movie"
+      bg="warmGray.200"
       fallbackElement={
-        <Box h="90px" w="60px" bg="warmGray.100" rounded="lg" shadow="2"></Box>
+        <Center
+          h="90px"
+          w="60px"
+          bg="warmGray.200"
+          rounded="lg"
+          shadow="2"
+          {...props}
+        >
+          <Text color="warmGray.600" fontSize="5xl">
+            ?
+          </Text>
+        </Center>
       }
       source={source}
+      {...props}
     />
   );
 }

@@ -7,6 +7,7 @@ import { useRecoilValue, useSetRecoilState } from "recoil";
 import { navigationStore } from "../providers/state";
 import Swipe from "../views/Swipe";
 import VideoPlayer from "../views/VideoPlayer";
+import MatchProfile from "../views/MatchProfile";
 
 const SwipeStack = createNativeStackNavigator<MainParamsList>();
 
@@ -19,6 +20,10 @@ export default function SwipeNavigation() {
       }}
     >
       <SwipeStack.Screen name={MainRoutes.Swipe} component={Swipe} />
+      <SwipeStack.Screen
+        name={MainRoutes.MatchProfile}
+        component={MatchProfile}
+      />
       <SwipeStack.Screen
         name={MainRoutes.VideoPlayer}
         component={VideoPlayer}

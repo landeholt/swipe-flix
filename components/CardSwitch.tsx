@@ -5,6 +5,8 @@ import MovieCard from "./MovieCard";
 import ProfileCard from "./ProfileCard";
 
 interface ProfileCard {
+  id: number;
+  age: number;
   uniqueGenres: string[];
   likedMovies: Movie[];
   image: {
@@ -34,6 +36,8 @@ export default function CardSwitch({ card }: Props) {
       return (
         <ProfileCard
           card={{
+            id: card.id,
+            age: card.age,
             image: { src: card.image.src },
             title: card.name,
             genres: card.uniqueGenres,
