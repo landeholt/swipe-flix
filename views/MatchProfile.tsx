@@ -79,7 +79,7 @@ export default function MatchProfile(props: Props) {
   );
 
   return (
-    <ScrollView>
+    <ScrollView bg="coolGray.800">
       <VStack safeAreaBottom>
         <Image
           alt={`Image of ${profile.name}`}
@@ -93,10 +93,10 @@ export default function MatchProfile(props: Props) {
             left={25}
             position="absolute"
             _pressed={{
-              bg: "red.500",
+              bg: "red.600",
             }}
             rounded="full"
-            bg="red.400"
+            bg="red.500"
             onPress={navigator.goBack}
             icon={
               <Icon
@@ -108,9 +108,9 @@ export default function MatchProfile(props: Props) {
               />
             }
           />
-          <Text fontWeight="semibold" fontSize="5xl" color="black">
+          <Text fontWeight="semibold" fontSize="5xl" color="coolGray.50">
             {profile.name}{" "}
-            <Text fontSize="3xl" color="black">
+            <Text fontSize="3xl" color="coolGray.50">
               {profile.age}
             </Text>
           </Text>
@@ -118,10 +118,10 @@ export default function MatchProfile(props: Props) {
             <Icon
               as={SimpleLineIcons}
               name="location-pin"
-              color="warmGray.600"
+              color="coolGray.300"
               size="4"
             />
-            <Text color="warmGray.600" fontSize="lg">
+            <Text color="coolGray.300" fontSize="lg">
               {profile.location} miles away
             </Text>
           </HStack>
@@ -135,7 +135,7 @@ export default function MatchProfile(props: Props) {
                   key={key}
                   rounded="xl"
                   variant={random > 3 ? "solid" : "outline"}
-                  colorScheme={random > 3 ? "red" : "warmGray"}
+                  colorScheme={random > 3 ? "red" : "coolGray"}
                 >
                   {genre.name}
                 </Badge>
@@ -147,7 +147,7 @@ export default function MatchProfile(props: Props) {
             <Text
               fontSize="3xl"
               fontWeight="semibold"
-              color="warmGray.600"
+              color="coolGray.200"
               pb={3}
             >
               Favorite movies

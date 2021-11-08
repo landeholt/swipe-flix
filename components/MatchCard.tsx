@@ -27,7 +27,7 @@ export default function MatchCard({ match, isFresh }: Props) {
             rounded="full"
             bg="red.400"
             borderWidth={2}
-            borderColor="white.50"
+            borderColor="coolGray.800"
           />
         )}
         <Image
@@ -35,11 +35,11 @@ export default function MatchCard({ match, isFresh }: Props) {
           alt={`Image of ${match.name}`}
           resizeMode="cover"
           rounded="md"
-          bg="white.50"
+          bg="coolGray.700"
           h="full"
         />
       </VStack>
-      <Text mt={1} color="black" fontWeight="bold">
+      <Text mt={1} color="white.50" fontWeight="bold">
         {getFirstName(match.name)}
       </Text>
     </Flex>

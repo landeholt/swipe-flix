@@ -16,6 +16,7 @@ import CardSwitch from "../components/CardSwitch";
 import { Ionicons, AntDesign } from "@expo/vector-icons";
 import { getRandomMovies } from "../models/movie";
 import { getAllTrailers } from "../models/trailer";
+import EmptyCards from "../components/EmptyCards";
 
 const { width, height } = Dimensions.get("window");
 
@@ -36,8 +37,8 @@ export default function Swipe() {
   const cards = useMemo(() => {
     return _.shuffle([
       ...profiles.map((p) => ({ ...p, type: "PROFILE" as "PROFILE" })),
-      ...getRandomMovies().map((p) => ({ ...p, type: "MOVIE" as "MOVIE" })),
-      ...getAllTrailers().map((p) => ({
+      ...getRandomMovies(2).map((p) => ({ ...p, type: "MOVIE" as "MOVIE" })),
+      ...getAllTrailers(1).map((p) => ({
         id: 0,
         year: "",
         runtime: "",
@@ -59,6 +60,8 @@ export default function Swipe() {
     ]);
   }, [profiles]);
 
+  const [numCards, setNumCards] = useState(cards.length);
+
   function upsert(oldQueue: Profile[], index: number): Profile[] {
     const _oldQueue = _.cloneDeep(oldQueue);
     const profile = _oldQueue[index];
@@ -70,6 +73,7 @@ export default function Swipe() {
   const handleSwipe = useRecoilCallback(
     ({ snapshot, set }) =>
       async (index: number, direction: "LEFT" | "RIGHT") => {
+        setNumCards(_.clamp(numCards - 1, 0, Infinity));
         const card = cards[index];
 
         const profile = card;
@@ -112,58 +116,61 @@ export default function Swipe() {
       ref.current.swipeRight();
     }
   }
+
   return (
     <>
       <MatchModal />
       <CommonLayout secondary safeArea p={3} position="relative">
-        <HStack
-          position="absolute"
-          w={width * 0.8}
-          mx={8}
-          zIndex={10}
-          bottom="7%"
-          justifyContent="space-evenly"
-        >
-          <IconButton
-            onPress={swipeLeft}
-            _icon={{
-              as: Ionicons,
-              name: "close",
-              color: "pink.300",
-            }}
-            bg={direction === "LEFT" ? "pink.200" : "transparent"}
-            borderColor="pink.300"
-            p={2}
-            _focus={{
-              bg: "pink.200",
-            }}
-            _pressed={{
-              bg: "pink.200",
-            }}
-            variant="outline"
-            rounded="full"
-          />
+        {numCards !== 0 && (
+          <HStack
+            position="absolute"
+            w={width * 0.8}
+            mx={8}
+            zIndex={10}
+            bottom="7%"
+            justifyContent="space-evenly"
+          >
+            <IconButton
+              onPress={swipeLeft}
+              _icon={{
+                as: Ionicons,
+                name: "close",
+                color: "emerald.400",
+              }}
+              bg={direction === "LEFT" ? "emerald.500" : "transparent"}
+              borderColor="emerald.400"
+              p={2}
+              _focus={{
+                bg: "emerald.500",
+              }}
+              _pressed={{
+                bg: "emerald.500",
+              }}
+              variant="outline"
+              rounded="full"
+            />
 
-          <IconButton
-            onPress={swipeRight}
-            _icon={{
-              as: AntDesign,
-              name: "heart",
-              color: "red.500",
-            }}
-            borderColor="red.500"
-            bg={direction === "RIGHT" ? "red.400" : "transparent"}
-            p={2}
-            _focus={{
-              bg: "red.400",
-            }}
-            _pressed={{
-              bg: "red.400",
-            }}
-            variant="outline"
-            rounded="full"
-          />
-        </HStack>
+            <IconButton
+              onPress={swipeRight}
+              _icon={{
+                as: AntDesign,
+                name: "heart",
+                color: "red.500",
+              }}
+              borderColor="red.500"
+              bg={direction === "RIGHT" ? "red.400" : "transparent"}
+              p={2}
+              _focus={{
+                bg: "red.400",
+              }}
+              _pressed={{
+                bg: "red.400",
+              }}
+              variant="outline"
+              rounded="full"
+            />
+          </HStack>
+        )}
         <CardStack
           ref={ref}
           disableBottomSwipe
@@ -173,11 +180,7 @@ export default function Swipe() {
           onSwipedLeft={(i) => handleSwipe(i, "LEFT")}
           onSwipedRight={(i) => handleSwipe(i, "RIGHT")}
           style={styles.content}
-          renderNoMoreCards={() => (
-            <Text style={{ fontWeight: "700", fontSize: 18, color: "gray" }}>
-              No more cards :(
-            </Text>
-          )}
+          renderNoMoreCards={() => <EmptyCards />}
         >
           {cards.map((card, key) => (
             <CardSwitch key={key} card={card} />

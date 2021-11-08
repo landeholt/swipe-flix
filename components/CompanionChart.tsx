@@ -20,12 +20,12 @@ export default function CompanionChart({ data }: Props) {
     backgroundGradientFromOpacity: 0,
     backgroundGradientTo: "#08130D",
     backgroundGradientToOpacity: 0,
-    color: (opacity = 1) => `rgba(250, 0, 0, ${opacity})`,
+    color: (opacity = 0.8) => `rgba(252,165,165, ${opacity})`,
   };
 
   return (
     <Box>
-      <Text fontSize="3xl" fontWeight="semibold" color="warmGray.600" pb={3}>
+      <Text fontSize="3xl" fontWeight="semibold" color="coolGray.50" pb={3}>
         Companionship
       </Text>
       <Center>

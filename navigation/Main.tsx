@@ -36,6 +36,8 @@ export default function () {
         tabBarStyle: {
           display: store.showBottomTab ? "flex" : "none",
           justifyContent: "space-evenly",
+          backgroundColor: "#374151",
+          borderTopColor: "transparent",
         },
 
         tabBarIcon: ({ focused, color, size }) => {
@@ -51,8 +53,8 @@ export default function () {
                 />*/
                 <LogoTabIcon
                   focused={focused}
-                  bg={"warmGray.500"}
-                  color={focused ? "red.400" : "warmGray.500"}
+                  bg={focused ? "warmGray.500" : "warmGray.200"}
+                  color={focused ? "red.400" : "warmGray.200"}
                 />
               );
               break;
@@ -71,7 +73,7 @@ export default function () {
                 <Icon
                   as={Ionicons}
                   name="chatbubbles-outline"
-                  color={focused ? "red.400" : "warmGray.500"}
+                  color={focused ? "red.400" : "warmGray.200"}
                 />
               );
               notifications = newMatches;
@@ -81,7 +83,7 @@ export default function () {
                 <Icon
                   as={MaterialCommunityIcons}
                   name="movie-search-outline"
-                  color={focused ? "red.400" : "warmGray.500"}
+                  color={focused ? "red.400" : "warmGray.200"}
                 />
               );
               break;

@@ -48,7 +48,7 @@ export default function MovieCard({ card }: Props) {
           <VStack space={2} pb="60px">
             <HStack space={2} alignItems="center">
               {card.genres.slice(0, 3).map((genre, key) => (
-                <GradientBadge>{genre}</GradientBadge>
+                <GradientBadge key={key}>{genre}</GradientBadge>
               ))}
               <Spacer />
               <IconButton

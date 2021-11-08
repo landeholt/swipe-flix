@@ -111,9 +111,9 @@ export default function Chat(props: Props) {
 
   return (
     <KeyboardAvoidingView behavior="padding">
-      <VStack bg="white.50" h="full">
+      <VStack bg="coolGray.800" h="full">
         <HStack
-          bg="white.50"
+          bg="coolGray.700"
           safeAreaTop
           shadow="2"
           w="full"
@@ -130,7 +130,7 @@ export default function Chat(props: Props) {
               <Icon
                 as={Ionicons}
                 name="chevron-back-circle-outline"
-                color="warmGray.600"
+                color="coolGray.500"
               />
             }
           />
@@ -147,7 +147,7 @@ export default function Chat(props: Props) {
               bg: "transparent",
             }}
             onPress={() => navigator.goBack()}
-            icon={<Icon as={Ionicons} name="ios-shield" color="red.400" />}
+            icon={<Icon as={Ionicons} name="ios-shield" color="red.500" />}
           />
         </HStack>
         <ScrollView
@@ -173,7 +173,13 @@ export default function Chat(props: Props) {
             {isWriting && <MessageFeedback />}
           </VStack>
         </ScrollView>
-        <VStack pb={!isFocused ? 10 : 2} bg="white.50" py={4} shadow="2" px={2}>
+        <VStack
+          pb={!isFocused ? 10 : 2}
+          bg="coolGray.700"
+          py={4}
+          shadow="2"
+          px={2}
+        >
           {showMovieSelection && (
             <MovieSelection
               genres={recipient.uniqueGenres}
@@ -185,7 +191,7 @@ export default function Chat(props: Props) {
               <TextArea
                 flexGrow={1}
                 _focus={{
-                  borderColor: "warmGray.300",
+                  borderColor: "coolGray.300",
                 }}
                 onChangeText={setMessage}
                 color="black"
@@ -195,18 +201,18 @@ export default function Chat(props: Props) {
                 px={2}
                 fontSize="lg"
                 placeholderTextColor="black"
-                selectionColor="red.300"
+                selectionColor="red.400"
                 ref={ref}
                 onFocus={() => setIsFocused(true)}
                 onBlur={() => setIsFocused(false)}
-                bg="warmGray.100"
-                borderColor="warmGray.200"
+                bg="coolGray.500"
+                borderColor="coolGray.400"
                 borderWidth={1}
                 InputRightElement={
                   <Button
                     onPress={() => sendMessage()}
                     variant="ghost"
-                    _text={{ fontSize: "lg", color: "warmGray.600" }}
+                    _text={{ fontSize: "lg", color: "coolGray.50" }}
                   >
                     Send
                   </Button>
@@ -221,16 +227,16 @@ export default function Chat(props: Props) {
                 as: MaterialCommunityIcons,
                 name: "movie-search-outline",
                 size: "sm",
-                color: "warmGray.600",
+                color: "coolGray.700",
               }}
               p={2}
               _focus={{
-                bg: "warmGray.300",
+                bg: "coolGray.500",
               }}
               _pressed={{
-                bg: "warmGray.300",
+                bg: "coolGray.500",
               }}
-              bg={showMovieSelection ? "red.400" : "warmGray.100"}
+              bg={showMovieSelection ? "red.500" : "coolGray.500"}
               size="sm"
               variant="solid"
               rounded="full"

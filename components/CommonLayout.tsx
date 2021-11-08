@@ -26,7 +26,7 @@ export default function CommonLayout({
   const bg = primary
     ? "warmGray.900"
     : secondary
-    ? "lightGray.100"
+    ? "coolGray.800" //"lightGray.100"
     : "warmGray.900";
 
   if (gradient) {

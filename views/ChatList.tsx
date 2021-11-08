@@ -18,6 +18,7 @@ import {
 import React, { useMemo } from "react";
 import { SwipeListView } from "react-native-swipe-list-view";
 import { useRecoilState, useRecoilValue } from "recoil";
+import Empty from "../components/Empty";
 import MatchCard from "../components/MatchCard";
 import { useAuth } from "../providers/auth";
 import {
@@ -60,34 +61,41 @@ export default function ChatList() {
   }
 
   return (
-    <ScrollView bg="white.50">
+    <ScrollView bg="coolGray.800">
       <Flex h="full" w="full">
-        <Box px={2} safeAreaTop h="250px">
-          <Text mb={4} color="red.400" fontWeight="bold" fontSize="lg">
-            Your matches
-          </Text>
-          <Box>
-            <ScrollView w="full" horizontal alwaysBounceHorizontal>
-              {_.sortBy(matchesWithConversations, dateDiff).map(
-                (match, key) => (
-                  <Pressable
-                    key={key.toString()}
-                    onPress={() => openMatch(match)}
-                  >
-                    <MatchCard
-                      isFresh={match.isFresh}
-                      match={{
-                        name: match.name,
-                        image: { src: match.image.src },
-                      }}
-                    />
-                  </Pressable>
-                )
-              )}
-            </ScrollView>
+        {matchesWithConversations.length > 0 && (
+          <Box px={2} safeAreaTop h="250px">
+            <Text mb={4} color="red.400" fontWeight="bold" fontSize="lg">
+              Your matches
+            </Text>
+            <Box>
+              <ScrollView w="full" horizontal alwaysBounceHorizontal>
+                {_.sortBy(matchesWithConversations, dateDiff).map(
+                  (match, key) => (
+                    <Pressable
+                      key={key.toString()}
+                      onPress={() => openMatch(match)}
+                    >
+                      <MatchCard
+                        isFresh={match.isFresh}
+                        match={{
+                          name: match.name,
+                          image: { src: match.image.src },
+                        }}
+                      />
+                    </Pressable>
+                  )
+                )}
+              </ScrollView>
+            </Box>
           </Box>
-        </Box>
-        <Box h="full" mb={64}>
+        )}
+        <Box
+          h="full"
+          safeAreaTop={matchesWithConversations.length > 0}
+          mb={64}
+          pt={4}
+        >
           <Text
             px={4}
             mt={4}
@@ -102,6 +110,13 @@ export default function ChatList() {
             overScrollMode="auto"
             scrollEnabled={false}
             data={chats}
+            ListEmptyComponent={
+              <Empty
+                width={120}
+                height={0.875 * 120}
+                message="Lets start some conversations!"
+              />
+            }
             renderItem={(data, rowMap) => (
               <Pressable
                 key={data.item.id}
@@ -109,7 +124,7 @@ export default function ChatList() {
               >
                 <HStack
                   pl={4}
-                  bg="white.50"
+                  bg="coolGray.800"
                   alignItems="center"
                   space={3}
                   py={4}
@@ -126,11 +141,11 @@ export default function ChatList() {
                     w="full"
                     h="full"
                     borderBottomWidth={1}
-                    borderBottomColor="warmGray.200"
+                    borderBottomColor="coolGray.600"
                   >
                     <Stack direction="row" alignItems="baseline">
                       <Text
-                        color="warmGray.600"
+                        color="coolGray.200"
                         fontSize="lg"
                         fontWeight="medium"
                       >
@@ -138,7 +153,7 @@ export default function ChatList() {
                       </Text>
                       <Text
                         ml={2}
-                        color="warmGray.500"
+                        color="coolGray.400"
                         fontSize="xs"
                         fontWeight="semibold"
                       >
@@ -150,7 +165,7 @@ export default function ChatList() {
                       </Text>
                     </Stack>
                     <Spacer />
-                    <Text color="warmGray.500" fontSize="md" fontWeight="light">
+                    <Text color="coolGray.300" fontSize="md" fontWeight="light">
                       {data.item.message}
                     </Text>
                   </VStack>

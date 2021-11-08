@@ -74,7 +74,7 @@ function createMovie() {
   return movie;
 }
 
-const PROFILES = _.times(100, createProfile);
+const PROFILES = _.times(7, createProfile);
 
 export function generateQueue() {
   return PROFILES;

@@ -13,7 +13,7 @@ export default function Profile() {
   }
 
   return (
-    <Box safeArea h="full">
+    <Box safeArea h="full" bg="coolGray.800">
       <Button onPress={changeProfile}>change user</Button>
     </Box>
   );

@@ -43,7 +43,7 @@ export default function VideoPlayer({ route: { params } }: Props) {
     };
   }, []);
   return (
-    <Box w="full" h="full">
+    <Box w="full" h="full" bg="coolGray.800">
       <Video
         ref={ref}
         style={{ width, height }}

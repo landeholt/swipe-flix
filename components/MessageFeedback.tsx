@@ -42,14 +42,14 @@ export default function MessageFeedback() {
       alignItems="center"
       px={3}
       py={2}
-      bg="warmGray.300"
+      bg="coolGray.500"
       w={20}
       h={8}
       rounded="lg"
     >
       <Animated.View
         style={{
-          backgroundColor: "#c4c4c4",
+          backgroundColor: "#e5e7eb",
           height: 12,
           width: 12,
           borderRadius: 9999,
@@ -71,7 +71,7 @@ export default function MessageFeedback() {
       />
       <Animated.View
         style={{
-          backgroundColor: "#c4c4c4",
+          backgroundColor: "#e5e7eb",
           height: 12,
           width: 12,
           borderRadius: 9999,
@@ -93,7 +93,7 @@ export default function MessageFeedback() {
       />
       <Animated.View
         style={{
-          backgroundColor: "#c4c4c4",
+          backgroundColor: "#e5e7eb",
           height: 12,
           width: 12,
           borderRadius: 9999,

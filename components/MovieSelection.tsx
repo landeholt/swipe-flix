@@ -14,6 +14,7 @@ import {
   Flex,
   Spacer,
   Button,
+  Center,
 } from "native-base";
 import * as Linking from "expo-linking";
 
@@ -39,28 +40,27 @@ function MovieCard({ movie, onOpen }: IMovieCardProps) {
         <Image
           w="60px"
           h="85px"
-          bg="warmGray.200"
+          bg="coolGray.200"
           rounded="lg"
           source={{ uri: movie.posterImage.url }}
           alt={`Movie poster of ${movie.name}`}
           fallbackElement={
-            <Box
-              w="60px"
-              h="85px"
-              bg="warmGray.100"
-              rounded="lg"
-              shadow="2"
-            ></Box>
+            <Center h="90px" w="60px" bg="coolGray.200" rounded="lg" shadow="2">
+              <Text color="warmGray.600" fontSize="5xl">
+                ?
+              </Text>
+            </Center>
           }
         />
         <Text
           isTruncated
+          bold
           noOfLines={2}
           pt={1}
           textAlign="center"
           fontSize="xs"
           fontWeight="semibold"
-          color="warmGray.600"
+          color="coolGray.100"
           w="55px"
         >
           {movie.name}
@@ -107,8 +107,8 @@ export default function MovieSelection(props: Props) {
   return (
     <>
       <Modal isOpen={isOpen} onClose={onClose} size="lg" px={1}>
-        <Modal.Content bg="warmGray.200">
-          <Modal.Header _text={{ color: "warmGray.600" }} borderBottomWidth={0}>
+        <Modal.Content bg="coolGray.200">
+          <Modal.Header _text={{ color: "coolGray.600" }} borderBottomWidth={0}>
             Watch it together
             <Modal.CloseButton />
           </Modal.Header>
@@ -119,11 +119,11 @@ export default function MovieSelection(props: Props) {
                   key={key}
                   borderBottomWidth={key < providers.length - 1 ? 1 : 0}
                   py={2}
-                  borderBottomColor="warmGray.300"
+                  borderBottomColor="coolGray.300"
                 >
                   <VStack space={1}>
-                    <Text color="warmGray.600">{provider.name}</Text>
-                    <Text color="warmGray.400">
+                    <Text color="coolGray.600">{provider.name}</Text>
+                    <Text color="coolGray.400">
                       {provider.type === "PPV"
                         ? "From 39,00 kr"
                         : provider.type}
@@ -147,7 +147,7 @@ export default function MovieSelection(props: Props) {
         </Modal.Content>
       </Modal>
       <VStack>
-        <Text bold fontSize="md" color="warmGray.600" pb={3}>
+        <Text bold fontSize="md" color="coolGray.100" pb={3}>
           Movies in genres you both like
         </Text>
         <ScrollView horizontal>
@@ -166,19 +166,20 @@ export default function MovieSelection(props: Props) {
         </ScrollView>
         <HStack pt={4} w="full">
           <IconButton
+            mr={1}
             onPress={props.onClose}
             _icon={{
               as: Ionicons,
               name: "close",
               size: "sm",
-              color: "warmGray.600",
+              color: "coolGray.500",
             }}
             p={2}
             _focus={{
-              bg: "warmGray.300",
+              bg: "coolGray.600",
             }}
             _pressed={{
-              bg: "warmGray.300",
+              bg: "coolGray.600",
             }}
             size="sm"
             variant="ghost"
@@ -187,19 +188,19 @@ export default function MovieSelection(props: Props) {
           <Input
             flexGrow={1}
             _focus={{
-              borderColor: "warmGray.300",
+              borderColor: "coolGray.300",
             }}
             onChangeText={setQuery}
-            color="black"
+            color="coolGray.50"
             variant="filled"
             h="36px"
             placeholder="Search for a movie"
             px={2}
             fontSize="lg"
-            placeholderTextColor="black"
-            selectionColor="red.300"
-            bg="warmGray.100"
-            borderColor="warmGray.200"
+            placeholderTextColor="coolGray.50"
+            selectionColor="red.400"
+            bg="coolGray.500"
+            borderColor="coolGray.400"
             borderWidth={1}
           />
         </HStack>

@@ -23,7 +23,7 @@ export default function SmallMovieCard({ source, ...props }: Props) {
           shadow="2"
           {...props}
         >
-          <Text color="warmGray.600" fontSize="5xl">
+          <Text color="coolGray.600" fontSize="5xl">
             ?
           </Text>
         </Center>
