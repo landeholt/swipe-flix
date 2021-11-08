@@ -59,24 +59,27 @@ export default function Swipe() {
     ]);
   }, [profiles]);
 
+  function upsert(oldQueue: Profile[], index: number): Profile[] {
+    const _oldQueue = _.cloneDeep(oldQueue);
+    const profile = _oldQueue[index];
+    const state = direction === "LEFT" ? "DISLIKED" : "LIKED";
+    _oldQueue.splice(index, 1, { ...profile, state });
+    return _oldQueue;
+  }
+
   const handleSwipe = useRecoilCallback(
     ({ snapshot, set }) =>
       async (index: number, direction: "LEFT" | "RIGHT") => {
-        function upsert(oldQueue: Profile[]): Profile[] {
-          const _oldQueue = _.cloneDeep(oldQueue);
-          const profile = _oldQueue[index];
-          const state = direction === "LEFT" ? "DISLIKED" : "LIKED";
-          _oldQueue.splice(index, 1, { ...profile, state });
-          return _oldQueue;
-        }
-
         const card = cards[index];
-        if (card.type !== "PROFILE") return;
 
         const profile = card;
-        set(queueStore, upsert);
+        set(queueStore, (old) => upsert(old, index));
 
-        if (profile.willLike && direction === "RIGHT") {
+        if (
+          profile.type === "PROFILE" &&
+          profile.willLike &&
+          direction === "RIGHT"
+        ) {
           set(matchModalStore, {
             profile,
           });

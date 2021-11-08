@@ -82,6 +82,8 @@ export const queueStore = atom<Profile[]>({
 
 export interface Profile {
   id: number;
+  age: number;
+  location: number;
   willLike: boolean;
   name: string;
   image: {
